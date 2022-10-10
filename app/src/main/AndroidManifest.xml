@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ar.edu.ort.jefud_notifying_system">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name="ar.edu.ort.jefud_notifying_system.database.JEFUDApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,15 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JEFUDNotifyingSystem"
         tools:targetApi="31">
+
         <activity
-            android:name=".panelista.PanelistaActivity"
+            android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,5 +32,7 @@
             </intent-filter>
         </activity>
     </application>
+
+
 
 </manifest>

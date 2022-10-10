@@ -7,7 +7,16 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="ar.edu.ort.jefud_notifying_system.LoginFragment"
+        android:name="ar.edu.ort.jefud_notifying_system.view.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_panelistaActivity"
+            app:destination="@id/panelistaActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/panelistaActivity"
+        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistActivity"
+        android:label="activity_panelista"
+        tools:layout="@layout/activity_panelista" />
 </navigation>

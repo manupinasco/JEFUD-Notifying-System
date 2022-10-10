@@ -2,4 +2,27 @@
     <string name="app_name">JEFUD-Notifying-System</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_text">Login</string>
+    <!--
+    Auth0 identifiers and settings
+    ==============================
+    -->
+
+    <!-- Identifiers -->
+    <string name="com_auth0_scheme">app</string>
+
+    <!-- Settings -->
+    <string name="login_scopes">openid profile email read:current_user update:current_user_metadata</string>
+    <string name="login_audience">https://%1$s/api/v2/</string>
+
+    <!-- SnackBar messages-->
+    <string name="login_success_message">Successfully logged in! %1$s</string>
+    <string name="login_failure_message">Failed to log in. %1$s</string>
+    <string name="general_failure_with_exception_code">Failed - exception code: %1$s</string>
+    <string name="general_success_message">Success!</string>
+    <string name="preference_file_key">logged_user</string>
+    <string name="saved_userdni_key">dni</string>
+    <string name="saved_userpassword_key">password</string>
+    <string name="saved_userrole_key">role</string>
+
+
 </resources>

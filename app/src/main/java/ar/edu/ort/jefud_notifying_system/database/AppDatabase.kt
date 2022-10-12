@@ -7,8 +7,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import ar.edu.ort.jefud_notifying_system.model.User
 import ar.edu.ort.jefud_notifying_system.dao.UserDao
+import java.io.File
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 6)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun userDao(): UserDao
     companion object {
@@ -21,6 +22,7 @@ abstract class AppDatabase: RoomDatabase() {
                     AppDatabase::class.java,
                     "app_database"
                 )
+                    .createFromFile(File("C:/Users/Emanuel/Desktop/database/app.db"))
                     .fallbackToDestructiveMigration()
                     .build()
 
@@ -32,6 +34,6 @@ abstract class AppDatabase: RoomDatabase() {
 }
 
 class JEFUDApplication : Application() {
-    val database: AppDatabase by lazy { AppDatabase.getDatabase(this)
-    }}
+    val database: AppDatabase by lazy { AppDatabase.getDatabase(this)}
+    }
 

@@ -58,14 +58,14 @@ class LoginFragment : Fragment() {
                     .show()
         } else {
             viewModel.retrieveUser(binding.DNI.text.toString()).observe(this.viewLifecycleOwner) { selectedUser ->
-                val user: User = selectedUser
+                val user: User? = selectedUser
                 validate(user)
             }
         }
 
     }
 
-    private fun validate(user: User) {
+    private fun validate(user: User?) {
         if (user == null) {
             Toast.makeText(getContext(), "Usuario no encontrado", Toast.LENGTH_SHORT)
                 .show()

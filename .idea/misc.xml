@@ -6,7 +6,10 @@
         <entry key="..\:/Users/Emanuel/Desktop/JEFUD/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Emanuel/Desktop/JEFUD/app/src/main/res/layout/activity_operator.xml" value="0.1" />
         <entry key="..\:/Users/Emanuel/Desktop/JEFUD/app/src/main/res/layout/activity_panelista.xml" value="0.1" />
+        <entry key="..\:/Users/Emanuel/Desktop/JEFUD/app/src/main/res/layout/alarm_item.xml" value="0.2814070351758794" />
+        <entry key="..\:/Users/Emanuel/Desktop/JEFUD/app/src/main/res/layout/alarm_record_item.xml" value="0.17755825734549138" />
         <entry key="..\:/Users/Emanuel/Desktop/JEFUD/app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="..\:/Users/Emanuel/Desktop/JEFUD/app/src/main/res/layout/fragment_panelist_alarm.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/Emanuel/Desktop/JEFUD/app/src/main/res/xml/auth0.xml" value="0.1" />
       </map>
     </option>

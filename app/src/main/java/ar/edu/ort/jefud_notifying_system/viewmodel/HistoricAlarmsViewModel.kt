@@ -12,8 +12,8 @@ class HistoricAlarmsViewModel(private val historicAlarmDao: HistoricAlarmDao): V
 
     fun addNewAlarm(tagName: String,
                     value: String,
-                    priority: Int) {
-        val newAlarm = getNewAlarmEntry(tagName, value, priority)
+                    priority: Int, datetime: String) {
+        val newAlarm = getNewAlarmEntry(tagName, value, priority, datetime)
         insertAlarm(newAlarm)
     }
 
@@ -25,11 +25,12 @@ class HistoricAlarmsViewModel(private val historicAlarmDao: HistoricAlarmDao): V
 
     private fun getNewAlarmEntry(tagName: String,
                                  value: String,
-                                 priority: Int): HistoricAlarm {
+                                 priority: Int, datetime: String): HistoricAlarm {
         return HistoricAlarm(
             value = value,
             priority = priority,
             tagName=tagName,
+            datetime = datetime
         )
     }
 

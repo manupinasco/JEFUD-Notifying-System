@@ -12,4 +12,5 @@ data class User (
     @NonNull @ColumnInfo(name= "dni") val dni: String,
     @NonNull @ColumnInfo(name= "password") val password: String,
     @NonNull @ColumnInfo(name= "rol") val rol: String,
+    @NonNull @ColumnInfo(name= "panel") val panel: String,
         )

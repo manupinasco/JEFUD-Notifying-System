@@ -46,7 +46,14 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        addData()
         binding.buttonLogin.setOnClickListener { login() }
+    }
+
+    private fun addData() {
+
+        viewModel.addNewUser("44852","password","PANELIST", "CCU")
+        viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU")
     }
 
     private fun login() {
@@ -81,6 +88,13 @@ class LoginFragment : Fragment() {
                 val sharedPrefDni = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
                 with (sharedPrefDni.edit()) {
                     putString(getString(R.string.saved_userdni_key), user.dni)
+                    apply()
+
+                }
+
+                val sharedPrefPanel = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+                with (sharedPrefPanel.edit()) {
+                    putString(getString(R.string.saved_userpanel_key), user.panel)
                     apply()
 
                 }

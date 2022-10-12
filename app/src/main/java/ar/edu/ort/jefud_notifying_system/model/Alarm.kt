@@ -23,3 +23,13 @@ import androidx.room.PrimaryKey
 
     )
 
+// lista de alarmas históricas
+// repetidas porque la prioridad subió
+// repetidas porque hay algunas ya solucionadas
+
+
+//método de addAlarms +
+//método de cerrar sesión que borre el usuario logueado y vuelva a la pantalla de login +
+//diseño de item_alarm -
+//diseño de alarm_record_item -
+//diseño de botón de cerrar sesión -

@@ -9,8 +9,8 @@ import kotlinx.coroutines.launch
 class UsersViewModel(private val userDao: UserDao) : ViewModel() {
     val allUsers: LiveData<List<User>> = userDao.getAll().asLiveData()
 
-        fun addNewUser(dni: String, password: String, rol: String) {
-        val newUser = getNewUserEntry(dni, password, rol)
+        fun addNewUser(dni: String, password: String, rol: String, panel: String) {
+        val newUser = getNewUserEntry(dni, password, rol, panel)
         insertUser(newUser)
     }
 
@@ -20,11 +20,12 @@ class UsersViewModel(private val userDao: UserDao) : ViewModel() {
         }
     }
 
-    private fun getNewUserEntry(dni: String, password: String, rol: String): User {
+    private fun getNewUserEntry(dni: String, password: String, rol: String, panel: String): User {
         return User(
             dni = dni,
             password = password,
-            rol = rol
+            rol = rol,
+            panel = panel
         )
     }
 

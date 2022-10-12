@@ -25,6 +25,7 @@
     <string name="saved_userrole_key">role</string>
     <string name="panelist_menu_alarm">Alarmas</string>
     <string name="panelist_menu_message">Mensajes</string>
+    <string name="saved_userpanel_key">panel</string>
 
 
 </resources>

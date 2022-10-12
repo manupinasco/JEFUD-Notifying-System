@@ -1,4 +1,4 @@
-package ar.edu.ort.jefud_notifying_system.view.panelist
+package ar.edu.ort.jefud_notifying_system.view.operator
 
 import android.content.Context
 import android.os.Bundle
@@ -11,15 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsOperatorAdapter
-import ar.edu.ort.jefud_notifying_system.adapter.AlarmsPanelistAdapter
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsRecordAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentLoginBinding
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
-import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModel
-import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModelFactory
-import ar.edu.ort.jefud_notifying_system.viewmodel.HistoricAlarmsViewModel
-import ar.edu.ort.jefud_notifying_system.viewmodel.HistoricAlarmsViewModelFactory
+import ar.edu.ort.jefud_notifying_system.viewmodel.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,13 +24,11 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PanelistAlarm.newInstance] factory method to
+ * Use the [OperatorAlarm.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PanelistAlarm : Fragment() {
+class OperatorAlarm : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     lateinit var recAlarm : RecyclerView
     lateinit var recAlarmRecord : RecyclerView
 
@@ -43,8 +37,10 @@ class PanelistAlarm : Fragment() {
 
     private lateinit var linearLayoutManager: LinearLayoutManager
 
-    private lateinit var alarmListAdapter: AlarmsPanelistAdapter
+    private lateinit var alarmListAdapter: AlarmsOperatorAdapter
     private lateinit var alarmRecordListAdapter: AlarmsRecordAdapter
+    private var param1: String? = null
+    private var param2: String? = null
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModelHistoricAlarm: HistoricAlarmsViewModel by activityViewModels {
@@ -94,7 +90,7 @@ class PanelistAlarm : Fragment() {
         recAlarm.layoutManager = linearLayoutManager
 
 
-        alarmListAdapter = AlarmsPanelistAdapter(alarmsList, (activity?.application as JEFUDApplication).database
+        alarmListAdapter = AlarmsOperatorAdapter(alarmsList, (activity?.application as JEFUDApplication).database
             .alarmDao())
 
         recAlarm.adapter = alarmListAdapter
@@ -110,6 +106,29 @@ class PanelistAlarm : Fragment() {
         recAlarmRecord.adapter = alarmRecordListAdapter
     }
 
+    private fun getAlarms(alarms: List<HistoricAlarm>?) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val userPanel = sharedPref.getString(getString(R.string.saved_userpanel_key), "")
+        if(alarms != null)
+        for (i in 0..alarms.size) {
+            viewModelAlarm.retrieveAlarmByTag(alarms[i].tagName).observe(this.viewLifecycleOwner) { alarm ->
+                if(userPanel?.let { alarm.panel.compareTo(it) } == 0) {
+                    if(alarms[i].value.compareTo("rtn") == 0) {
+                        if(alarmsRecord.size < 3) {
+                            alarmsRecord.add(alarms[i])
+                        }
+                    }
+                    else {
+                        alarmsList.add(alarms[i])
+                    }
+                }
+            }
+
+
+        }
+
+    }
+
     private fun addData() {
         viewModelAlarm.addNewAlarm("04PA443.1", "ROTURA SELLO P-456", "CCU", "PSG1_GE:04PA443CIN", "ROTURA DE SELLO P-456", "ADIP1", "P-456", 0, 100, "Pedir al operador externo que verifique el estado de la bomba.", "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).")
         viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_SO:04TI031AIN", "Alarma en K-5919", "ADIP3", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla")
@@ -122,28 +141,6 @@ class PanelistAlarm : Fragment() {
 
     }
 
-    private fun getAlarms(alarms: List<HistoricAlarm>?) {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        val userPanel = sharedPref.getString(getString(R.string.saved_userpanel_key), "")
-        if(alarms != null)
-            for (i in 0..alarms.size) {
-                viewModelAlarm.retrieveAlarmByTag(alarms[i].tagName).observe(this.viewLifecycleOwner) { alarm ->
-                    if(userPanel?.let { alarm.panel.compareTo(it) } == 0) {
-                        if(alarms[i].value.compareTo("rtn") == 0) {
-                            if(alarmsRecord.size < 3) {
-                                alarmsRecord.add(alarms[i])
-                            }
-                        }
-                        else {
-                            alarmsList.add(alarms[i])
-                        }
-                    }
-                }
-
-
-            }
-
-    }
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -151,12 +148,12 @@ class PanelistAlarm : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment PanelistAlarm.
+         * @return A new instance of fragment OperatorAlarm.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PanelistAlarm().apply {
+            OperatorAlarm().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

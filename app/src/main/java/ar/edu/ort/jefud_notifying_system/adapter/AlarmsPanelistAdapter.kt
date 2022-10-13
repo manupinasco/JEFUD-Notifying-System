@@ -7,9 +7,12 @@ import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.dao.AlarmDao
 import ar.edu.ort.jefud_notifying_system.model.Alarm
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
-class AlarmsPanelistAdapter(private val alarmList: List<HistoricAlarm>, private val alarmDao: AlarmDao): RecyclerView.Adapter<AlarmPanelistViewHolder>() {
+class AlarmsPanelistAdapter(private val alarmList: MutableList<HistoricAlarm>, private val alarmDao: AlarmDao): RecyclerView.Adapter<AlarmPanelistViewHolder>() {
 
     private fun searchAlarm(tagName: String): Flow<Alarm> {
         return alarmDao.getAlarmByTag(tagName)
@@ -21,7 +24,12 @@ class AlarmsPanelistAdapter(private val alarmList: List<HistoricAlarm>, private 
     }
 
     override fun onBindViewHolder(holder: AlarmPanelistViewHolder, position: Int) {
-        val alarm = searchAlarm(alarmList[position].tagName)
+        val alarm: Alarm
+        runBlocking(Dispatchers.IO) {
+            alarm = searchAlarm(alarmList[position].tagName).first()
+        }
+
+
         holder.bind(alarm, alarmList[position])
     }
 

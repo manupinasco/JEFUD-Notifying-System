@@ -80,7 +80,7 @@ class AlarmsViewModel(private val alarmDao: AlarmDao): ViewModel() {
 
 class AlarmsViewModelFactory(private val alarmDao: AlarmDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(UsersViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(AlarmsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return AlarmsViewModel(alarmDao) as T
         }

@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/panelist_nav_graph"
-    app:startDestination="@id/panelistAlarmFr">
+    app:startDestination="@id/panelistAlarm">
 
-    <fragment
-        android:id="@+id/panelistAlarmFr"
-        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistAlarm"
-        android:label="fragment_panelist_alarm"
-        tools:layout="@layout/fragment_panelist_alarm" />
+
 
     <fragment
         android:id="@+id/panelistMessageFr"
         android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessage"
         android:label="fragment_panelist_message"
         tools:layout="@layout/fragment_panelist_message" />
+    <fragment
+        android:id="@+id/panelistAlarm"
+        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistAlarm"
+        android:label="fragment_panelist_alarm"
+        tools:layout="@layout/fragment_panelist_alarm" />
 </navigation>

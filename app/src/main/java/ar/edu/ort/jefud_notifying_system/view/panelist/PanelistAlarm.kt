@@ -2,6 +2,7 @@ package ar.edu.ort.jefud_notifying_system.view.panelist
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import ar.edu.ort.jefud_notifying_system.adapter.AlarmsPanelistAdapter
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsRecordAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentLoginBinding
+import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistAlarmBinding
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
 import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModelFactory
@@ -45,7 +47,7 @@ class PanelistAlarm : Fragment() {
 
     private lateinit var alarmListAdapter: AlarmsPanelistAdapter
     private lateinit var alarmRecordListAdapter: AlarmsRecordAdapter
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentPanelistAlarmBinding? = null
     private val binding get() = _binding!!
     private val viewModelHistoricAlarm: HistoricAlarmsViewModel by activityViewModels {
         HistoricAlarmsViewModelFactory(
@@ -59,6 +61,7 @@ class PanelistAlarm : Fragment() {
                 .alarmDao()
         )
     }
+    private lateinit var vista : View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +75,8 @@ class PanelistAlarm : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentPanelistAlarmBinding.inflate(inflater, container, false)
+        vista = inflater.inflate(R.layout.fragment_panelist_alarm, container, false)
         return binding.root
     }
 
@@ -88,6 +92,20 @@ class PanelistAlarm : Fragment() {
 
 
 
+        recAlarmRecord = vista.findViewById(R.id.alarmsRecord)
+        recAlarmRecord.setHasFixedSize(true)
+        linearLayoutManager = LinearLayoutManager(context)
+
+        recAlarmRecord.layoutManager = linearLayoutManager
+
+
+        alarmRecordListAdapter = AlarmsRecordAdapter(alarmsRecord)
+
+        recAlarmRecord.adapter = alarmRecordListAdapter
+
+
+
+        recAlarm = vista.findViewById(R.id.alarmsRecyclerView)
         recAlarm.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
 
@@ -99,15 +117,6 @@ class PanelistAlarm : Fragment() {
 
         recAlarm.adapter = alarmListAdapter
 
-        recAlarmRecord.setHasFixedSize(true)
-        linearLayoutManager = LinearLayoutManager(context)
-
-        recAlarmRecord.layoutManager = linearLayoutManager
-
-
-        alarmRecordListAdapter = AlarmsRecordAdapter(alarmsRecord)
-
-        recAlarmRecord.adapter = alarmRecordListAdapter
     }
 
     private fun addData() {
@@ -126,9 +135,9 @@ class PanelistAlarm : Fragment() {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
         val userPanel = sharedPref.getString(getString(R.string.saved_userpanel_key), "")
         if(alarms != null)
-            for (i in 0..alarms.size) {
+            for (i in 0..(alarms.size-1)) {
                 viewModelAlarm.retrieveAlarmByTag(alarms[i].tagName).observe(this.viewLifecycleOwner) { alarm ->
-                    if(userPanel?.let { alarm.panel.compareTo(it) } == 0) {
+                    //if(userPanel?.let { alarm.panel.compareTo(it) } == 0) {
                         if(alarms[i].value.compareTo("rtn") == 0) {
                             if(alarmsRecord.size < 3) {
                                 alarmsRecord.add(alarms[i])
@@ -137,7 +146,7 @@ class PanelistAlarm : Fragment() {
                         else {
                             alarmsList.add(alarms[i])
                         }
-                    }
+                    //}
                 }
 
 

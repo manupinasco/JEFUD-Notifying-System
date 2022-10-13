@@ -42,7 +42,7 @@ class HistoricAlarmsViewModel(private val historicAlarmDao: HistoricAlarmDao): V
 
 class HistoricAlarmsViewModelFactory(private val historicAlarmDao: HistoricAlarmDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(UsersViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(HistoricAlarmsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return HistoricAlarmsViewModel(historicAlarmDao) as T
         }

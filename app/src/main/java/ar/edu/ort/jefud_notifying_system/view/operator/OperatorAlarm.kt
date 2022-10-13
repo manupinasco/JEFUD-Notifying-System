@@ -111,34 +111,7 @@ class OperatorAlarm : Fragment() {
         //binding.buttonLogout.setOnClickListener { logout() }
     }
 
-    private fun logout() {
-        val sharedPrefDni = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with (sharedPrefDni.edit()) {
-            putString(getString(R.string.saved_userdni_key),"dni")
-            apply()
 
-        }
-
-        val sharedPrefPanel = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with (sharedPrefPanel.edit()) {
-            putString(getString(R.string.saved_userpanel_key), "panel")
-            apply()
-
-        }
-
-        val sharedPrefPassword = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with (sharedPrefPassword.edit()) {
-            putString(getString(R.string.saved_userpassword_key), "password")
-            apply()
-        }
-
-        val sharedPrefRole = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with (sharedPrefRole.edit()) {
-            putString(getString(R.string.saved_userrole_key), "role")
-            apply()
-        }
-        startActivity(Intent(requireContext(), MainActivity::class.java))
-    }
 
     private fun getAlarms(alarms: List<HistoricAlarm>?) {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return

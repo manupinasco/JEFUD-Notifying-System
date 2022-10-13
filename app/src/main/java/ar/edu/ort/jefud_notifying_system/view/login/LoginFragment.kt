@@ -114,7 +114,7 @@ class LoginFragment : Fragment() {
                 }
 
                 when(user.rol) {
-                    "PANELISTA" -> startActivity(Intent(requireContext(), PanelistActivity::class.java))
+                    "PANELIST" -> startActivity(Intent(requireContext(), PanelistActivity::class.java))
 
                 }
             } else {

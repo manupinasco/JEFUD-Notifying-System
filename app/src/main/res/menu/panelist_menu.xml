@@ -5,7 +5,7 @@
     <item
         android:title="@string/panelist_menu_alarm"
         android:icon="@drawable/ic_outline_notification_important_24"
-        android:id="@+id/panelistAlarmFr"/>
+        android:id="@+id/panelistAlarm"/>
 
     <item
         android:title="@string/panelist_menu_message"

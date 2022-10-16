@@ -1,5 +1,6 @@
 package ar.edu.ort.jefud_notifying_system.view.login
 
+import android.R.attr.password
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -85,33 +86,18 @@ class LoginFragment : Fragment() {
 
             if(decrypt(algorithm, cipherText, key, iv).compareTo(user.password) == 0) {
 
-                val sharedPrefDni = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-                with (sharedPrefDni.edit()) {
-                    putString(getString(R.string.saved_userdni_key), user.dni)
-                    apply()
-
-                }
-
-                val sharedPrefPanel = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-                with (sharedPrefPanel.edit()) {
-                    putString(getString(R.string.saved_userpanel_key), user.panel)
-                    apply()
-
-                }
-
+                val userDetails = requireContext().getSharedPreferences("userdetails",
+                    Context.MODE_PRIVATE
+                )
+                val edit: SharedPreferences.Editor = userDetails.edit()
+                edit.putString("dni", user.dni)
                 val password = encrypt(algorithm, user.password, key, iv)
+                edit.putString("password", password)
+                edit.putString("panel", user.panel)
+                edit.putString("role", user.rol)
+                edit.apply()
 
-                val sharedPrefPassword = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-                with (sharedPrefPassword.edit()) {
-                    putString(getString(R.string.saved_userpassword_key), password)
-                    apply()
-                }
 
-                val sharedPrefRole = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-                with (sharedPrefRole.edit()) {
-                    putString(getString(R.string.saved_userrole_key), user.rol)
-                    apply()
-                }
 
                 when(user.rol) {
                     "PANELIST" -> startActivity(Intent(requireContext(), PanelistActivity::class.java))

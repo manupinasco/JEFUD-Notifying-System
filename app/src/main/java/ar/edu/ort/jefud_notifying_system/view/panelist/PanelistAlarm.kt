@@ -1,27 +1,27 @@
 package ar.edu.ort.jefud_notifying_system.view.panelist
 
-import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.ort.jefud_notifying_system.R
-import ar.edu.ort.jefud_notifying_system.adapter.AlarmsOperatorAdapter
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsPanelistAdapter
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsRecordAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
-import ar.edu.ort.jefud_notifying_system.databinding.FragmentLoginBinding
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistAlarmBinding
+import ar.edu.ort.jefud_notifying_system.model.Alarm
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
 import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModelFactory
 import ar.edu.ort.jefud_notifying_system.viewmodel.HistoricAlarmsViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.HistoricAlarmsViewModelFactory
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,10 +87,8 @@ class PanelistAlarm : Fragment() {
 
         viewModelHistoricAlarm.allAlarms.observe(this.viewLifecycleOwner) { alarms ->
             getAlarms(alarms)
+
         }
-
-
-
 
         recAlarmRecord = vista.findViewById(R.id.alarmsRecord)
         recAlarmRecord.setHasFixedSize(true)
@@ -98,8 +96,12 @@ class PanelistAlarm : Fragment() {
 
         recAlarmRecord.layoutManager = linearLayoutManager
 
+        var listaFake : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
+        listaFake.add(HistoricAlarm(0,"PSG1_GE:04PA443CIN","rtn",4,"12/10/2022 3:13PM"))
 
-        alarmRecordListAdapter = AlarmsRecordAdapter(alarmsRecord)
+        alarmRecordListAdapter = AlarmsRecordAdapter(listaFake)
+
+
 
         recAlarmRecord.adapter = alarmRecordListAdapter
 
@@ -111,11 +113,16 @@ class PanelistAlarm : Fragment() {
 
         recAlarm.layoutManager = linearLayoutManager
 
+        var listaFake2 : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
+        listaFake2.add(HistoricAlarm(0, "PSG1_GE:04PA443CIN","130",2,"12/10/2022 6:10PM"))
 
-        alarmListAdapter = AlarmsPanelistAdapter(alarmsList, (activity?.application as JEFUDApplication).database
+
+        alarmListAdapter = AlarmsPanelistAdapter(listaFake2, (activity?.application as JEFUDApplication).database
             .alarmDao())
 
         recAlarm.adapter = alarmListAdapter
+
+
 
     }
 
@@ -132,25 +139,33 @@ class PanelistAlarm : Fragment() {
     }
 
     private fun getAlarms(alarms: List<HistoricAlarm>?) {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        val userPanel = sharedPref.getString(getString(R.string.saved_userpanel_key), "")
+        val userDetails = requireContext().getSharedPreferences("userdetails", MODE_PRIVATE)
+        val userPanel = userDetails.getString("panel", "")
+
         if(alarms != null)
             for (i in 0..(alarms.size-1)) {
+
                 viewModelAlarm.retrieveAlarmByTag(alarms[i].tagName).observe(this.viewLifecycleOwner) { alarm ->
-                    //if(userPanel?.let { alarm.panel.compareTo(it) } == 0) {
-                        if(alarms[i].value.compareTo("rtn") == 0) {
-                            if(alarmsRecord.size < 3) {
-                                alarmsRecord.add(alarms[i])
+
+                    if(userPanel != null) {
+                        if(alarm.panel.compareTo(userPanel) == 0) {
+                            if(alarms[i].value.compareTo("rtn") == 0) {
+
+                                if(alarmsRecord.size < 3) {
+                                    alarmsRecord.add(alarms[i])
+                                }
+                            }
+                            else {
+                                alarmsList.add(alarms[i])
                             }
                         }
-                        else {
-                            alarmsList.add(alarms[i])
-                        }
-                    //}
+                    }
+
                 }
 
 
             }
+
 
     }
     companion object {

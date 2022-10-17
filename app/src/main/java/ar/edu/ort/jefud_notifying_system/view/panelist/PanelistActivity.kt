@@ -2,6 +2,7 @@ package ar.edu.ort.jefud_notifying_system.view.panelist
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -37,31 +38,16 @@ class PanelistActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        val sharedPrefDni = this?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with (sharedPrefDni.edit()) {
-            putString(getString(ar.edu.ort.jefud_notifying_system.R.string.saved_userdni_key),"dni")
-            apply()
-
-        }
-
-        val sharedPrefPanel = this?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with (sharedPrefPanel.edit()) {
-            putString(getString(ar.edu.ort.jefud_notifying_system.R.string.saved_userpanel_key), "panel")
-            apply()
-
-        }
-
-        val sharedPrefPassword = this?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with (sharedPrefPassword.edit()) {
-            putString(getString(ar.edu.ort.jefud_notifying_system.R.string.saved_userpassword_key), "password")
-            apply()
-        }
-
-        val sharedPrefRole = this?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with (sharedPrefRole.edit()) {
-            putString(getString(ar.edu.ort.jefud_notifying_system.R.string.saved_userrole_key), "role")
-            apply()
-        }
+        //preguntar primero
+        val userDetails = this.getSharedPreferences("userdetails",
+            Context.MODE_PRIVATE
+        )
+        val edit: SharedPreferences.Editor = userDetails.edit()
+        edit.putString("dni", "")
+        edit.putString("password", "")
+        edit.putString("panel", "")
+        edit.putString("role", "")
+        edit.apply()
         startActivity(Intent(this, MainActivity::class.java))
     }
 

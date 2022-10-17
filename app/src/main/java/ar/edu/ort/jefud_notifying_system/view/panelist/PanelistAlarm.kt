@@ -15,7 +15,6 @@ import ar.edu.ort.jefud_notifying_system.adapter.AlarmsPanelistAdapter
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsRecordAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistAlarmBinding
-import ar.edu.ort.jefud_notifying_system.model.Alarm
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
 import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModelFactory
@@ -77,11 +76,6 @@ class PanelistAlarm : Fragment() {
     ): View? {
         _binding = FragmentPanelistAlarmBinding.inflate(inflater, container, false)
         vista = inflater.inflate(R.layout.fragment_panelist_alarm, container, false)
-        return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         addData()
 
@@ -108,6 +102,7 @@ class PanelistAlarm : Fragment() {
 
 
         recAlarm = vista.findViewById(R.id.alarmsRecyclerView)
+
         recAlarm.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
 
@@ -120,11 +115,12 @@ class PanelistAlarm : Fragment() {
         alarmListAdapter = AlarmsPanelistAdapter(listaFake2, (activity?.application as JEFUDApplication).database
             .alarmDao())
 
+
+
         recAlarm.adapter = alarmListAdapter
-
-
-
+        return binding.root
     }
+
 
     private fun addData() {
         viewModelAlarm.addNewAlarm("04PA443.1", "ROTURA SELLO P-456", "CCU", "PSG1_GE:04PA443CIN", "ROTURA DE SELLO P-456", "ADIP1", "P-456", 0, 100, "Pedir al operador externo que verifique el estado de la bomba.", "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).")

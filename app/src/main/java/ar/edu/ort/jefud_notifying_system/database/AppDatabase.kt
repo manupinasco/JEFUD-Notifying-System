@@ -29,7 +29,6 @@ abstract class AppDatabase: RoomDatabase() {
                     AppDatabase::class.java,
                     "app_database"
                 )
-                    .createFromFile(File("C:/Users/Emanuel/Desktop/database/app.db"))
                     .fallbackToDestructiveMigration()
                     .build()
 

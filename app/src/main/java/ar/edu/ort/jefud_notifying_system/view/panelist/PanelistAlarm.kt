@@ -36,11 +36,11 @@ class PanelistAlarm : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var recAlarm : RecyclerView
-    lateinit var recAlarmRecord : RecyclerView
+    private lateinit var recAlarm : RecyclerView
+    private lateinit var recAlarmRecord : RecyclerView
 
-    var alarmsList : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
-    var alarmsRecord : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
+    private var alarmsList : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
+    private var alarmsRecord : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
 
     private lateinit var linearLayoutManager: LinearLayoutManager
 
@@ -161,8 +161,7 @@ class PanelistAlarm : Fragment() {
 
 
             }
-
-
+        //agregar notifyobject
     }
     companion object {
         /**
@@ -184,3 +183,4 @@ class PanelistAlarm : Fragment() {
             }
     }
 }
+

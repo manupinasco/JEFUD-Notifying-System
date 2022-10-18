@@ -1,9 +1,6 @@
 package ar.edu.ort.jefud_notifying_system.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import ar.edu.ort.jefud_notifying_system.model.Message
 import ar.edu.ort.jefud_notifying_system.model.User
 import kotlinx.coroutines.flow.Flow
@@ -21,4 +18,7 @@ interface MessageDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(message: Message)
+
+    @Update
+    fun updateMessage(message: Message)
 }

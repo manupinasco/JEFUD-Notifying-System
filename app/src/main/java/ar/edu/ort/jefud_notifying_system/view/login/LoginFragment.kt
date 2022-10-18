@@ -53,8 +53,8 @@ class LoginFragment : Fragment() {
 
     private fun addData() {
 
-        viewModel.addNewUser("44852","password","PANELIST", "CCU")
-        viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU")
+        viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti")
+        viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles")
     }
 
     private fun login() {

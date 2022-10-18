@@ -35,6 +35,10 @@ class MessageViewModel(private val messageDao: MessageDao): ViewModel() {
     fun retrieveMessagesByDniSender(dni: String): LiveData<List<Message>> {
         return messageDao.getMessagesBySender(dni).asLiveData()
     }
+
+    fun updateMessage(message: Message) {
+        messageDao.updateMessage(message)
+    }
 }
 
 class MessageViewModelFactory(private val messageDao: MessageDao) : ViewModelProvider.Factory {

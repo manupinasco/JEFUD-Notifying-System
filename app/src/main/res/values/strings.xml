@@ -26,6 +26,8 @@
     <string name="panelist_menu_alarm">Alarmas</string>
     <string name="panelist_menu_message">Mensajes</string>
     <string name="saved_userpanel_key">panel</string>
+    <string name="channel_name">JEFUD</string>
+    <string name="channel_description">JEFUD app\'s channel</string>
 
 
 </resources>

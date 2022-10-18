@@ -7,17 +7,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import ar.edu.ort.jefud_notifying_system.dao.AlarmDao
 import ar.edu.ort.jefud_notifying_system.dao.HistoricAlarmDao
+import ar.edu.ort.jefud_notifying_system.dao.MessageDao
 import ar.edu.ort.jefud_notifying_system.model.User
 import ar.edu.ort.jefud_notifying_system.dao.UserDao
 import ar.edu.ort.jefud_notifying_system.model.Alarm
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
+import ar.edu.ort.jefud_notifying_system.model.Message
 import java.io.File
 
-@Database(entities = [User::class, Alarm::class, HistoricAlarm::class], version = 6)
+@Database(entities = [User::class, Alarm::class, HistoricAlarm::class, Message::class], version = 8)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun alarmDao(): AlarmDao
     abstract fun historicAlarmDao(): HistoricAlarmDao
+    abstract fun messageDao(): MessageDao
 
     companion object {
         @Volatile

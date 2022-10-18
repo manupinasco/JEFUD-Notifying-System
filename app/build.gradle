@@ -81,6 +81,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
+    def core_version = "1.6.0"
+    implementation("androidx.core:core-ktx:$core_version")
 
 
 }

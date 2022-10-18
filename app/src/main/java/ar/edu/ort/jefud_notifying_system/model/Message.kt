@@ -12,5 +12,5 @@ data class Message (
     @NonNull @ColumnInfo(name= "dniSender") val dniSender: String,
     @NonNull @ColumnInfo(name= "dniRecipient") val dniRecipient: String,
     @NonNull @ColumnInfo(name= "message") val message: String,
-    @NonNull @ColumnInfo(name= "read") val read: Boolean
+    @NonNull @ColumnInfo(name= "read") var read: Boolean
         )

@@ -63,7 +63,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autoSizeTextType="uniform"
-        android:background="@color/secondary_color"
+        android:background="@color/fourth_color"
         android:gravity="center"
         android:text="Coordinador"
         android:textColor="#FFFFFF"

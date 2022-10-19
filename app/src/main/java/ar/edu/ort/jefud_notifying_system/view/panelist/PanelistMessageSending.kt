@@ -49,16 +49,6 @@ class PanelistMessageSending : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val spinner = binding.roleSpinner
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.message_roles_for_panelist,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
-
 
         btnGoToReceivedMessages.setOnClickListener {
             val action = PanelistMessageSendingDirections.actionPanelistMessageSendingToPanelistMessagesReceived()
@@ -69,6 +59,15 @@ class PanelistMessageSending : Fragment() {
             val userDetails = requireContext().getSharedPreferences("userdetails",
                 Context.MODE_PRIVATE
             )
+            val spinner = binding.roleSpinner
+            ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.message_roles_for_panelist,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = adapter
+            }
             //Rol que recibe el mensaje
             val roleToSend = spinner.selectedItem.toString()
             val userDni = userDetails.getString("dni", "")

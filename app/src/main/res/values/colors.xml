@@ -3,6 +3,7 @@
     <color name="primary_color">#781E77</color>
     <color name="secondary_color">#C9A5C9</color>
     <color name="third_color">#8C3C6F</color>
+    <color name="fourth_color">#A062A0</color>
     <color name="alert_color">#FF9999</color>
     <color name="advise_color">#FBE3A8</color>
     <color name="progress_color">#F1C455</color>

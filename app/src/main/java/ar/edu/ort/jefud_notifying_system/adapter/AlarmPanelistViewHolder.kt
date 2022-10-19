@@ -1,5 +1,6 @@
 package ar.edu.ort.jefud_notifying_system.adapter
 
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -25,7 +26,7 @@ class AlarmPanelistViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
     fun bind(alarm: Alarm, historicAlarm: HistoricAlarm) {
         progress_bar.max = 1000
         progress_bar.min = 0
-        guideline.setGuidelinePercent(0.87F)
+        guideline.setGuidelinePercent(1F - (alarm.max * 0.001F))
         textView4.text = alarm.description + " " + alarm.tagName
         textView3.text = historicAlarm.priority.toString()
         textView10.text = alarm.panelistAction

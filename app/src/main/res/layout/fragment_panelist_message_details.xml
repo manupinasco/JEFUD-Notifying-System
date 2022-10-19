@@ -8,6 +8,13 @@
     tools:context=".view.panelist.PanelistMessageDetails">
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline43"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.13" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline41"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,6 +42,8 @@
         android:id="@+id/textView21"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeTextType="uniform"
         android:text="lorem ipsum"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline42"
@@ -53,11 +62,13 @@
         android:id="@+id/textView19"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
         android:background="@color/secondary_color"
         android:gravity="center"
         android:text="Coordinador"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline43"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

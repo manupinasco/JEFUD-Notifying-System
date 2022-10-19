@@ -2,10 +2,12 @@ package ar.edu.ort.jefud_notifying_system.view.panelist
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
@@ -47,6 +49,17 @@ class PanelistMessageSending : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        val spinner = binding.roleSpinner
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.message_roles_for_panelist,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+
         btnGoToReceivedMessages.setOnClickListener {
             val action = PanelistMessageSendingDirections.actionPanelistMessageSendingToPanelistMessagesReceived()
 
@@ -56,6 +69,8 @@ class PanelistMessageSending : Fragment() {
             val userDetails = requireContext().getSharedPreferences("userdetails",
                 Context.MODE_PRIVATE
             )
+            //Rol que recibe el mensaje
+            val roleToSend = spinner.selectedItem.toString()
             val userDni = userDetails.getString("dni", "")
             val textWrittenEditText = binding.textWrittenEditText
             val text = textWrittenEditText.text.toString()

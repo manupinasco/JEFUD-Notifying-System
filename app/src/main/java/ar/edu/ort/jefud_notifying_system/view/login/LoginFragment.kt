@@ -1,6 +1,5 @@
 package ar.edu.ort.jefud_notifying_system.view.login
 
-import android.R.attr.password
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -108,8 +107,7 @@ class LoginFragment : Fragment() {
 
 
                 when(user.rol) {
-                    "PANELIST" -> startActivity(Intent(requireContext(), PanelistActivity::class.java))
-
+                    "PANELIST" -> startActivity(Intent(requireContext(), PanelistActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 }
             } else {
                 Toast.makeText(getContext(), "Contraseña no correcta", Toast.LENGTH_SHORT)
@@ -133,7 +131,6 @@ class LoginFragment : Fragment() {
         val cipherText = cipher.doFinal(inputText.toByteArray())
         return Base64.getEncoder().encodeToString(cipherText)
     }
-
 
 
 

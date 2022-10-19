@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.viewModels
@@ -42,19 +43,13 @@ class PanelistActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_panelista)
-
-
-       setupBottomNavBar()
-
+        setupBottomNavBar()
         viewModelMessages.allMessages.observe(this) {messages ->
 
             getMessages(messages)
         }
-
-
-
 
         for(i in 0..(usersList.size-1)) {
             val intent = Intent(this, PanelistActivity::class.java).apply {
@@ -113,7 +108,7 @@ class PanelistActivity : AppCompatActivity() {
         edit.putString("panel", "")
         edit.putString("role", "")
         edit.apply()
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
     }
 
     private fun setupBottomNavBar() {

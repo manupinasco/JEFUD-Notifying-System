@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistMessageSendingBinding
@@ -38,8 +40,8 @@ class PanelistMessageSending : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentPanelistMessageSendingBinding.inflate(inflater, container, false)
         btnGoToReceivedMessages = binding.buttonToReceived
-        btnSend = binding.buttonSend
-        vista = inflater.inflate(R.layout.fragment_panelist_message_sending, container, false)
+        btnSend = binding.button2
+
         return binding.root
     }
 
@@ -47,7 +49,8 @@ class PanelistMessageSending : Fragment() {
         super.onStart()
         btnGoToReceivedMessages.setOnClickListener {
             val action = PanelistMessageSendingDirections.actionPanelistMessageSendingToPanelistMessagesReceived()
-            vista.findNavController().navigate(action)
+
+            findNavController().navigate(action)
         }
         btnSend.setOnClickListener{
             val userDetails = requireContext().getSharedPreferences("userdetails",
@@ -56,8 +59,8 @@ class PanelistMessageSending : Fragment() {
             val userDni = userDetails.getString("dni", "")
             val textWrittenEditText = binding.textWrittenEditText
             val text = textWrittenEditText.text.toString()
-            val dniRecipient = ""
-            val newMessage : Message
+            binding.textWrittenEditText.text.clear()
+            val dniRecipient = "44852"
             if(userDni != null)
             //dnireciepent: traer al user que coincida en rol y panel
             viewModelMessages.addNewMessage(userDni, dniRecipient, text, false)

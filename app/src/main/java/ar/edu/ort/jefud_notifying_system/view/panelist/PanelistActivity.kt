@@ -4,18 +4,15 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
-import ar.edu.ort.jefud_notifying_system.databinding.ActivityMainBinding
 import ar.edu.ort.jefud_notifying_system.model.Message
 import ar.edu.ort.jefud_notifying_system.model.User
 import ar.edu.ort.jefud_notifying_system.view.MainActivity
@@ -55,6 +52,7 @@ class PanelistActivity : AppCompatActivity() {
 
             getMessages(messages)
         }
+
 
 
 

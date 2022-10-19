@@ -37,7 +37,14 @@ class MessageViewModel(private val messageDao: MessageDao): ViewModel() {
     }
 
     fun updateMessage(message: Message) {
-        messageDao.updateMessage(message)
+        update(message)
+
+    }
+
+    private fun update(message: Message) {
+        viewModelScope.launch {
+            messageDao.updateMessage(message)
+        }
     }
 }
 

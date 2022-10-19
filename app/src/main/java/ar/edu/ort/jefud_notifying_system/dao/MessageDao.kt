@@ -19,6 +19,6 @@ interface MessageDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(message: Message)
 
-    @Update
-    fun updateMessage(message: Message)
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun updateMessage(message: Message)
 }

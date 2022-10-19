@@ -84,16 +84,14 @@ class PanelistAlarm : Fragment() {
 
         }
 
-        recAlarmRecord = vista.findViewById(R.id.alarmsRecord)
+        recAlarmRecord = binding.alarmsRecord
         recAlarmRecord.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
 
         recAlarmRecord.layoutManager = linearLayoutManager
 
-        var listaFake : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
-        listaFake.add(HistoricAlarm(0,"PSG1_GE:04PA443CIN","rtn",4,"12/10/2022 3:13PM"))
 
-        alarmRecordListAdapter = AlarmsRecordAdapter(listaFake)
+        alarmRecordListAdapter = AlarmsRecordAdapter(alarmsRecord)
 
 
 
@@ -108,11 +106,8 @@ class PanelistAlarm : Fragment() {
 
         recAlarm.layoutManager = linearLayoutManager
 
-        var listaFake2 : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
-        listaFake2.add(HistoricAlarm(0, "PSG1_GE:04PA443CIN","130",2,"12/10/2022 6:10PM"))
 
-
-        alarmListAdapter = AlarmsPanelistAdapter(listaFake2, (activity?.application as JEFUDApplication).database
+        alarmListAdapter = AlarmsPanelistAdapter(alarmsList, (activity?.application as JEFUDApplication).database
             .alarmDao())
 
 
@@ -138,15 +133,14 @@ class PanelistAlarm : Fragment() {
         val userDetails = requireContext().getSharedPreferences("userdetails", MODE_PRIVATE)
         val userPanel = userDetails.getString("panel", "")
 
-        if(alarms != null)
-            for (i in 0..(alarms.size-1)) {
+        if(alarms != null) {
+            for (i in alarms.indices) {
 
                 viewModelAlarm.retrieveAlarmByTag(alarms[i].tagName).observe(this.viewLifecycleOwner) { alarm ->
 
                     if(userPanel != null) {
                         if(alarm.panel.compareTo(userPanel) == 0) {
                             if(alarms[i].value.compareTo("rtn") == 0) {
-
                                 if(alarmsRecord.size < 3) {
                                     alarmsRecord.add(alarms[i])
                                 }
@@ -155,13 +149,20 @@ class PanelistAlarm : Fragment() {
                                 alarmsList.add(alarms[i])
                             }
                         }
+
+                        activity?.runOnUiThread(Runnable { alarmRecordListAdapter.notifyDataSetChanged() })
+                        activity?.runOnUiThread(Runnable { alarmListAdapter.notifyDataSetChanged() })
                     }
 
                 }
 
 
             }
-        //agregar notifyobject
+
+        }
+
+
+
     }
     companion object {
         /**

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ar.edu.ort.jefud_notifying_system.R
+import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistMessageDetailsBinding
+import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistMessagesReceivedBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +23,9 @@ class PanelistMessageDetails : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var _binding: FragmentPanelistMessageDetailsBinding? = null
+    private val binding get() = _binding!!
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +39,11 @@ class PanelistMessageDetails : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_panelist_message_details, container, false)
+        _binding = FragmentPanelistMessageDetailsBinding.inflate(inflater, container, false)
+        binding.textView19.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).name + " " + PanelistMessageDetailsArgs.fromBundle(requireArguments()).surname + " " + PanelistMessageDetailsArgs.fromBundle(requireArguments()).role
+
+        binding.textView21.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).message
+        return binding.root
     }
 
     companion object {

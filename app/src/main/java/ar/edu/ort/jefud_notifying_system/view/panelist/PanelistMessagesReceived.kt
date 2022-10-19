@@ -72,13 +72,15 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
         _binding = FragmentPanelistMessagesReceivedBinding.inflate(inflater, container, false)
         btnGoToSendingMessage = binding.buttonToSend
         btnGoToMessage = binding.buttonReceived
-        vista = inflater.inflate(R.layout.fragment_panelist_messages_received, container, false)
+
+        addData()
+
         viewModelMessages.allMessages.observe(this.viewLifecycleOwner) {messages ->
 
             getMessages(messages)
         }
 
-        recMessage = vista.findViewById(R.id.messagesReceivedRecyclerView)
+        recMessage = binding.messagesReceivedRecyclerView
         recMessage.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
 
@@ -96,7 +98,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
         super.onStart()
         btnGoToSendingMessage.setOnClickListener {
             val action = PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageSending()
-            vista.findNavController().navigate(action)
+            findNavController().navigate(action)
         }
 
         btnGoToMessage.setOnClickListener{
@@ -106,6 +108,10 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
         // Create an explicit intent for an Activity in your app
 
 
+    }
+
+    private fun addData() {
+        viewModelMessages.addNewMessage("44852", "44", "Estimado panelista, le notifico que habrá una reunión con la gerencia el día de la fecha a las 14:30hs.", false)
     }
 
     private fun getMessages(messages: List<Message>?) {
@@ -120,6 +126,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
                     messagesList.add(messages[i])
                 }
             }
+            activity?.runOnUiThread(Runnable { messageListAdapter.notifyDataSetChanged() })
 
     }
 
@@ -127,7 +134,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
         message.read = true
         viewModelMessages.updateMessage(message)
 
-        findNavController().navigate((PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageDetails(message.message, user.name, user.surname)))
+        findNavController().navigate((PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageDetails(user.name, user.surname, message.message, user.rol)))
     }
 
     companion object {

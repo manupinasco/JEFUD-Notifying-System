@@ -28,6 +28,9 @@
         <argument
             android:name="message"
             app:argType="string" />
+        <argument
+            android:name="role"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/panelistMessageSending"

@@ -3,6 +3,7 @@ package ar.edu.ort.jefud_notifying_system.adapter
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.Guideline
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.ort.jefud_notifying_system.R
@@ -18,10 +19,13 @@ class AlarmPanelistViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
     private val textView9 : TextView = itemView.findViewById(R.id.textView9)
     private val textView8 : TextView = itemView.findViewById(R.id.textView8)
     private val textView12 : TextView = itemView.findViewById(R.id.textView12)
+    private val guideline : Guideline = itemView.findViewById(R.id.guideline19)
     private val progress_bar : ProgressBar = itemView.findViewById(R.id.progress_bar)
 
     fun bind(alarm: Alarm, historicAlarm: HistoricAlarm) {
-
+        progress_bar.max = 1000
+        progress_bar.min = 0
+        guideline.setGuidelinePercent(0.87F)
         textView4.text = alarm.description + " " + alarm.tagName
         textView3.text = historicAlarm.priority.toString()
         textView10.text = alarm.panelistAction

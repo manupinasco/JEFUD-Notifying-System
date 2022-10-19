@@ -52,9 +52,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun addData() {
+        //viewModel.delete("44852")
+        //viewModel.delete("44")
 
-        viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti")
-        viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles")
+        viewModel.allUsers.observe(this.viewLifecycleOwner) { users ->
+            if(users.size == 0) {
+                viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti")
+                viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles")
+            }
+        }
+
+
     }
 
     private fun login() {

@@ -37,6 +37,16 @@ class HistoricAlarmsViewModel(private val historicAlarmDao: HistoricAlarmDao): V
     fun retrieveAlarmByTag(tag: String): LiveData<HistoricAlarm> {
         return historicAlarmDao.getAlarmByTag(tag).asLiveData()
     }
+
+    fun delete(historicAlarm: HistoricAlarm) {
+        deleteHistoricAlarm(historicAlarm)
+    }
+
+    private fun deleteHistoricAlarm(historicAlarm: HistoricAlarm) {
+        viewModelScope.launch {
+            historicAlarmDao.delete(historicAlarm)
+        }
+    }
 }
 
 

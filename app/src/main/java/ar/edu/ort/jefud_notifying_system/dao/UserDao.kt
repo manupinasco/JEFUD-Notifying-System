@@ -1,9 +1,6 @@
 package ar.edu.ort.jefud_notifying_system.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import ar.edu.ort.jefud_notifying_system.model.User
 import kotlinx.coroutines.flow.Flow
 
@@ -14,6 +11,9 @@ interface UserDao {
 
     @Query("SELECT * from user WHERE dni = :dni LIMIT 1")
     fun getUser(dni: String): Flow<User>
+
+    @Delete
+    fun delete(user: User)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: User)

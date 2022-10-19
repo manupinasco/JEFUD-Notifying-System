@@ -1,9 +1,6 @@
 package ar.edu.ort.jefud_notifying_system.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
 import kotlinx.coroutines.flow.Flow
 
@@ -15,6 +12,9 @@ interface HistoricAlarmDao {
     @Query("SELECT * from historicalarm WHERE tagName = :tagName LIMIT 1")
     fun getAlarmByTag(tagName: String): Flow<HistoricAlarm>
 
+
+    @Delete
+    fun delete(historicAlarm: HistoricAlarm)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(alarm: HistoricAlarm)

@@ -1,9 +1,6 @@
 package ar.edu.ort.jefud_notifying_system.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import ar.edu.ort.jefud_notifying_system.model.Alarm
 import kotlinx.coroutines.flow.Flow
 
@@ -17,6 +14,9 @@ interface AlarmDao {
 
     @Query("SELECT * from alarm WHERE equipment = :equipment LIMIT 1")
     fun getAlarmByEquipment(equipment: String): Flow<Alarm>
+
+    @Delete
+    fun delete(alarm: Alarm)
 
     @Query("SELECT * from alarm WHERE plant = :plant LIMIT 1")
     fun getAlarmByPlant(plant: String): Flow<Alarm>

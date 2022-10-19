@@ -34,6 +34,16 @@ class AlarmsViewModel(private val alarmDao: AlarmDao): ViewModel() {
         insertAlarm(newAlarm)
     }
 
+    fun delete(alarm: Alarm) {
+        deleteAlarm(alarm)
+    }
+
+    private fun deleteAlarm(alarm: Alarm) {
+        viewModelScope.launch {
+            alarmDao.delete(alarm)
+        }
+    }
+
     private fun insertAlarm(alarm: Alarm) {
         viewModelScope.launch {
             alarmDao.insert(alarm)

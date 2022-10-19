@@ -46,6 +46,16 @@ class MessageViewModel(private val messageDao: MessageDao): ViewModel() {
             messageDao.updateMessage(message)
         }
     }
+
+    fun delete(message: Message) {
+        deleteAlarm(message)
+    }
+
+    private fun deleteAlarm(message: Message) {
+        viewModelScope.launch {
+            messageDao.delete(message)
+        }
+    }
 }
 
 class MessageViewModelFactory(private val messageDao: MessageDao) : ViewModelProvider.Factory {

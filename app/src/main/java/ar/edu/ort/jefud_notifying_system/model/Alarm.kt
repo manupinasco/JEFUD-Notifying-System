@@ -23,7 +23,3 @@ import androidx.room.PrimaryKey
 
     )
 
-
-//diseño de item_alarm -
-//diseño de alarm_record_item -
-//diseño de botón de cerrar sesión -

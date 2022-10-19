@@ -31,6 +31,16 @@ class UsersViewModel(private val userDao: UserDao) : ViewModel() {
         )
     }
 
+    fun delete(user: User) {
+        deleteAlarm(user)
+    }
+
+    private fun deleteAlarm(user: User) {
+        viewModelScope.launch {
+            userDao.delete(user)
+        }
+    }
+
     fun retrieveUser(dni: String): LiveData<User> {
         return userDao.getUser(dni).asLiveData()
     }

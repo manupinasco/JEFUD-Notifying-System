@@ -15,6 +15,7 @@ import ar.edu.ort.jefud_notifying_system.adapter.AlarmsPanelistAdapter
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsRecordAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistAlarmBinding
+import ar.edu.ort.jefud_notifying_system.model.Alarm
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
 import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.AlarmsViewModelFactory
@@ -118,14 +119,59 @@ class PanelistAlarm : Fragment() {
 
 
     private fun addData() {
-        viewModelAlarm.addNewAlarm("04PA443.1", "ROTURA SELLO P-456", "CCU", "PSG1_GE:04PA443CIN", "ROTURA DE SELLO P-456", "ADIP1", "P-456", 0, 100, "Pedir al operador externo que verifique el estado de la bomba.", "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).")
-        viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_SO:04TI031AIN", "Alarma en K-5919", "ADIP3", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla")
+        /*viewModelAlarm.delete(
+            Alarm(
+            nameVariable = "04PA443.1",
+            description = "ROTURA SELLO P-456",
+            panel = "CCU",
+            tagName = "PSG1_GE:04PA443CIN",
+            textName = "ROTURA DE SELLO P-456",
+            plant = "ADIP1",
+            equipment = "P-456",
+            min = 0,
+            max = 100,
+            panelistAction = "Pedir al operador externo que verifique el estado de la bomba.",
+            operatorAction = "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).")
+        )
+        viewModelAlarm.delete(
+            Alarm(
+                nameVariable = "04PA443.1",
+                description = "SALIDA V454",
+                panel = "CCU",
+                tagName = "PSG1_SO:04TI031AIN",
+                textName = "ROTURA DE SELLO P-456",
+                plant = "ADIP1",
+                equipment = "P-456",
+                min = 0,
+                max = 100,
+                panelistAction = "Pedir al operador externo que verifique el estado de la bomba.",
+                operatorAction = "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).")
+        )*/
 
-        viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","130",2,"12/10/2022 6:10PM")
-        viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","670",5,"12/10/2022 5:40PM")
-        viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",4,"12/10/2022 3:13PM")
-        viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","rtn",2,"11/10/2022 6:20PM")
-        viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",3,"11/10/2022 10:05AM")
+        viewModelAlarm.allAlarms.observe(this.viewLifecycleOwner) { alarms ->
+            if(alarms.size == 0) {
+                viewModelAlarm.addNewAlarm("04PA443.1", "ROTURA SELLO P-456", "CCU", "PSG1_GE:04PA443CIN", "ROTURA DE SELLO P-456", "ADIP1", "P-456", 0, 100, "Pedir al operador externo que verifique el estado de la bomba.", "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).")
+                viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_SO:04TI031AIN", "Alarma en K-5919", "ADIP3", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla")
+
+            }
+        }
+
+       // viewModelHistoricAlarm.delete("130")
+       // viewModelHistoricAlarm.delete("670")
+       // viewModelHistoricAlarm.delete("rtn")
+
+        viewModelHistoricAlarm.allAlarms.observe(this.viewLifecycleOwner) { alarms ->
+            if(alarms.size == 0) {
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","130",2,"12/10/2022 6:10PM")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","670",5,"12/10/2022 5:40PM")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",4,"12/10/2022 3:13PM")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","rtn",2,"11/10/2022 6:20PM")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",3,"11/10/2022 10:05AM")
+            }
+        }
+
+
+
 
     }
 

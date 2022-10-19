@@ -2,7 +2,6 @@ package ar.edu.ort.jefud_notifying_system.dao
 
 import androidx.room.*
 import ar.edu.ort.jefud_notifying_system.model.Message
-import ar.edu.ort.jefud_notifying_system.model.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,6 +14,9 @@ interface MessageDao {
 
     @Query("SELECT * from message WHERE dniSender = :dni")
     fun getMessagesBySender(dni: String): Flow<List<Message>>
+
+    @Delete
+    fun delete(message: Message)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(message: Message)

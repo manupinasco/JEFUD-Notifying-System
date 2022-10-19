@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.navigation.fragment.findNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistMessageDetailsBinding
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistMessagesReceivedBinding
@@ -25,6 +27,7 @@ class PanelistMessageDetails : Fragment() {
     private var param2: String? = null
     private var _binding: FragmentPanelistMessageDetailsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var btnReturn : Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +46,17 @@ class PanelistMessageDetails : Fragment() {
         binding.textView19.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).name + " " + PanelistMessageDetailsArgs.fromBundle(requireArguments()).surname + " " + PanelistMessageDetailsArgs.fromBundle(requireArguments()).role
 
         binding.textView21.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).message
+        btnReturn = binding.buttonDetailsToSend
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        btnReturn.setOnClickListener{
+            val action = PanelistMessageDetailsDirections.actionPanelistMessageDetailsToPanelistMessagesReceived()
+            findNavController().navigate(action)
+        }
     }
 
     companion object {

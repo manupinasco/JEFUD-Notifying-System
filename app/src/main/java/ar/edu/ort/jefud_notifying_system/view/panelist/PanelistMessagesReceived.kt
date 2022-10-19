@@ -111,7 +111,17 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
     }
 
     private fun addData() {
-        viewModelMessages.addNewMessage("44852", "44", "Estimado panelista, le notifico que habrá una reunión con la gerencia el día de la fecha a las 14:30hs.", false)
+        /*viewModelMessages.delete(Message(dniRecipient = "44852",
+            dniSender = "44",
+            message = "Estimado panelista, le notifico que habrá una reunión con la gerencia el día de la fecha a las 14:30hs.",
+            read = false
+            ))*/
+        viewModelMessages.allMessages.observe(this.viewLifecycleOwner) { messages ->
+            if(messages.size == 0) {
+                viewModelMessages.addNewMessage("44852", "44", "Estimado panelista, le notifico que habrá una reunión con la gerencia el día de la fecha a las 14:30hs.", false)
+            }
+        }
+
     }
 
     private fun getMessages(messages: List<Message>?) {

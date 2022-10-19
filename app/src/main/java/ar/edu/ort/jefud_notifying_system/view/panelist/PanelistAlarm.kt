@@ -101,7 +101,7 @@ class PanelistAlarm : Fragment() {
 
 
 
-        recAlarm = vista.findViewById(R.id.alarmsRecyclerView)
+        recAlarm = binding.alarmsRecyclerView
 
         recAlarm.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)

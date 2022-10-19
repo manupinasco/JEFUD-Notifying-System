@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.adapter.MessagesReceivedAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
-import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistMessageSendingBinding
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentPanelistMessagesReceivedBinding
 import ar.edu.ort.jefud_notifying_system.listener.onItemClickListener
 import ar.edu.ort.jefud_notifying_system.model.Message
@@ -36,12 +36,12 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PanelistMessage.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PanelistMessage : Fragment(), onItemClickListener {
+class PanelistMessagesReceived : Fragment(), onItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var btnGoToSendingMessage : Button
-    private lateinit var btnGoToMessage : Button
+    private lateinit var btnGoToSendingMessage : TextView
+    private lateinit var btnGoToMessage : TextView
     private var _binding: FragmentPanelistMessagesReceivedBinding? = null
     private val binding get() = _binding!!
     private lateinit var vista: View
@@ -70,21 +70,22 @@ class PanelistMessage : Fragment(), onItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPanelistMessagesReceivedBinding.inflate(inflater, container, false)
-        btnGoToSendingMessage = binding.button3
-        btnGoToMessage = binding.button3
+        btnGoToSendingMessage = binding.buttonToSend
+        btnGoToMessage = binding.buttonReceived
         vista = inflater.inflate(R.layout.fragment_panelist_messages_received, container, false)
         viewModelMessages.allMessages.observe(this.viewLifecycleOwner) {messages ->
 
             getMessages(messages)
         }
 
-        recMessage = vista.findViewById(R.id.messages)
+        recMessage = vista.findViewById(R.id.messagesReceivedRecyclerView)
         recMessage.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
 
         recMessage.layoutManager = linearLayoutManager
 
-        messageListAdapter = MessagesReceivedAdapter(messagesList, this)
+        messageListAdapter = MessagesReceivedAdapter(messagesList, this, (activity?.application as JEFUDApplication).database
+            .userDao())
 
         recMessage.adapter = messageListAdapter
 
@@ -94,7 +95,7 @@ class PanelistMessage : Fragment(), onItemClickListener {
     override fun onStart() {
         super.onStart()
         btnGoToSendingMessage.setOnClickListener {
-            val action = PanelistMessageDirections.actionPanelistMessageFrToPanelistMessageSending()
+            val action = PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageSending()
             vista.findNavController().navigate(action)
         }
 
@@ -115,7 +116,7 @@ class PanelistMessage : Fragment(), onItemClickListener {
 
         if(messages != null && userDni != null)
             for (i in 0..(messages.size-1)) {
-                if(messages[i].dniRecipient.compareTo(userDni) == 0) {
+                if(messages[i].dniRecipient?.compareTo(userDni) == 0) {
                     messagesList.add(messages[i])
                 }
             }
@@ -126,7 +127,7 @@ class PanelistMessage : Fragment(), onItemClickListener {
         message.read = true
         viewModelMessages.updateMessage(message)
 
-        findNavController().navigate((PanelistMessageDirections.actionPanelistMessageFrToPanelistMessageDetails(message, user)))
+        findNavController().navigate((PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageDetails(message.message, user.name, user.surname)))
     }
 
     companion object {
@@ -141,7 +142,7 @@ class PanelistMessage : Fragment(), onItemClickListener {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PanelistMessage().apply {
+            PanelistMessagesReceived().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

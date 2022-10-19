@@ -10,16 +10,14 @@ import ar.edu.ort.jefud_notifying_system.model.User
 
 class MessageReceivedViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-   // private val textView4 : TextView = itemView.findViewById(R.id.textView4)
+   private val messageTitleTextView : TextView = itemView.findViewById(R.id.messageTitleTextView)
 
 
     fun bind(user: User) {
-        //textView4.text = user.name + " " + user.surname
-
-
+        messageTitleTextView.text = user.name + " " + user.surname
     }
 
     fun getCardLayout (): CardView {
-        return itemView.findViewById(R.id.card_package_item)
+        return itemView.findViewById(R.id.itemMessage)
     }
 }

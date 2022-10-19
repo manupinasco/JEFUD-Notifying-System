@@ -10,6 +10,6 @@
     <item
         android:title="@string/panelist_menu_message"
         android:icon="@drawable/ic_outline_chat_bubble_outline"
-        android:id="@+id/panelistMessageFr"
+        android:id="@+id/panelistMessageSending"
         />
 </menu>

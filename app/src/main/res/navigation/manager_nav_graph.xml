@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/manager_nav_graph"
+    app:startDestination="@id/managerFrecuentAlarm">
+    <fragment
+        android:id="@+id/managerFrecuentAlarm"
+        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerAlarm"
+        android:label="fragment_manager_frecuent_alarm"
+        tools:layout="@layout/fragment_manager_frecuent_alarm" />
+    <fragment
+        android:id="@+id/managerMessageDetails"
+        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessageDetails"
+        android:label="fragment_manager_message_details"
+        tools:layout="@layout/fragment_manager_message_details" />
+    <fragment
+        android:id="@+id/managerMessageSending"
+        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessageSending"
+        android:label="fragment_manager_message_sending"
+        tools:layout="@layout/fragment_manager_message_sending" />
+    <fragment
+        android:id="@+id/managerOOS"
+        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerOOS"
+        android:label="fragment_manager_oos"
+        tools:layout="@layout/fragment_manager_oos" />
+    <fragment
+        android:id="@+id/managerMessagesReceived"
+        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessagesReceived"
+        android:label="fragment_manager_messages_received"
+        tools:layout="@layout/fragment_manager_messages_received" />
+</navigation>

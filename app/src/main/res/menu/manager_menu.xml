@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/manager_menu_reports"
+        android:icon="@drawable/ic_outline_notification_important_24"
+        android:id="@+id/managerFrecuentAlarm"/>
+
+    <item
+        android:title="@string/manager_menu_message"
+        android:icon="@drawable/ic_outline_chat_bubble_outline"
+        android:id="@+id/managerMessageSending"
+        />
+</menu>

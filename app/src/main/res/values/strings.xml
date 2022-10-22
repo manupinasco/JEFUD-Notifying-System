@@ -29,6 +29,9 @@
     <string name="channel_name">JEFUD</string>
     <string name="channel_description">JEFUD app\'s channel</string>
     <string name="GROUP_NAME">JEFUD-APP</string>
+    
+    <string name="manager_menu_reports">Informes</string>
+    <string name="manager_menu_message">Mensajes</string>
 
     <string-array name="message_roles_for_panelist">
         <item>Manager</item>

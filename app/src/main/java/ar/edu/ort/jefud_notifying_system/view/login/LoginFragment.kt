@@ -14,6 +14,9 @@ import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentLoginBinding
 import ar.edu.ort.jefud_notifying_system.model.User
+import ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorActivity
+import ar.edu.ort.jefud_notifying_system.view.manager.ManagerActivity
+import ar.edu.ort.jefud_notifying_system.view.operator.OperatorActivity
 import ar.edu.ort.jefud_notifying_system.view.panelist.PanelistActivity
 import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModelFactory
@@ -51,13 +54,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun addData() {
-        //viewModel.delete("44852")
-        //viewModel.delete("44")
 
         viewModel.allUsers.observe(this.viewLifecycleOwner) { users ->
             if(users.size == 0) {
-                viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti")
-                viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles")
+                viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti", "ADIP1", "MAÑANA")
+                viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles", "ADIP1", "NOCHE")
+                //Agregar otros usuarios
             }
         }
 
@@ -65,8 +67,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun login() {
-        //viewModel.addNewUser(binding.DNI.text.toString(), binding.password.text.toString(), "PANELISTA")
-
 
         if (binding.DNI.text.isNullOrBlank() || binding.password.text.isNullOrBlank()) {
                 Toast.makeText(getContext(), "Falta rellenar campos", Toast.LENGTH_SHORT)
@@ -101,13 +101,18 @@ class LoginFragment : Fragment() {
                 val password = encrypt(algorithm, user.password, key, iv)
                 edit.putString("password", password)
                 edit.putString("panel", user.panel)
-                edit.putString("role", user.rol)
+                edit.putString("role", user.role)
+                edit.putString("plant", user.plant)
+                edit.putString("shift", user.shift)
                 edit.apply()
 
 
 
-                when(user.rol) {
+                when(user.role) {
                     "PANELIST" -> startActivity(Intent(requireContext(), PanelistActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                    "OPERATOR" -> startActivity(Intent(requireContext(), OperatorActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                    "MANAGER" -> startActivity(Intent(requireContext(), ManagerActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                    "COORDINATOR" -> startActivity(Intent(requireContext(), CoordinatorActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 }
             } else {
                 Toast.makeText(getContext(), "Contraseña no correcta", Toast.LENGTH_SHORT)

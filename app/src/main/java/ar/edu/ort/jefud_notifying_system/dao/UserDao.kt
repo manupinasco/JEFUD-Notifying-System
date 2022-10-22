@@ -12,8 +12,11 @@ interface UserDao {
     @Query("SELECT * from user WHERE dni = :dni LIMIT 1")
     fun getUser(dni: String): Flow<User>
 
+    @Query("SELECT * from user WHERE role = :role and plant = :plant LIMIT 1")
+    fun getUser(role: String, plant: String): Flow<User>
+
     @Delete
-    fun delete(user: User)
+    suspend fun delete(user: User)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: User)

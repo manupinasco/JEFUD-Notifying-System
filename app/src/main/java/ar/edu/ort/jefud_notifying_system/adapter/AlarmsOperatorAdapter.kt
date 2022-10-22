@@ -15,19 +15,23 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
-class AlarmsOperatorAdapter(private val alarmList: List<HistoricAlarm>, private val alarmDao: AlarmDao): RecyclerView.Adapter<AlarmPanelistViewHolder>() {
+class AlarmsOperatorAdapter(private val alarmList: List<HistoricAlarm>, private val alarmDao: AlarmDao): RecyclerView.Adapter<AlarmOperatorViewHolder>() {
 
     private fun searchAlarm(tagName: String): Flow<Alarm> {
         return alarmDao.getAlarmByTag(tagName)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmPanelistViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmOperatorViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.alarm_item, parent, false)
-        return AlarmPanelistViewHolder(view)
+        return AlarmOperatorViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: AlarmPanelistViewHolder, position: Int) {
 
+    override fun getItemCount(): Int {
+        return alarmList.size
+    }
+
+    override fun onBindViewHolder(holder: AlarmOperatorViewHolder, position: Int) {
         val alarm: Alarm
         runBlocking(Dispatchers.IO) {
             alarm = searchAlarm(alarmList[position].tagName).first()
@@ -35,9 +39,5 @@ class AlarmsOperatorAdapter(private val alarmList: List<HistoricAlarm>, private 
 
 
         holder.bind(alarm, alarmList[position])
-    }
-
-    override fun getItemCount(): Int {
-        return alarmList.size
     }
 }

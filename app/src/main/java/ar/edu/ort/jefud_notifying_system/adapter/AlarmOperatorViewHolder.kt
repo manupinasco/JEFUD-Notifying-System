@@ -23,7 +23,7 @@ class AlarmOperatorViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
         textView4.text = alarm.description + " " + alarm.tagName
         textView3.text = historicAlarm.priority.toString()
-        textView10.text = alarm.panelistAction
+        textView10.text = alarm.operatorAction
         textView9.text = alarm.equipment
         textView8.text = alarm.plant
         progress_bar.progress = historicAlarm.value.toInt()

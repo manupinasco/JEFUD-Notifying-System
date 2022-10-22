@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/operator_nav_graph"
+    app:startDestination="@id/operatorAlarm">
+
+    <fragment
+        android:id="@+id/operatorAlarm"
+        android:name="ar.edu.ort.jefud_notifying_system.view.operator.OperatorAlarm"
+        android:label="fragment_alarm"
+        tools:layout="@layout/fragment_alarm" />
+    <fragment
+        android:id="@+id/operatorMessagesReceived"
+        android:name="ar.edu.ort.jefud_notifying_system.view.operator.OperatorMessagesReceived"
+        android:label="fragment_messages_received"
+        tools:layout="@layout/fragment_messages_received" >
+        <action
+            android:id="@+id/action_operatorMessagesReceived_to_operatorMessageSending"
+            app:destination="@id/operatorMessageSending"
+            app:popUpTo="@id/operatorMessageSending"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_operatorMessagesReceived_to_operatorMessageDetails"
+            app:destination="@id/operatorMessageDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/operatorMessageSending"
+        android:name="ar.edu.ort.jefud_notifying_system.view.operator.OperatorMessageSending"
+        android:label="fragment_message_sending"
+        tools:layout="@layout/fragment_message_sending" >
+        <action
+            android:id="@+id/action_operatorMessageSending_to_operatorMessagesReceived"
+            app:destination="@id/operatorMessagesReceived" />
+    </fragment>
+    <fragment
+        android:id="@+id/operatorMessageDetails"
+        android:name="ar.edu.ort.jefud_notifying_system.view.operator.OperatorMessageDetails"
+        android:label="fragment_message_details"
+        tools:layout="@layout/fragment_message_details" >
+        <action
+            android:id="@+id/action_operatorMessageDetails_to_operatorMessagesReceived"
+            app:destination="@id/operatorMessagesReceived"
+            app:popUpTo="@id/operatorMessagesReceived"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="surname"
+            app:argType="string" />
+        <argument
+            android:name="message"
+            app:argType="string" />
+        <argument
+            android:name="role"
+            app:argType="string" />
+    </fragment>
+</navigation>

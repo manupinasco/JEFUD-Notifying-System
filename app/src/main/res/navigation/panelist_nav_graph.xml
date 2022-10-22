@@ -7,13 +7,27 @@
     <fragment
         android:id="@+id/panelistAlarm"
         android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistAlarm"
-        android:label="fragment_panelist_alarm"
-        tools:layout="@layout/fragment_panelist_alarm" />
+        android:label="fragment_alarm"
+        tools:layout="@layout/fragment_alarm" />
+    <fragment
+        android:id="@+id/panelistMessagesReceived"
+        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessagesReceived"
+        android:label="fragment_messages_received"
+        tools:layout="@layout/fragment_messages_received" >
+        <action
+            android:id="@+id/action_panelistMessagesReceived_to_panelistMessageDetails"
+            app:destination="@id/panelistMessageDetails" />
+        <action
+            android:id="@+id/action_panelistMessagesReceived_to_panelistMessageSending"
+            app:destination="@id/panelistMessageSending"
+            app:popUpTo="@id/panelistMessageSending"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/panelistMessageDetails"
         android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageDetails"
-        android:label="fragment_panelist_message_details"
-        tools:layout="@layout/fragment_panelist_message_details" >
+        android:label="fragment_message_details"
+        tools:layout="@layout/fragment_message_details" >
         <action
             android:id="@+id/action_panelistMessageDetails_to_panelistMessagesReceived"
             app:destination="@id/panelistMessagesReceived"
@@ -35,24 +49,10 @@
     <fragment
         android:id="@+id/panelistMessageSending"
         android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageSending"
-        android:label="fragment_panelist_message_sending"
-        tools:layout="@layout/fragment_panelist_message_sending" >
+        android:label="fragment_message_sending"
+        tools:layout="@layout/fragment_message_sending" >
         <action
             android:id="@+id/action_panelistMessageSending_to_panelistMessagesReceived"
             app:destination="@id/panelistMessagesReceived" />
-    </fragment>
-    <fragment
-        android:id="@+id/panelistMessagesReceived"
-        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessagesReceived"
-        android:label="fragment_panelist_messages_received"
-        tools:layout="@layout/fragment_panelist_messages_received">
-        <action
-            android:id="@+id/action_panelistMessagesReceived_to_panelistMessageSending"
-            app:destination="@id/panelistMessageSending"
-            app:popUpTo="@id/panelistMessageSending"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_panelistMessagesReceived_to_panelistMessageDetails"
-            app:destination="@id/panelistMessageDetails" />
     </fragment>
 </navigation>

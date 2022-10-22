@@ -28,10 +28,17 @@
     <string name="saved_userpanel_key">panel</string>
     <string name="channel_name">JEFUD</string>
     <string name="channel_description">JEFUD app\'s channel</string>
+    <string name="GROUP_NAME">JEFUD-APP</string>
 
     <string-array name="message_roles_for_panelist">
-        <item>Gerente</item>
-        <item>Coordinador</item>
-        <item>Operador</item>
+        <item>Manager</item>
+        <item>Coordinator</item>
+        <item>Operator</item>
+    </string-array>
+
+    <string-array name="message_roles_for_operator">
+        <item>Manager</item>
+        <item>Coordinator</item>
+        <item>Panelist</item>
     </string-array>
 </resources>

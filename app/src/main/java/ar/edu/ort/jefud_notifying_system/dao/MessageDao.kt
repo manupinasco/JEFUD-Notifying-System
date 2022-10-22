@@ -16,7 +16,7 @@ interface MessageDao {
     fun getMessagesBySender(dni: String): Flow<List<Message>>
 
     @Delete
-    fun delete(message: Message)
+    suspend fun delete(message: Message)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(message: Message)

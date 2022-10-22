@@ -16,7 +16,7 @@ interface AlarmDao {
     fun getAlarmByEquipment(equipment: String): Flow<Alarm>
 
     @Delete
-    fun delete(alarm: Alarm)
+    suspend fun delete(alarm: Alarm)
 
     @Query("SELECT * from alarm WHERE plant = :plant LIMIT 1")
     fun getAlarmByPlant(plant: String): Flow<Alarm>

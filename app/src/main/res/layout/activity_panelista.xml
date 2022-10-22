@@ -49,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="Cerrar sesion"
+        android:onClick="basicAlert"
         android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toEndOf="parent"

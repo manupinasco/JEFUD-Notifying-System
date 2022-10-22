@@ -9,8 +9,9 @@ import kotlinx.coroutines.launch
 class UsersViewModel(private val userDao: UserDao) : ViewModel() {
     val allUsers: LiveData<List<User>> = userDao.getAll().asLiveData()
 
-        fun addNewUser(dni: String, password: String, rol: String, panel: String, name: String, surname: String) {
-        val newUser = getNewUserEntry(dni, password, rol, panel, name, surname)
+
+        fun addNewUser(dni: String, password: String, role: String, panel: String?, name: String, surname: String, plant: String, shift: String?) {
+        val newUser = getNewUserEntry(dni, password, role, panel, name, surname, plant, shift)
         insertUser(newUser)
     }
 
@@ -20,16 +21,20 @@ class UsersViewModel(private val userDao: UserDao) : ViewModel() {
         }
     }
 
-    private fun getNewUserEntry(dni: String, password: String, rol: String, panel: String, name: String, surname: String): User {
+    private fun getNewUserEntry(dni: String, password: String, role: String, panel: String?, name: String, surname: String, plant: String, shift: String?): User {
         return User(
             dni = dni,
             password = password,
-            rol = rol,
+            role = role,
             panel = panel,
-            name= name,
-            surname= surname
+            name = name,
+            surname = surname,
+            plant = plant,
+            shift = shift
         )
     }
+
+
 
     fun delete(user: User) {
         deleteAlarm(user)
@@ -43,6 +48,10 @@ class UsersViewModel(private val userDao: UserDao) : ViewModel() {
 
     fun retrieveUser(dni: String): LiveData<User> {
         return userDao.getUser(dni).asLiveData()
+    }
+
+    fun retrieveUser(plant: String, role: String): LiveData<User> {
+        return userDao.getUser(role, plant).asLiveData()
     }
 }
 

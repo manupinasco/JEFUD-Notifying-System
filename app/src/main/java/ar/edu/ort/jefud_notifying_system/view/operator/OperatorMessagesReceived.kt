@@ -1,18 +1,13 @@
-package ar.edu.ort.jefud_notifying_system.view.panelist
+package ar.edu.ort.jefud_notifying_system.view.operator
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,10 +28,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PanelistMessage.newInstance] factory method to
+ * Use the [OperatorMessagesReceived.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PanelistMessagesReceived : Fragment(), onItemClickListener {
+class OperatorMessagesReceived : Fragment(), onItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -57,13 +52,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,7 +86,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
     override fun onStart() {
         super.onStart()
         btnGoToSendingMessage.setOnClickListener {
-            val action = PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageSending()
+            val action = OperatorMessagesReceivedDirections.actionOperatorMessagesReceivedToOperatorMessageSending()
             findNavController().navigate(action)
         }
 
@@ -132,7 +121,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
                     messagesList.add(messages[i])
                 }
             }
-            activity?.runOnUiThread(Runnable { messageListAdapter.notifyDataSetChanged() })
+        activity?.runOnUiThread(Runnable { messageListAdapter.notifyDataSetChanged() })
 
     }
 
@@ -140,7 +129,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
         message.read = true
         viewModelMessages.updateMessage(message)
 
-        findNavController().navigate((PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageDetails(user.name, user.surname, message.message, user.role)))
+        findNavController().navigate((OperatorMessagesReceivedDirections.actionOperatorMessagesReceivedToOperatorMessageDetails(user.name, user.surname, message.message, user.role)))
     }
 
     companion object {
@@ -150,12 +139,12 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment PanelistMessage.
+         * @return A new instance of fragment OperatorMessagesReceived.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PanelistMessagesReceived().apply {
+            OperatorMessagesReceived().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

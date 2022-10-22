@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ar.edu.ort.jefud_notifying_system">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name="ar.edu.ort.jefud_notifying_system.database.JEFUDApplication"
         android:allowBackup="true"
@@ -14,9 +17,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JEFUDNotifyingSystem"
         tools:targetApi="31">
-
+        <activity
+            android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorActivity"
+            android:exported="false" />
+        <activity
+            android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerActivity"
+            android:exported="false" />
         <activity
             android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="ar.edu.ort.jefud_notifying_system.view.operator.OperatorActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing">
             <meta-data
@@ -33,10 +49,5 @@
             </intent-filter>
         </activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
 
 </manifest>

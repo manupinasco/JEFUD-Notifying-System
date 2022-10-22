@@ -19,7 +19,7 @@ class AlarmsViewModel(private val alarmDao: AlarmDao): ViewModel() {
                    min: Int,
                    max: Int,
                    panelistAction: String,
-                   operatorAction: String) {
+                   operatorAction: String, infoExtra: String?) {
         val newAlarm = getNewAlarmEntry(nameVariable,
             description,
             panel,
@@ -30,7 +30,7 @@ class AlarmsViewModel(private val alarmDao: AlarmDao): ViewModel() {
             min,
             max,
             panelistAction,
-            operatorAction)
+            operatorAction, infoExtra)
         insertAlarm(newAlarm)
     }
 
@@ -60,7 +60,7 @@ class AlarmsViewModel(private val alarmDao: AlarmDao): ViewModel() {
                                 min: Int,
                                 max: Int,
                                 panelistAction: String,
-                                operatorAction: String): Alarm {
+                                operatorAction: String, infoExtra: String?): Alarm {
         return Alarm(
             nameVariable=nameVariable,
             description=description,
@@ -72,7 +72,8 @@ class AlarmsViewModel(private val alarmDao: AlarmDao): ViewModel() {
             min=min,
             max=max,
             panelistAction=panelistAction,
-            operatorAction=operatorAction
+            operatorAction=operatorAction,
+            infoExtra = infoExtra
         )
     }
 

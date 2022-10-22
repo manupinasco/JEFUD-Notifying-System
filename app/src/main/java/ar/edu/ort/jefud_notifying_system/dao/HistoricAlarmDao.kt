@@ -14,7 +14,7 @@ interface HistoricAlarmDao {
 
 
     @Delete
-    fun delete(historicAlarm: HistoricAlarm)
+    suspend fun delete(historicAlarm: HistoricAlarm)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(alarm: HistoricAlarm)

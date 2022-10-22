@@ -1,31 +1,43 @@
 package ar.edu.ort.jefud_notifying_system.view.panelist
 
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
-import android.widget.Button
+import android.provider.Contacts.GroupMembership.GROUP_ID
+import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.model.Message
-import ar.edu.ort.jefud_notifying_system.model.User
 import ar.edu.ort.jefud_notifying_system.view.MainActivity
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
 import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
+
 
 class PanelistActivity : AppCompatActivity() {
 
-    private var usersList : MutableList<User> = ArrayList<User>()
+    val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+        logout()
+    }
+    val negativeButtonClick = { dialog: DialogInterface, which: Int ->
+
+    }
 
     private val viewModelMessages: MessageViewModel by viewModels {
         MessageViewModelFactory(
@@ -49,24 +61,11 @@ class PanelistActivity : AppCompatActivity() {
         viewModelMessages.allMessages.observe(this) {messages ->
 
             getMessages(messages)
+
+
         }
 
-        for(i in 0..(usersList.size-1)) {
-            val intent = Intent(this, PanelistActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
-
-            val builder = NotificationCompat.Builder(this, "0")
-                .setSmallIcon(R.drawable.alarms_icon_1)
-                .setContentTitle("New Messages")
-                .setContentText("From " + usersList[i].name)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-        }
 
 
     }
@@ -77,28 +76,101 @@ class PanelistActivity : AppCompatActivity() {
         )
         val userDni = userDetails.getString("dni", "")
 
+        var newMessages = false
+        var i = 0
         if(messages != null && userDni != null)
-            for (i in 0..(messages.size-1)) {
+            while(!newMessages && i < messages.size) {
+
                 if(messages[i].dniRecipient.compareTo(userDni) == 0 && !messages[i].read) {
-                    viewModelUsers.retrieveUser(messages[i].dniSender).observe(this) { user ->
-                        usersList.add(user)
-                    }
+                    newMessages = true
                 }
+                i++
             }
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        var btn1 = findViewById<Button>(R.id.button)
-        btn1.setOnClickListener{
-            logout()
+        if(newMessages) {
+            createNotificationBuilder()
         }
+
+
     }
+
+    private fun createNotificationBuilder() {
+
+
+
+            val notificationManager : NotificationManager =  getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            val notificationChannelGroup = NotificationChannelGroup(
+                GROUP_ID,
+                applicationContext.getString(R.string.GROUP_NAME)
+            )
+            notificationManager.createNotificationChannelGroup(notificationChannelGroup)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                var notificationChannel  = NotificationChannel("NOTIFICATION_URGENT _ID", "My Notifications", NotificationManager.IMPORTANCE_HIGH);
+                notificationChannel.description = "Channel description"
+                notificationChannel.enableLights(true)
+                notificationChannel.lightColor = Color.RED
+                notificationChannel.enableVibration(true)
+
+                notificationChannel.group = GROUP_ID
+                notificationChannel.setShowBadge(true)
+                notificationManager.createNotificationChannel(notificationChannel)
+            }
+
+
+            var notificationBuilder : NotificationCompat.Builder = NotificationCompat.Builder(this, "NOTIFICATION_URGENT _ID");
+
+            notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(ar.edu.ort.jefud_notifying_system.R.drawable.semicircle_login)
+                .setTicker("Mensajes")
+                .setContentTitle("RAIZEN")
+                .setContentIntent(onClick())
+                .setContentText("Nuevos mensajes sin leer")
+                .setContentInfo("");
+
+
+            var random = Random();
+            var m = random.nextInt(9999 - 1000) + 1000;
+            notificationManager.notify(/*notification id*/m, notificationBuilder.build());
+
+
+        }
+
+    private fun onClick(): PendingIntent? {
+
+
+        return NavDeepLinkBuilder(this)
+            .setComponentName(PanelistActivity::class.java)
+            .setGraph(R.navigation.panelist_nav_graph)
+            .setDestination(R.id.panelistMessagesReceived)
+            .createPendingIntent()
+    }
+
+
+
+
+    fun basicAlert(view: View){
+
+        val builder = AlertDialog.Builder(this)
+
+        with(builder)
+        {
+            setTitle("RAIZEN NOTIFYING APP")
+            setMessage("¿Confirmar cierre de sesión?")
+            setNegativeButton("Sí", DialogInterface.OnClickListener(function = positiveButtonClick))
+            setPositiveButton("Cancelar", negativeButtonClick)
+            show()
+        }
+
+
+    }
+
 
     private fun logout() {
-        //preguntar primero
+
         val userDetails = this.getSharedPreferences("userdetails",
             Context.MODE_PRIVATE
         )

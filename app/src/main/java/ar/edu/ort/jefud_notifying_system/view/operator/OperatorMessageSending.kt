@@ -1,32 +1,36 @@
-package ar.edu.ort.jefud_notifying_system.view.panelist
+package ar.edu.ort.jefud_notifying_system.view.operator
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.TextView
-import androidx.compose.ui.text.toUpperCase
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentMessageSendingBinding
-import ar.edu.ort.jefud_notifying_system.model.Message
+import ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageSendingDirections
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
 import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModelFactory
 import java.util.*
 
-class PanelistMessageSending : Fragment() {
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
+/**
+ * A simple [Fragment] subclass.
+ * Use the [OperatorMessageSending.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class OperatorMessageSending : Fragment() {
     lateinit var btnGoToReceivedMessages : TextView
     lateinit var btnSend : TextView
     private var _binding: FragmentMessageSendingBinding? = null
@@ -60,14 +64,14 @@ class PanelistMessageSending : Fragment() {
         super.onStart()
 
         btnGoToReceivedMessages.setOnClickListener {
-            val action = PanelistMessageSendingDirections.actionPanelistMessageSendingToPanelistMessagesReceived()
+            val action = OperatorMessageSendingDirections.actionOperatorMessageSendingToOperatorMessagesReceived()
 
             findNavController().navigate(action)
         }
         val spinner = binding.roleSpinner
         ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.message_roles_for_panelist,
+            R.array.message_roles_for_operator,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -78,6 +82,7 @@ class PanelistMessageSending : Fragment() {
                 Context.MODE_PRIVATE
             )
 
+
             val userDni = userDetails.getString("dni", "")
             val userPanel = userDetails.getString("panel", "")
             val userPlant = userDetails.getString("plant", "")
@@ -87,29 +92,26 @@ class PanelistMessageSending : Fragment() {
             val role = binding.roleSpinner.selectedItem.toString().uppercase(Locale.ROOT)
             var dniRecipient = ""
             if(userDni != null)
-            if(role.compareTo("MANAGER") == 0 && userPlant != null) {
-                viewModelUsers.retrieveUser(role, userPlant).observe(this.viewLifecycleOwner) {user ->
-                    dniRecipient = user.dni
-                    viewModelMessages.addNewMessage(userDni, dniRecipient, text, false)
-                }
-            }
-            else {
-                viewModelUsers.allUsers.observe(this.viewLifecycleOwner) { users ->
-                    for(i in users.indices) {
-                        if (userPlant != null && userPanel != null)
-                        if(users[i].role.compareTo(role) == 0 && users[i].plant.compareTo(userPlant) == 0 && users[i].panel?.compareTo(userPanel) == 0) {
-                            dniRecipient = users[i].dni
-                            viewModelMessages.addNewMessage(dniRecipient, userDni, text, false)
-
-                        }
+                if(role.compareTo("MANAGER") == 0 && userPlant != null) {
+                    viewModelUsers.retrieveUser(role, userPlant).observe(this.viewLifecycleOwner) {user ->
+                        dniRecipient = user.dni
+                        viewModelMessages.addNewMessage(userDni, dniRecipient, text, false)
                     }
-
-
                 }
-            }
+                else {
+                    viewModelUsers.allUsers.observe(this.viewLifecycleOwner) { users ->
+                        for(i in users.indices) {
+                            if (userPlant != null && userPanel != null)
+                                if(users[i].role.compareTo(role) == 0 && users[i].plant.compareTo(userPlant) == 0 && users[i].panel?.compareTo(userPanel) == 0) {
+                                    dniRecipient = users[i].dni
+
+                                }
+                        }
+                        viewModelMessages.addNewMessage(dniRecipient, userDni, text, false)
+
+                    }
+                }
 
         }
-
     }
-
 }

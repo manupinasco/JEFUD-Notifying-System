@@ -14,10 +14,8 @@ import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsOperatorAdapter
 import ar.edu.ort.jefud_notifying_system.adapter.AlarmsRecordAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
-import ar.edu.ort.jefud_notifying_system.databinding.FragmentLoginBinding
+import ar.edu.ort.jefud_notifying_system.databinding.FragmentAlarmBinding
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
-import ar.edu.ort.jefud_notifying_system.view.MainActivity
-import ar.edu.ort.jefud_notifying_system.view.panelist.PanelistActivity
 import ar.edu.ort.jefud_notifying_system.viewmodel.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,19 +30,17 @@ private const val ARG_PARAM2 = "param2"
  */
 class OperatorAlarm : Fragment() {
     // TODO: Rename and change types of parameters
-    lateinit var recAlarm : RecyclerView
-    lateinit var recAlarmRecord : RecyclerView
+    private lateinit var recAlarm : RecyclerView
+    private lateinit var recAlarmRecord : RecyclerView
 
-    var alarmsList : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
-    var alarmsRecord : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
+    private var alarmsList : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
+    private var alarmsRecord : MutableList<HistoricAlarm> = ArrayList<HistoricAlarm>()
 
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     private lateinit var alarmListAdapter: AlarmsOperatorAdapter
     private lateinit var alarmRecordListAdapter: AlarmsRecordAdapter
-    private var param1: String? = null
-    private var param2: String? = null
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentAlarmBinding? = null
     private val binding get() = _binding!!
     private val viewModelHistoricAlarm: HistoricAlarmsViewModel by activityViewModels {
         HistoricAlarmsViewModelFactory(
@@ -58,34 +54,39 @@ class OperatorAlarm : Fragment() {
                 .alarmDao()
         )
     }
+    private lateinit var vista : View
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
+        _binding = FragmentAlarmBinding.inflate(inflater, container, false)
+        vista = inflater.inflate(R.layout.fragment_alarm, container, false)
 
         addData()
 
         viewModelHistoricAlarm.allAlarms.observe(this.viewLifecycleOwner) { alarms ->
             getAlarms(alarms)
+
         }
 
+        recAlarmRecord = binding.alarmsRecord
+        recAlarmRecord.setHasFixedSize(true)
+        linearLayoutManager = LinearLayoutManager(context)
+
+        recAlarmRecord.layoutManager = linearLayoutManager
 
 
+        alarmRecordListAdapter = AlarmsRecordAdapter(alarmsRecord)
+
+
+
+        recAlarmRecord.adapter = alarmRecordListAdapter
+
+
+
+        recAlarm = binding.alarmsRecyclerView
 
         recAlarm.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
@@ -96,55 +97,72 @@ class OperatorAlarm : Fragment() {
         alarmListAdapter = AlarmsOperatorAdapter(alarmsList, (activity?.application as JEFUDApplication).database
             .alarmDao())
 
+
+
         recAlarm.adapter = alarmListAdapter
-
-        recAlarmRecord.setHasFixedSize(true)
-        linearLayoutManager = LinearLayoutManager(context)
-
-        recAlarmRecord.layoutManager = linearLayoutManager
-
-
-        alarmRecordListAdapter = AlarmsRecordAdapter(alarmsRecord)
-
-        recAlarmRecord.adapter = alarmRecordListAdapter
-
-        //binding.buttonLogout.setOnClickListener { logout() }
+        return binding.root
     }
 
 
+    private fun addData() {
+
+        viewModelAlarm.allAlarms.observe(this.viewLifecycleOwner) { alarms ->
+            if(alarms.size == 0) {
+                viewModelAlarm.addNewAlarm("04PA443.1", "ROTURA SELLO P-456", "CCU", "PSG1_GE:04PA443CIN", "ROTURA DE SELLO P-456", "ADIP1", "P-456", 0, 100, "Pedir al operador externo que verifique el estado de la bomba.", "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).", "IOBAD")
+                viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_SO:04TI031AIN", "Alarma en K-5919", "ADIP3", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla", null)
+
+            }
+        }
+
+
+        viewModelHistoricAlarm.allAlarms.observe(this.viewLifecycleOwner) { alarms ->
+            if(alarms.size == 0) {
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","130",2,"12/10/2022 6:10PM")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","670",5,"12/10/2022 5:40PM")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",4,"12/10/2022 3:13PM")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","rtn",2,"11/10/2022 6:20PM")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",3,"11/10/2022 10:05AM")
+            }
+        }
+
+
+
+
+    }
 
     private fun getAlarms(alarms: List<HistoricAlarm>?) {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        val userPanel = sharedPref.getString(getString(R.string.saved_userpanel_key), "")
-        if(alarms != null)
-        for (i in 0..alarms.size) {
-            viewModelAlarm.retrieveAlarmByTag(alarms[i].tagName).observe(this.viewLifecycleOwner) { alarm ->
-                if(userPanel?.let { alarm.panel.compareTo(it) } == 0) {
-                    if(alarms[i].value.compareTo("rtn") == 0) {
-                        if(alarmsRecord.size < 3) {
-                            alarmsRecord.add(alarms[i])
-                        }
-                    }
-                    else {
-                        alarmsList.add(alarms[i])
-                    }
-                }
-            }
+        val userDetails = requireContext().getSharedPreferences("userdetails", Context.MODE_PRIVATE)
+        val userPanel = userDetails.getString("panel", "")
 
+        if(alarms != null) {
+            for (i in alarms.indices) {
+
+                viewModelAlarm.retrieveAlarmByTag(alarms[i].tagName).observe(this.viewLifecycleOwner) { alarm ->
+
+                    if(userPanel != null) {
+                        if(alarm.panel.compareTo(userPanel) == 0) {
+                            if(alarms[i].value.compareTo("rtn") == 0) {
+                                if(alarmsRecord.size < 3) {
+                                    alarmsRecord.add(alarms[i])
+                                }
+                            }
+                            else {
+                                alarmsList.add(alarms[i])
+                            }
+                        }
+
+                        activity?.runOnUiThread(Runnable { alarmRecordListAdapter.notifyDataSetChanged() })
+                        activity?.runOnUiThread(Runnable { alarmListAdapter.notifyDataSetChanged() })
+                    }
+
+                }
+
+
+            }
 
         }
 
-    }
 
-    private fun addData() {
-        viewModelAlarm.addNewAlarm("04PA443.1", "ROTURA SELLO P-456", "CCU", "PSG1_GE:04PA443CIN", "ROTURA DE SELLO P-456", "ADIP1", "P-456", 0, 100, "Pedir al operador externo que verifique el estado de la bomba.", "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).")
-        viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_SO:04TI031AIN", "Alarma en K-5919", "ADIP3", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla")
-
-        viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","130",2,"12/10/2022 6:10PM")
-        viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","670",5,"12/10/2022 5:40PM")
-        viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",4,"12/10/2022 3:13PM")
-        viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","rtn",2,"11/10/2022 6:20PM")
-        viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",3,"11/10/2022 10:05AM")
 
     }
 

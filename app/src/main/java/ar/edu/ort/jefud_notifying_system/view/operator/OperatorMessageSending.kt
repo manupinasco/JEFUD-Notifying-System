@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ar.edu.ort.jefud_notifying_system.R
@@ -112,6 +113,8 @@ class OperatorMessageSending : Fragment() {
                     }
                 }
 
+            Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 }

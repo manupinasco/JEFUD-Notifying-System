@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.compose.ui.text.toUpperCase
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -107,6 +108,9 @@ class PanelistMessageSending : Fragment() {
 
                 }
             }
+
+            Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_SHORT)
+                .show()
 
         }
 

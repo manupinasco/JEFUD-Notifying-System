@@ -42,9 +42,9 @@ class PanelistMessageDetails : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMessageDetailsBinding.inflate(inflater, container, false)
-        binding.textView19.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).name + " " + PanelistMessageDetailsArgs.fromBundle(requireArguments()).surname + " " + PanelistMessageDetailsArgs.fromBundle(requireArguments()).role
-
-        binding.textView21.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).message
+        binding.nameMessageDetailsTextView.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).name + " " + PanelistMessageDetailsArgs.fromBundle(requireArguments()).surname
+        binding.rolMessageDetails.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).role
+        binding.messageTextTextView.text = PanelistMessageDetailsArgs.fromBundle(requireArguments()).message
         btnReturn = binding.buttonDetailsToSend
         return binding.root
     }

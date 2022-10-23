@@ -71,7 +71,6 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
     ): View? {
         _binding = FragmentMessagesReceivedBinding.inflate(inflater, container, false)
         btnGoToSendingMessage = binding.buttonToSend
-        btnGoToMessage = binding.buttonReceived
 
         addData()
 

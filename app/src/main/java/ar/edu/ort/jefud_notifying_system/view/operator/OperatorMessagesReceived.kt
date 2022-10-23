@@ -60,7 +60,6 @@ class OperatorMessagesReceived : Fragment(), onItemClickListener {
     ): View? {
         _binding = FragmentMessagesReceivedBinding.inflate(inflater, container, false)
         btnGoToSendingMessage = binding.buttonToSend
-        btnGoToMessage = binding.buttonReceived
 
         addData()
 
@@ -89,14 +88,6 @@ class OperatorMessagesReceived : Fragment(), onItemClickListener {
             val action = OperatorMessagesReceivedDirections.actionOperatorMessagesReceivedToOperatorMessageSending()
             findNavController().navigate(action)
         }
-
-        btnGoToMessage.setOnClickListener{
-
-        }
-
-        // Create an explicit intent for an Activity in your app
-
-
     }
 
     private fun addData() {

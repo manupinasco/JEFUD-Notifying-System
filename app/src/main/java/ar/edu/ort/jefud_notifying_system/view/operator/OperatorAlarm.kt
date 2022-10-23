@@ -103,6 +103,13 @@ class OperatorAlarm : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        // Se borran los datos de las listas para que no se dupliquen al volver a esta vista
+        alarmsList.clear()
+        alarmsRecord.clear()
+    }
+
 
     private fun addData() {
 

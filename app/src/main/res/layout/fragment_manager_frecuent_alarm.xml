@@ -26,21 +26,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        app:layout_constraintGuide_percent="0.72" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline49"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline46"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.78" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline48"
@@ -140,7 +140,7 @@
             app:layout_constraintGuide_percent="0.86" />
 
         <TextView
-            android:id="@+id/buttonToSend"
+            android:id="@+id/buttonToOOS"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"
@@ -159,7 +159,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/buttonReceived"
+            android:id="@+id/buttonToFrecuentAlarm"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"
@@ -218,12 +218,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.20793433" />
+        app:layout_constraintGuide_percent="0.16" />
 
     <TextView
         android:id="@+id/textView23"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:autoSizeMaxTextSize="14sp"
         android:autoSizeTextType="uniform"
         android:gravity="center_horizontal|top"
         android:padding="10dp"
@@ -234,7 +235,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline45" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/frecuentAlarmProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -246,16 +247,18 @@
         app:layout_constraintTop_toTopOf="@+id/guideline44" />
 
     <TextView
-        android:id="@+id/textView26"
+        android:id="@+id/frecuentAlarmAdviseTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:autoSizeMaxTextSize="18sp"
         android:autoSizeTextType="uniform"
         android:background="@drawable/alarm_title_background"
         android:drawableStart="@drawable/ic_alert_alarm"
         android:drawablePadding="5dp"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Gran frecuencia de alarmas con tag name PSG1_GE:04PA443CIN. Click para solucionar"
+        android:text="Gran frecuencia de alarmas con tag name PSG1_GE:04PA443CIN. Solucionar"
+        android:textColorLink="@color/purple_700"
         app:layout_constraintBottom_toTopOf="@+id/guideline49"
         app:layout_constraintEnd_toStartOf="@+id/guideline52"
         app:layout_constraintStart_toStartOf="@+id/guideline51"

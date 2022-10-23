@@ -35,9 +35,9 @@ class OperatorMessageDetails : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMessageDetailsBinding.inflate(inflater, container, false)
-        binding.textView19.text = OperatorMessageDetailsArgs.fromBundle(requireArguments()).name + " " + OperatorMessageDetailsArgs.fromBundle(requireArguments()).surname + " " + OperatorMessageDetailsArgs.fromBundle(requireArguments()).role
-
-        binding.textView21.text = OperatorMessageDetailsArgs.fromBundle(requireArguments()).message
+        binding.nameMessageDetailsTextView.text = OperatorMessageDetailsArgs.fromBundle(requireArguments()).name + " " + OperatorMessageDetailsArgs.fromBundle(requireArguments()).surname
+        binding.rolMessageDetails.text = OperatorMessageDetailsArgs.fromBundle(requireArguments()).role
+        binding.messageTextTextView.text = OperatorMessageDetailsArgs.fromBundle(requireArguments()).message
         btnReturn = binding.buttonDetailsToSend
         return binding.root
     }

@@ -59,7 +59,6 @@ class LoginFragment : Fragment() {
             if(users.size == 0) {
                 viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti", "ADIP1", "MAÑANA")
                 viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles", "ADIP1", "NOCHE")
-                //Agregar otros usuarios
             }
         }
 

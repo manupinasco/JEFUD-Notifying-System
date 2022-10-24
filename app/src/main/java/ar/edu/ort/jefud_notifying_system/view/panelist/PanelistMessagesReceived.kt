@@ -71,7 +71,6 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
     ): View? {
         _binding = FragmentMessagesReceivedBinding.inflate(inflater, container, false)
         btnGoToSendingMessage = binding.buttonToSend
-        btnGoToMessage = binding.buttonReceived
 
         addData()
 
@@ -96,18 +95,12 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
 
     override fun onStart() {
         super.onStart()
+        // Limpiamos la lista para evitar elementos duplicados
+        messagesList.clear()
         btnGoToSendingMessage.setOnClickListener {
             val action = PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageSending()
             findNavController().navigate(action)
         }
-
-        btnGoToMessage.setOnClickListener{
-
-        }
-
-        // Create an explicit intent for an Activity in your app
-
-
     }
 
     private fun addData() {

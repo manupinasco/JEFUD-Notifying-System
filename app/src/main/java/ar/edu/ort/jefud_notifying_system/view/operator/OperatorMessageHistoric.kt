@@ -21,18 +21,10 @@ import ar.edu.ort.jefud_notifying_system.model.User
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+class OperatorMessageHistoric : Fragment(), onItemClickListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [OperatorMessagesReceived.newInstance] factory method to
- * create an instance of this fragment.
- */
-class OperatorMessagesReceived : Fragment(), onItemClickListener {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var btnGoToSendingMessage : TextView
@@ -108,7 +100,7 @@ class OperatorMessagesReceived : Fragment(), onItemClickListener {
 
         if(messages != null && userDni != null)
             for (i in 0..(messages.size-1)) {
-                if(messages[i].dniRecipient?.compareTo(userDni) == 0) {
+                if(messages[i].dniSender?.compareTo(userDni) == 0) {
                     messagesList.add(messages[i])
                 }
             }

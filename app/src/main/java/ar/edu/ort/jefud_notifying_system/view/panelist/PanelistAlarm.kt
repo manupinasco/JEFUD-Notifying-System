@@ -84,6 +84,7 @@ class PanelistAlarm : Fragment() {
         }
 
         recAlarmRecord = binding.alarmsRecord
+        recAlarmRecord.removeAllViews()
         recAlarmRecord.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
 
@@ -99,7 +100,7 @@ class PanelistAlarm : Fragment() {
 
 
         recAlarm = binding.alarmsRecyclerView
-
+        alarmsList.clear()
         recAlarm.setHasFixedSize(true)
         linearLayoutManager = LinearLayoutManager(context)
 
@@ -113,6 +114,13 @@ class PanelistAlarm : Fragment() {
 
         recAlarm.adapter = alarmListAdapter
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Se borran los datos de las listas para que no se dupliquen al volver a esta vista
+        alarmsList.clear()
+        alarmsRecord.clear()
     }
 
 
@@ -163,8 +171,12 @@ class PanelistAlarm : Fragment() {
                             }
                         }
 
-                        activity?.runOnUiThread(Runnable { alarmRecordListAdapter.notifyDataSetChanged() })
-                        activity?.runOnUiThread(Runnable { alarmListAdapter.notifyDataSetChanged() })
+                        activity?.runOnUiThread(Runnable {
+                            alarmRecordListAdapter.notifyDataSetChanged()
+                        })
+                        activity?.runOnUiThread(Runnable {
+                            alarmListAdapter.notifyDataSetChanged()
+                        })
                     }
 
                 }
@@ -173,9 +185,6 @@ class PanelistAlarm : Fragment() {
             }
 
         }
-
-
-
     }
     companion object {
         /**

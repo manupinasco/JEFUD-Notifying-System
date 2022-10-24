@@ -10,11 +10,5 @@ class ManagerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_manager)
     }
 
-    /*
-    private fun getSolution(alarm: Alarm) {
 
-
-
-    }
-     */
 }

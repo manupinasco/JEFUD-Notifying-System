@@ -53,6 +53,14 @@ class UsersViewModel(private val userDao: UserDao) : ViewModel() {
     fun retrieveUser(plant: String, role: String): LiveData<User> {
         return userDao.getUser(role, plant).asLiveData()
     }
+
+    fun retrieveUserByPanel(panel: String, role: String): LiveData<User> {
+        return userDao.getUserByPanel(role, panel).asLiveData()
+    }
+
+    fun retrieveUserByPanelAndShift(panel: String, role: String, shift: String): LiveData<User> {
+        return userDao.getUserByPanelAndShift(role, panel, shift).asLiveData()
+    }
 }
 
 

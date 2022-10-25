@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_operatorMessagesReceived_to_operatorMessageDetails"
             app:destination="@id/operatorMessageDetails" />
+        <action
+            android:id="@+id/action_operatorMessagesReceived_to_operatorMessageHistoric"
+            app:destination="@id/operatorMessageHistoric" />
     </fragment>
     <fragment
         android:id="@+id/operatorMessageSending"
@@ -32,6 +35,9 @@
         <action
             android:id="@+id/action_operatorMessageSending_to_operatorMessagesReceived"
             app:destination="@id/operatorMessagesReceived" />
+        <action
+            android:id="@+id/action_operatorMessageSending_to_operatorMessageHistoric"
+            app:destination="@id/operatorMessageHistoric" />
     </fragment>
     <fragment
         android:id="@+id/operatorMessageDetails"
@@ -55,5 +61,21 @@
         <argument
             android:name="role"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/operatorMessageHistoric"
+        android:name="ar.edu.ort.jefud_notifying_system.view.operator.OperatorMessageHistoric"
+        android:label="fragment_message_historic"
+        tools:layout="@layout/fragment_message_historic" >
+        <action
+            android:id="@+id/action_operatorMessageHistoric_to_operatorMessageSending"
+            app:destination="@id/operatorMessageSending" />
+        <action
+            android:id="@+id/action_operatorMessageHistoric_to_operatorMessagesReceived"
+            app:destination="@id/operatorMessagesReceived" />
+        <action
+            android:id="@+id/action_operatorMessageHistoric_to_operatorMessageDetails"
+            app:destination="@id/operatorMessageDetails" />
     </fragment>
 </navigation>

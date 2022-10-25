@@ -103,7 +103,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/buttonReceived"
+            android:id="@+id/buttonToReceived"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"

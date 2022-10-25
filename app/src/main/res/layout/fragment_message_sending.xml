@@ -100,8 +100,7 @@
             app:layout_constraintStart_toStartOf="@+id/guideline23"
             app:layout_constraintTop_toTopOf="@+id/guideline28"
             tools:ignore="TouchTargetSizeCheck" />
-
-
+        
         <TextView
             android:id="@+id/buttonToReceived"
             android:layout_width="0dp"

@@ -12,13 +12,13 @@
     <fragment
         android:id="@+id/managerMessageDetails"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessageDetails"
-        android:label="fragment_manager_message_details"
-        tools:layout="@layout/fragment_manager_message_details" />
+        android:label="fragment_message_details"
+        tools:layout="@layout/fragment_message_details" />
     <fragment
         android:id="@+id/managerMessageSending"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessageSending"
-        android:label="fragment_manager_message_sending"
-        tools:layout="@layout/fragment_manager_message_sending" />
+        android:label="fragment_message_sending"
+        tools:layout="@layout/fragment_message_sending" />
     <fragment
         android:id="@+id/managerOOS"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerOOS"
@@ -27,6 +27,31 @@
     <fragment
         android:id="@+id/managerMessagesReceived"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessagesReceived"
-        android:label="fragment_manager_messages_received"
-        tools:layout="@layout/fragment_manager_messages_received" />
+        android:label="fragment_messages_received"
+        tools:layout="@layout/fragment_messages_received" >
+        <action
+            android:id="@+id/action_managerMessagesReceived_to_managerMessageHistoric"
+            app:destination="@id/managerMessageHistoric" />
+        <action
+            android:id="@+id/action_managerMessagesReceived_to_managerMessageSending"
+            app:destination="@id/managerMessageSending" />
+        <action
+            android:id="@+id/action_managerMessagesReceived_to_managerMessageDetails"
+            app:destination="@id/managerMessageDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/managerMessageHistoric"
+        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessageHistoric"
+        android:label="fragment_message_historic"
+        tools:layout="@layout/fragment_message_historic" >
+        <action
+            android:id="@+id/action_managerMessageHistoric_to_managerMessageDetails"
+            app:destination="@id/managerMessageDetails" />
+        <action
+            android:id="@+id/action_managerMessageHistoric_to_managerMessageSending"
+            app:destination="@id/managerMessageSending" />
+        <action
+            android:id="@+id/action_managerMessageHistoric_to_managerMessagesReceived"
+            app:destination="@id/managerMessagesReceived" />
+    </fragment>
 </navigation>

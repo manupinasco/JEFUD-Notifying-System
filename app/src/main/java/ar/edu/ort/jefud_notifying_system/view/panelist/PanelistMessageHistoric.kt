@@ -1,4 +1,4 @@
-package ar.edu.ort.jefud_notifying_system.view.operator
+package ar.edu.ort.jefud_notifying_system.view.panelist
 
 import android.content.Context
 import android.os.Bundle
@@ -23,15 +23,23 @@ import ar.edu.ort.jefud_notifying_system.model.User
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
 
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-class OperatorMessageHistoric : Fragment(), onItemClickListener {
 
+/**
+ * A simple [Fragment] subclass.
+ * Use the [PanelistMessageHistoric.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class PanelistMessageHistoric : Fragment(), onItemClickListener {
+    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var btnGoToSendingMessage : TextView
     private lateinit var btnGoToReceivedMessage : TextView
-    private lateinit var btnGoToMessage : TextView
+    private lateinit var btnGoToDetailsMessage : TextView
     private var _binding: FragmentMessageHistoricBinding? = null
     private val binding get() = _binding!!
     private lateinit var vista: View
@@ -79,15 +87,16 @@ class OperatorMessageHistoric : Fragment(), onItemClickListener {
 
     override fun onStart() {
         super.onStart()
-        /**btnGoToSendingMessage.setOnClickListener {
-            val action = OperatorMessageHistoricDirections.actionOperatorMessageHistoricToOperatorMessageSending()
-            findNavController().navigate(action)
+        btnGoToSendingMessage.setOnClickListener {
+        val action = PanelistMessageHistoricDirections.actionPanelistMessageHistoricToPanelistMessageSending()
+        findNavController().navigate(action)
         }
 
         btnGoToReceivedMessage.setOnClickListener {
-            val action = OperatorMessageHistoricDirections.actionOperatorMessageHistoricToOperatorMessagesReceived()
-            findNavController().navigate(action)
-        }*/
+        val action = PanelistMessageHistoricDirections.actionPanelistMessageHistoricToPanelistMessagesReceived()
+        findNavController().navigate(action)
+        }
+
     }
 
     private fun addData() {
@@ -120,26 +129,7 @@ class OperatorMessageHistoric : Fragment(), onItemClickListener {
         message.read = true
         viewModelMessages.updateMessage(message)
 
-        /**findNavController().navigate(((user.name, user.surname, message.message, user.role)))*/
+        findNavController().navigate(PanelistMessageHistoricDirections.actionPanelistMessageHistoricToPanelistMessageDetails(user.name, user.surname, message.message, user.role))
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OperatorMessagesReceived.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OperatorMessagesReceived().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

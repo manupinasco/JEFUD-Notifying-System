@@ -22,6 +22,9 @@
             app:destination="@id/panelistMessageSending"
             app:popUpTo="@id/panelistMessageSending"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_panelistMessagesReceived_to_panelistMessageHistoric"
+            app:destination="@id/panelistMessageHistoric" />
     </fragment>
     <fragment
         android:id="@+id/panelistMessageDetails"
@@ -45,6 +48,11 @@
         <argument
             android:name="role"
             app:argType="string" />
+        <action
+            android:id="@+id/action_panelistMessageDetails_to_panelistMessageHistoric"
+            app:destination="@id/panelistMessageHistoric"
+            app:popUpTo="@id/panelistMessageHistoric"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/panelistMessageSending"
@@ -54,5 +62,23 @@
         <action
             android:id="@+id/action_panelistMessageSending_to_panelistMessagesReceived"
             app:destination="@id/panelistMessagesReceived" />
+        <action
+            android:id="@+id/action_panelistMessageSending_to_panelistMessageHistoric"
+            app:destination="@id/panelistMessageHistoric" />
+    </fragment>
+    <fragment
+        android:id="@+id/panelistMessageHistoric"
+        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageHistoric"
+        android:label="fragment_message_historic"
+        tools:layout="@layout/fragment_message_historic" >
+        <action
+            android:id="@+id/action_panelistMessageHistoric_to_panelistMessageSending"
+            app:destination="@id/panelistMessageSending" />
+        <action
+            android:id="@+id/action_panelistMessageHistoric_to_panelistMessagesReceived"
+            app:destination="@id/panelistMessagesReceived" />
+        <action
+            android:id="@+id/action_panelistMessageHistoric_to_panelistMessageDetails"
+            app:destination="@id/panelistMessageDetails" />
     </fragment>
 </navigation>

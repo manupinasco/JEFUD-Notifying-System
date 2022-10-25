@@ -41,7 +41,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var btnGoToSendingMessage : TextView
-    private lateinit var btnGoToMessage : TextView
+    private lateinit var btnGoToHistoric : TextView
     private var _binding: FragmentMessagesReceivedBinding? = null
     private val binding get() = _binding!!
     private lateinit var vista: View
@@ -71,6 +71,7 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
     ): View? {
         _binding = FragmentMessagesReceivedBinding.inflate(inflater, container, false)
         btnGoToSendingMessage = binding.buttonToSend
+        btnGoToHistoric = binding.buttonToHistoric
 
         addData()
 
@@ -97,8 +98,13 @@ class PanelistMessagesReceived : Fragment(), onItemClickListener {
         super.onStart()
         // Limpiamos la lista para evitar elementos duplicados
         messagesList.clear()
+
         btnGoToSendingMessage.setOnClickListener {
             val action = PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageSending()
+            findNavController().navigate(action)
+        }
+        btnGoToHistoric.setOnClickListener {
+            val action = PanelistMessagesReceivedDirections.actionPanelistMessagesReceivedToPanelistMessageHistoric()
             findNavController().navigate(action)
         }
     }

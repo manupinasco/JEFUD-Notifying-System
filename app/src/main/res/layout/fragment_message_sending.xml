@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.06" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -42,32 +43,25 @@
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline23"
+            android:id="@+id/guideline27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.61" />
+            app:layout_constraintGuide_percent="0.6825" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline31"
+            android:id="@+id/guideline30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.12" />
+            app:layout_constraintGuide_percent="0.9525" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline32"
+            android:id="@+id/guideline21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.88" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline33"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.39" />
+            app:layout_constraintGuide_percent="0.0475" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline28"
@@ -75,6 +69,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.15" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline29"
             android:layout_width="wrap_content"
@@ -83,7 +78,7 @@
             app:layout_constraintGuide_percent="0.85" />
 
         <TextView
-            android:id="@+id/buttonSend"
+            android:id="@+id/buttonToSend"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"
@@ -93,35 +88,77 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="Enviar"
-            android:textColor="@color/white"
+            android:textColor="#FFFFFF"
             android:textSize="8sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline29"
-            app:layout_constraintEnd_toStartOf="@+id/guideline32"
-            app:layout_constraintStart_toStartOf="@+id/guideline23"
+            app:layout_constraintEnd_toStartOf="@+id/guideline30"
+            app:layout_constraintStart_toStartOf="@+id/guideline27"
             app:layout_constraintTop_toTopOf="@+id/guideline28"
             tools:ignore="TouchTargetSizeCheck" />
-        
+
         <TextView
             android:id="@+id/buttonToReceived"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/transparent_nav_button"
-            android:contextClickable="true"
             android:drawableRight="@drawable/ic_received"
             android:enabled="true"
             android:gravity="center"
             android:hapticFeedbackEnabled="false"
+            android:onClick="onButtonClick"
             android:padding="5dp"
             android:text="Recibidos"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="8sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline29"
-            app:layout_constraintEnd_toStartOf="@+id/guideline33"
-            app:layout_constraintStart_toStartOf="@+id/guideline31"
+            app:layout_constraintEnd_toStartOf="@+id/guideline25"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toTopOf="@+id/guideline28"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/buttonToHistoric"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeTextType="uniform"
+            android:drawableRight="@drawable/ic_received"
+            android:enabled="true"
+            android:gravity="center"
+            android:hapticFeedbackEnabled="false"
+            android:onClick="onButtonClick"
+            android:padding="5dp"
+            android:text="Enviados"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline29"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineH2"
+            app:layout_constraintStart_toStartOf="@+id/guidelineH1"
+            app:layout_constraintTop_toTopOf="@+id/guideline28"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.365"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.635"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3175" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -138,6 +175,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/textWrittenEditText"
         android:layout_width="0dp"

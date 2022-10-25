@@ -29,6 +29,7 @@ import java.util.*
 class PanelistMessageSending : Fragment() {
 
     lateinit var btnGoToReceivedMessages : TextView
+    lateinit var btnGoToHistoric : TextView
     lateinit var btnSend : TextView
     private var _binding: FragmentMessageSendingBinding? = null
     private val binding get() = _binding!!
@@ -52,7 +53,8 @@ class PanelistMessageSending : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentMessageSendingBinding.inflate(inflater, container, false)
         btnGoToReceivedMessages = binding.buttonToReceived
-        btnSend = binding.button2
+        btnGoToHistoric = binding.buttonToHistoric
+        btnSend = binding.buttonToSend
 
         return binding.root
     }
@@ -62,6 +64,12 @@ class PanelistMessageSending : Fragment() {
 
         btnGoToReceivedMessages.setOnClickListener {
             val action = PanelistMessageSendingDirections.actionPanelistMessageSendingToPanelistMessagesReceived()
+
+            findNavController().navigate(action)
+        }
+
+        btnGoToHistoric.setOnClickListener {
+            val action = PanelistMessageSendingDirections.actionPanelistMessageSendingToPanelistMessageHistoric()
 
             findNavController().navigate(action)
         }

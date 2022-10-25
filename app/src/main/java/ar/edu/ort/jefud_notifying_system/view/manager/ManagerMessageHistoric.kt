@@ -15,6 +15,7 @@ import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.adapter.MessageHistoricAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentMessageHistoricBinding
+import ar.edu.ort.jefud_notifying_system.listener.onItemClickListener
 import ar.edu.ort.jefud_notifying_system.model.Message
 import ar.edu.ort.jefud_notifying_system.model.User
 import ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageHistoricDirections
@@ -31,7 +32,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ManagerMessageHistoric.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ManagerMessageHistoric : Fragment() {
+class ManagerMessageHistoric : Fragment(), onItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -127,7 +128,7 @@ class ManagerMessageHistoric : Fragment() {
         message.read = true
         viewModelMessages.updateMessage(message)
 
-        findNavController().navigate((user.name, user.surname, message.message, user.role))
+        findNavController().navigate(ManagerMessageHistoricDirections.actionManagerMessageHistoricToManagerMessageSending())
     }
 
 }

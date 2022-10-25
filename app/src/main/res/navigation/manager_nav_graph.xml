@@ -13,12 +13,28 @@
         android:id="@+id/managerMessageDetails"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessageDetails"
         android:label="fragment_message_details"
-        tools:layout="@layout/fragment_message_details" />
+        tools:layout="@layout/fragment_message_details" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument android:name="surname"
+            app:argType="string" />
+        <argument
+            android:name="message"
+            app:argType="string" />
+        <argument
+            android:name="role"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/managerMessageSending"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessageSending"
         android:label="fragment_message_sending"
-        tools:layout="@layout/fragment_message_sending" />
+        tools:layout="@layout/fragment_message_sending" >
+        <action
+            android:id="@+id/action_managerMessageSending_to_managerMessageHistoric"
+            app:destination="@id/managerMessageHistoric" />
+    </fragment>
     <fragment
         android:id="@+id/managerOOS"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerOOS"
@@ -37,6 +53,18 @@
             app:destination="@id/managerMessageSending" />
         <action
             android:id="@+id/action_managerMessagesReceived_to_managerMessageDetails"
+            app:destination="@id/managerMessageDetails" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="surname"
+            app:argType="string" />
+        <argument
+            android:name="role"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_managerMessagesReceived_to_managerMessageDetails2"
             app:destination="@id/managerMessageDetails" />
     </fragment>
     <fragment

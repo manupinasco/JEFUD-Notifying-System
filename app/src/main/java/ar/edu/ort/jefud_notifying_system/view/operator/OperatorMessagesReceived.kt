@@ -18,6 +18,7 @@ import ar.edu.ort.jefud_notifying_system.databinding.FragmentMessagesReceivedBin
 import ar.edu.ort.jefud_notifying_system.listener.onItemClickListener
 import ar.edu.ort.jefud_notifying_system.model.Message
 import ar.edu.ort.jefud_notifying_system.model.User
+import ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessagesReceivedDirections
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
 
@@ -36,7 +37,7 @@ class OperatorMessagesReceived : Fragment(), onItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var btnGoToSendingMessage : TextView
-    private lateinit var btnGoToMessage : TextView
+    private lateinit var btnGoToHistoric : TextView
     private var _binding: FragmentMessagesReceivedBinding? = null
     private val binding get() = _binding!!
     private lateinit var vista: View
@@ -60,6 +61,7 @@ class OperatorMessagesReceived : Fragment(), onItemClickListener {
     ): View? {
         _binding = FragmentMessagesReceivedBinding.inflate(inflater, container, false)
         btnGoToSendingMessage = binding.buttonToSend
+        btnGoToHistoric = binding.buttonToHistoric
 
         addData()
 
@@ -84,8 +86,15 @@ class OperatorMessagesReceived : Fragment(), onItemClickListener {
 
     override fun onStart() {
         super.onStart()
+        // Limpiamos la lista para evitar elementos duplicados
+        messagesList.clear()
+
         btnGoToSendingMessage.setOnClickListener {
             val action = OperatorMessagesReceivedDirections.actionOperatorMessagesReceivedToOperatorMessageSending()
+            findNavController().navigate(action)
+        }
+        btnGoToHistoric.setOnClickListener {
+            val action = OperatorMessagesReceivedDirections.actionOperatorMessagesReceivedToOperatorMessageHistoric()
             findNavController().navigate(action)
         }
     }

@@ -124,7 +124,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/buttonHistoric"
+            android:id="@+id/buttonToHistoric"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"
@@ -134,7 +134,6 @@
             android:enabled="true"
             android:gravity="center"
             android:hapticFeedbackEnabled="false"
-            android:onClick="onButtonClick"
             android:padding="5dp"
             android:text="Enviados"
             android:textColor="@color/white"

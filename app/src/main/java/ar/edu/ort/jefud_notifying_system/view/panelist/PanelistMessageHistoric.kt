@@ -63,6 +63,7 @@ class PanelistMessageHistoric : Fragment(), onItemClickListener {
     ): View? {
         _binding = FragmentMessageHistoricBinding.inflate(inflater, container, false)
         btnGoToSendingMessage = binding.buttonToSend
+        btnGoToReceivedMessage = binding.buttonToReceived
 
         addData()
 

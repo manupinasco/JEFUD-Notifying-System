@@ -33,6 +33,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class OperatorMessageSending : Fragment() {
     lateinit var btnGoToReceivedMessages : TextView
+    lateinit var btnGoToHistoric : TextView
     lateinit var btnSend : TextView
     private var _binding: FragmentMessageSendingBinding? = null
     private val binding get() = _binding!!
@@ -56,6 +57,8 @@ class OperatorMessageSending : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentMessageSendingBinding.inflate(inflater, container, false)
         btnGoToReceivedMessages = binding.buttonToReceived
+        btnGoToHistoric = binding.buttonToHistoric
+
         btnSend = binding.button2
 
         return binding.root
@@ -66,9 +69,14 @@ class OperatorMessageSending : Fragment() {
 
         btnGoToReceivedMessages.setOnClickListener {
             val action = OperatorMessageSendingDirections.actionOperatorMessageSendingToOperatorMessagesReceived()
-
             findNavController().navigate(action)
         }
+
+        btnGoToHistoric.setOnClickListener {
+            val action = OperatorMessageSendingDirections.actionOperatorMessageSendingToOperatorMessageHistoric()
+            findNavController().navigate(action)
+        }
+
         val spinner = binding.roleSpinner
         ArrayAdapter.createFromResource(
             requireContext(),

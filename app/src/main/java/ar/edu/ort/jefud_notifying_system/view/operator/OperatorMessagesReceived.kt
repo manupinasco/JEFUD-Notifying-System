@@ -89,6 +89,7 @@ class OperatorMessagesReceived : Fragment(), onItemClickListener {
         // Limpiamos la lista para evitar elementos duplicados
         messagesList.clear()
 
+
         btnGoToSendingMessage.setOnClickListener {
             val action = OperatorMessagesReceivedDirections.actionOperatorMessagesReceivedToOperatorMessageSending()
             findNavController().navigate(action)

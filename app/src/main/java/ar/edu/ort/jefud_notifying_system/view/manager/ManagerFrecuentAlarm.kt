@@ -181,7 +181,7 @@ class ManagerAlarm : Fragment() {
                     text.length,
                     Spanned.SPAN_EXCLUSIVE_INCLUSIVE
                 )
-                frecuentAlarmAdviseTextView.text = ss
+                frecuentAlarmAdviseTextView.text = text
                 frecuentAlarmAdviseTextView.movementMethod = LinkMovementMethod.getInstance()
                 frecuentAlarmAdviseTextView.highlightColor = android.R.color.transparent
             }

@@ -35,7 +35,7 @@ class ManagerOOS : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_manager_oos, container, false)
+        return inflater.inflate(R.layout.fragment_oos, container, false)
     }
 
     companion object {

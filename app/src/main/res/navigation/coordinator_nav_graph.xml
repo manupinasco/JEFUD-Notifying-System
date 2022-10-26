@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_nav_graph"
+    app:startDestination="@id/coordinatorFrecuentAlarm">
+
+    <fragment
+        android:id="@+id/coordinatorFrecuentAlarm"
+        android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorFrecuentAlarm"
+        android:label="fragment_coordinator_frecuent_alarm"
+        tools:layout="@layout/fragment_coordinator_frecuent_alarm" />
+    <fragment
+        android:id="@+id/coordinatorMessageSending"
+        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageSending"
+        android:label="fragment_message_sending"
+        tools:layout="@layout/fragment_message_sending" />
+    <fragment
+        android:id="@+id/coordinatorMessageDetails"
+        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageDetails"
+        android:label="fragment_message_details"
+        tools:layout="@layout/fragment_message_details" />
+</navigation>

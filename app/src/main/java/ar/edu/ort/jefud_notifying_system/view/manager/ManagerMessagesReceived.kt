@@ -35,7 +35,7 @@ class ManagerMessagesReceived : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_manager_messages_received, container, false)
+        return inflater.inflate(R.layout.fragment_messages_received, container, false)
     }
 
     companion object {

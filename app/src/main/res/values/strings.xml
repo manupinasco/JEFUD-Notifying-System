@@ -46,8 +46,9 @@
     </string-array>
 
     <string-array name="array_tags">
-        <item>59GB002.3</item>
-        <item>04PA443.1</item>
+        <item>PSG1_GE:04PA443CIN</item>
+        <item>PSG1_SO:04TI031AIN</item>
+        <item>PSG1_PO:04TI031AIN</item>
     </string-array>
 
     <string-array name="array_panels">

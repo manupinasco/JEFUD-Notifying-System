@@ -124,7 +124,7 @@ class CoordinatorFrecuentAlarm : Fragment() {
                 if(amountAlarms > 2) {
                     val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
                     frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.alert_color))
-                    //frecuentAlarmAdviseTextView.drawableStart = R.drawable.ic_alert_alarm
+                    frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_alert_alarm, 0, 0, 0);
                     val text =
                         "Gran frecuencia de alarmas con tag name" + " " + tag + ". Solucionarlo."
                     val ss = SpannableString(text)
@@ -134,8 +134,6 @@ class CoordinatorFrecuentAlarm : Fragment() {
                                 .observe(viewLifecycleOwner) { alarm ->
                                     sendSolution(alarm)
                                 }
-
-
                         }
 
                         override fun updateDrawState(ds: TextPaint) {
@@ -160,7 +158,7 @@ class CoordinatorFrecuentAlarm : Fragment() {
                     val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
                     frecuentAlarmAdviseTextView.text = "Correcta frecuencia de alarmas"
                     frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green_color))
-                    //frecuentAlarmAdviseTextView.drawableStart = R.drawable.ic_check_alarm
+                    frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ok_alarm, 0, 0, 0);
                 }
             }
     }
@@ -182,17 +180,14 @@ class CoordinatorFrecuentAlarm : Fragment() {
         } else {
 
             viewModelHistoricAlarm.retrieveAlarmsByTagAndMonth(
-                alarm.tagName, Calendar.getInstance().get(
-                    Calendar.MONTH
-                ).toString()
+                alarm.tagName, "10"
             ).observe(this.viewLifecycleOwner) { alarms ->
                 var shift = ""
                 var amountAlarmsShiftMorning = 0
                 var amountAlarmsShiftAfternoon = 0
                 var amountAlarmsShiftNight = 0
+
                 for (alarm in alarms) {
-
-
                     when (alarm.datetime.substring(11, 12).toInt()) {
                         in 6..13 -> {
                             amountAlarmsShiftMorning++

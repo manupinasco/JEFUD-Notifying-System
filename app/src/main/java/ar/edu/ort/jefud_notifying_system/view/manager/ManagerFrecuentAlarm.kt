@@ -137,14 +137,16 @@ class ManagerAlarm : Fragment() {
         )
         val userDni = userDetails.getString("dni", "")
         if(tag != "" && panel != "")
-        viewModelHistoricAlarm.retrieveAlarmsByTagAndMonth(tag, Calendar.getInstance().get(Calendar.MONTH).toString()).observe(this.viewLifecycleOwner){
+            viewModelHistoricAlarm.retrieveAlarmsByTagAndMonth(
+                tag, "10"
+            ).observe(this.viewLifecycleOwner){
                 alarms ->
             val amountAlarms = alarms.size
             binding.frecuentAlarmProgressBar.progress = amountAlarms
             if(amountAlarms > 2) {
                 val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
                 frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.alert_color))
-                //frecuentAlarmAdviseTextView.drawableStart = R.drawable.ic_alert_alarm
+                frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_alert_alarm, 0, 0, 0);
                 val text = "Gran frecuencia de alarmas con tag name" + " " + tag + ". Solucionarlo."
                 val ss = SpannableString(text)
                 val clickableSpan: ClickableSpan = object : ClickableSpan() {
@@ -188,7 +190,7 @@ class ManagerAlarm : Fragment() {
                 val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
                 frecuentAlarmAdviseTextView.text = "Correcta frecuencia de alarmas"
                 frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green_color))
-                //frecuentAlarmAdviseTextView.drawableStart = R.drawable.ic_check_alarm
+                frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ok_alarm, 0, 0, 0);
             }
         }
 

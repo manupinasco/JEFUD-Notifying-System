@@ -129,7 +129,7 @@
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
-            android:drawableRight="@drawable/ic_received"
+            android:drawableRight="@drawable/ic_message_historic"
             android:enabled="true"
             android:gravity="center"
             android:hapticFeedbackEnabled="false"

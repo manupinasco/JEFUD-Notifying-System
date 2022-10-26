@@ -130,7 +130,7 @@
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/nav_button"
-            android:drawableRight="@drawable/ic_received"
+            android:drawableRight="@drawable/ic_message_historic"
             android:enabled="true"
             android:gravity="center"
             android:hapticFeedbackEnabled="false"

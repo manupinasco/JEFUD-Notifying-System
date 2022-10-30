@@ -1,8 +1,11 @@
 package ar.edu.ort.jefud_notifying_system.adapter
 
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.ort.jefud_notifying_system.R
@@ -35,12 +38,27 @@ class AlarmOperatorViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
         textView12.text = alarm.max.toString()
         textView10.visibility = View.INVISIBLE
         textView3.setOnClickListener{
+
+
+
+            val params: ConstraintLayout.LayoutParams = textView3.layoutParams as ConstraintLayout.LayoutParams
+            params.height = 80
+            params.width = 80
+            textView3.layoutParams = params
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    val params: ConstraintLayout.LayoutParams = textView3.layoutParams as ConstraintLayout.LayoutParams
+                    params.height = 140
+                    params.width = 140
+                    textView3.layoutParams = params
+                },
+                100
+            )
             when(textView10.visibility) {
                 View.INVISIBLE -> textView10.visibility = View.VISIBLE
                 View.VISIBLE -> textView10.visibility = View.INVISIBLE
             }
         }
-
 
     }
 }

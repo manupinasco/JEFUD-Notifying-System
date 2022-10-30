@@ -18,7 +18,7 @@ interface UserDao {
     @Query("SELECT * from user WHERE role = :role and panel = :panel LIMIT 1")
     fun getUserByPanel(role: String, panel: String): Flow<User>
 
-    @Query("SELECT * from user WHERE role = :role and plant = :panel and shift = :shift LIMIT 1")
+    @Query("SELECT * from user WHERE role = :role and panel = :panel and shift = :shift LIMIT 1")
     fun getUserByPanelAndShift(role: String, panel: String, shift: String): Flow<User>
 
     @Delete

@@ -12,8 +12,8 @@ class HistoricAlarmsViewModel(private val historicAlarmDao: HistoricAlarmDao): V
 
     fun addNewAlarm(tagName: String,
                     value: String,
-                    priority: Int, datetime: String) {
-        val newAlarm = getNewAlarmEntry(tagName, value, priority, datetime)
+                    priority: Int, datetime: String, panel: String, plant: String) {
+        val newAlarm = getNewAlarmEntry(tagName, value, priority, datetime, panel, plant)
         insertAlarm(newAlarm)
     }
 
@@ -25,21 +25,23 @@ class HistoricAlarmsViewModel(private val historicAlarmDao: HistoricAlarmDao): V
 
     private fun getNewAlarmEntry(tagName: String,
                                  value: String,
-                                 priority: Int, datetime: String): HistoricAlarm {
+                                 priority: Int, datetime: String, panel: String, plant: String): HistoricAlarm {
         return HistoricAlarm(
             value = value,
             priority = priority,
             tagName=tagName,
-            datetime = datetime
+            datetime = datetime,
+            plant = plant,
+            panel = panel
         )
     }
 
-    fun retrieveAlarmByTag(tag: String): LiveData<HistoricAlarm> {
-        return historicAlarmDao.getAlarmByTag(tag).asLiveData()
+    fun retrieveAlarmsByTagAndMonthAndPanel(tag: String, month: String, panel: String): LiveData<List<HistoricAlarm>> {
+        return historicAlarmDao.getAlarmsByTagAndMonthAndPanel(tag, month, panel).asLiveData()
     }
 
-    fun retrieveAlarmsByTag(tag: String): LiveData<List<HistoricAlarm>> {
-        return historicAlarmDao.getAlarmsByTag(tag).asLiveData()
+    fun retrieveAlarmsByTagAndMonthAndPlant(tag: String, month: String, plant: String): LiveData<List<HistoricAlarm>> {
+        return historicAlarmDao.getAlarmsByTagAndMonthAndPlant(tag, month, plant).asLiveData()
     }
 
     fun retrieveAlarmsByTagAndMonth(tag: String, month: String): LiveData<List<HistoricAlarm>> {

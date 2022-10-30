@@ -1,16 +1,18 @@
 package ar.edu.ort.jefud_notifying_system.adapter
 
-import android.util.Log
+
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Constraints
 import androidx.constraintlayout.widget.Guideline
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.model.Alarm
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
-import kotlinx.coroutines.flow.Flow
 
 class AlarmPanelistViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -34,6 +36,29 @@ class AlarmPanelistViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
         textView8.text = alarm.plant
         progress_bar.progress = historicAlarm.value.toInt()
         textView12.text = alarm.max.toString()
+        textView10.visibility = View.INVISIBLE
+        textView3.setOnClickListener{
+
+
+
+            val params: ConstraintLayout.LayoutParams = textView3.layoutParams as ConstraintLayout.LayoutParams
+            params.height = 80
+            params.width = 80
+            textView3.layoutParams = params
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    val params: ConstraintLayout.LayoutParams = textView3.layoutParams as ConstraintLayout.LayoutParams
+                    params.height = 140
+                    params.width = 140
+                    textView3.layoutParams = params
+                },
+                100
+            )
+            when(textView10.visibility) {
+                View.INVISIBLE -> textView10.visibility = View.VISIBLE
+                View.VISIBLE -> textView10.visibility = View.INVISIBLE
+            }
+        }
 
 
     }

@@ -13,5 +13,8 @@ data class HistoricAlarm (
     @NonNull @ColumnInfo(name= "value") val value: String,
     @NonNull @ColumnInfo(name= "priority") val priority: Int,
     @NonNull @ColumnInfo(name= "datetime") val datetime: String,
+    @NonNull @ColumnInfo(name= "plant") val plant: String,
+    @NonNull @ColumnInfo(name= "panel") val panel: String,
+
 
     )

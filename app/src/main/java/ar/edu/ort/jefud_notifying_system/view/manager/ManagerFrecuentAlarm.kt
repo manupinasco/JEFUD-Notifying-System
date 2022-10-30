@@ -136,9 +136,10 @@ class ManagerAlarm : Fragment() {
             Context.MODE_PRIVATE
         )
         val userDni = userDetails.getString("dni", "")
-        if(tag != "" && panel != "")
-            viewModelHistoricAlarm.retrieveAlarmsByTagAndMonth(
-                tag, "10"
+        val plant = userDetails.getString("plant", "")
+        if(tag != "" && panel != "" && plant != null)
+            viewModelHistoricAlarm.retrieveAlarmsByTagAndMonthAndPlant(
+                tag, "10", plant
             ).observe(this.viewLifecycleOwner){
                 alarms ->
             val amountAlarms = alarms.size
@@ -181,7 +182,7 @@ class ManagerAlarm : Fragment() {
                     text.length,
                     Spanned.SPAN_EXCLUSIVE_INCLUSIVE
                 )
-                frecuentAlarmAdviseTextView.text = text
+                frecuentAlarmAdviseTextView.text = ss
                 frecuentAlarmAdviseTextView.movementMethod = LinkMovementMethod.getInstance()
                 frecuentAlarmAdviseTextView.highlightColor = android.R.color.transparent
             }

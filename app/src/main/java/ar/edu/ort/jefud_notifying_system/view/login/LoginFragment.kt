@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
 
         viewModel.allUsers.observe(this.viewLifecycleOwner) { users ->
             if(users.size == 0) {
-                viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti", "ADIP1", "MAÑANA")
+                viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti", "ADIP1", "NOCHE")
                 viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles", "ADIP1", "NOCHE")
                 viewModel.addNewUser("4475","pass","MANAGER", null, "Michael", "Mikelson", "ADIP1", null)
                 viewModel.addNewUser("4480","pass","COORDINATOR", "CCU", "Jennifer", "Grant", "ADIP1", null)

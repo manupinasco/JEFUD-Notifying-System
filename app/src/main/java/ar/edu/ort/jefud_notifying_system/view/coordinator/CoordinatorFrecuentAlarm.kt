@@ -114,10 +114,14 @@ class CoordinatorFrecuentAlarm : Fragment() {
     private fun bindData(spinner: Spinner) {
 
         val tag = spinner.selectedItem.toString()
-
-        if (tag != "")
-            viewModelHistoricAlarm.retrieveAlarmsByTagAndMonth(
-                tag, "10"
+        val userDetails = requireContext().getSharedPreferences(
+            "userdetails",
+            Context.MODE_PRIVATE
+        )
+        val panel = userDetails.getString("panel", "")
+        if (tag != "" && panel != null)
+            viewModelHistoricAlarm.retrieveAlarmsByTagAndMonthAndPanel(
+                tag, "10", panel
             ).observe(this.viewLifecycleOwner) { alarms ->
                 val amountAlarms = alarms.size
                 binding.frecuentAlarmProgressBar.progress = amountAlarms
@@ -149,7 +153,7 @@ class CoordinatorFrecuentAlarm : Fragment() {
                         Spanned.SPAN_EXCLUSIVE_INCLUSIVE
                     )
 
-                    frecuentAlarmAdviseTextView.text = text
+                    frecuentAlarmAdviseTextView.text = ss
                     frecuentAlarmAdviseTextView.movementMethod = LinkMovementMethod.getInstance()
                     frecuentAlarmAdviseTextView.highlightColor = android.R.color.transparent
                 }
@@ -179,8 +183,9 @@ class CoordinatorFrecuentAlarm : Fragment() {
 
         } else {
 
-            viewModelHistoricAlarm.retrieveAlarmsByTagAndMonth(
-                alarm.tagName, "10"
+            if (panel != null)
+            viewModelHistoricAlarm.retrieveAlarmsByTagAndMonthAndPanel(
+                alarm.tagName, "10", panel
             ).observe(this.viewLifecycleOwner) { alarms ->
                 var shift = ""
                 var amountAlarmsShiftMorning = 0
@@ -188,7 +193,8 @@ class CoordinatorFrecuentAlarm : Fragment() {
                 var amountAlarmsShiftNight = 0
 
                 for (alarm in alarms) {
-                    when (alarm.datetime.substring(11, 12).toInt()) {
+                    when (alarm.datetime.substring(11, 13).toInt()) {
+
                         in 6..13 -> {
                             amountAlarmsShiftMorning++
                         }
@@ -211,18 +217,20 @@ class CoordinatorFrecuentAlarm : Fragment() {
                 }
 
                 if (shift != "" && panel != null) {
+                    Log.e("hola",shift)
                     viewModelUsers.retrieveUserByPanelAndShift("PANELIST", panel, shift)
                         .observe(this.viewLifecycleOwner) { user ->
                             if (userDni != null)
                                 viewModelMessages.addNewMessage(
-                                    userDni,
                                     user.dni,
+                                    userDni,
+
                                     ("En vistas de la gran frecuencia de alarmas de tipo " + alarm.tagName + " en su turno, pido que se comunique conmigo para gestionar una reunión de revisión."),
                                     false
                                 )
                         }
 
-                    Toast.makeText(context, "Mensaje enviado", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "Mensaje enviado al panelista", Toast.LENGTH_SHORT)
                         .show()
                 } else {
                     binding.frecuentAlarmAdviseTextView.text =

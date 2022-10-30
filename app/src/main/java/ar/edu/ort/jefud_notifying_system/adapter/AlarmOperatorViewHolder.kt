@@ -33,6 +33,13 @@ class AlarmOperatorViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
         textView8.text = alarm.plant
         progress_bar.progress = historicAlarm.value.toInt()
         textView12.text = alarm.max.toString()
+        textView10.visibility = View.INVISIBLE
+        textView3.setOnClickListener{
+            when(textView10.visibility) {
+                View.INVISIBLE -> textView10.visibility = View.VISIBLE
+                View.VISIBLE -> textView10.visibility = View.INVISIBLE
+            }
+        }
 
 
     }

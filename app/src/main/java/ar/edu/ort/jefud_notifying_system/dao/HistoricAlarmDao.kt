@@ -18,6 +18,12 @@ interface HistoricAlarmDao {
     @Query("SELECT * from historicalarm WHERE tagName = :tagName and CAST(SUBSTR(datetime, 4, 5) AS STRING) = :month")
     fun getAlarmsByTagAndMonth(tagName: String, month: String): Flow<List<HistoricAlarm>>
 
+    @Query("SELECT * from historicalarm WHERE tagName = :tagName and CAST(SUBSTR(datetime, 4, 5) AS STRING) = :month and plant = :plant")
+    fun getAlarmsByTagAndMonthAndPlant(tagName: String, month: String, plant: String): Flow<List<HistoricAlarm>>
+
+    @Query("SELECT * from historicalarm WHERE tagName = :tagName and CAST(SUBSTR(datetime, 4, 5) AS STRING) = :month and panel = :panel")
+    fun getAlarmsByTagAndMonthAndPanel(tagName: String, month: String, panel: String): Flow<List<HistoricAlarm>>
+
 
     @Delete
     suspend fun delete(historicAlarm: HistoricAlarm)

@@ -129,26 +129,24 @@ class PanelistAlarm : Fragment() {
         viewModelAlarm.allAlarms.observe(this.viewLifecycleOwner) { alarms ->
             if(alarms.isEmpty()) {
                 viewModelAlarm.addNewAlarm("04PA443.1", "ROTURA SELLO P-456", "CCU", "PSG1_GE:04PA443CIN", "ROTURA DE SELLO P-456", "ADIP1", "P-456", 0, 100, "Pedir al operador externo que verifique el estado de la bomba.", "Verificar el estado de la bomba. Si se rompió el sello; detener la bomba/bloquearla y marchar la auxiliar; de lo contrario; la alarma se dispara por rotura del presostato (pedir reparación del mismo y controlar rutinariamente la indicación del manómetro local).", null)
-                viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_SO:04TI031AIN", "Alarma en K-5919", "ADIP3", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla", null)
-                viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_PO:04TI031AIN", "Alarma en K-5919", "ADIP3", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla", null)
+                viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_SO:04TI031AIN", "Alarma en K-5919", "ADIP1", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla", null)
+                viewModelAlarm.addNewAlarm("59GB002.3", "SALIDA V454", "CCU", "PSG1_PO:04TI031AIN", "Alarma en K-5919", "ADIP1", "T452", 0, 600, "Notificar al Operador Externo para revisar en campo el tipo de falla", "Revisar en campo e Informar el tipo de falla", null)
             }
         }
 
 
         viewModelHistoricAlarm.allAlarms.observe(this.viewLifecycleOwner) { alarms ->
             if(alarms.isEmpty()) {
-                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","130",2,"12/10/2022 07:10")
-                viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","670",5,"12/10/2022 05:40")
-                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",4,"12/10/2022 07:13")
-                viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","rtn",2,"11/10/2022 06:20")
-                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",3,"11/10/2022 07:05")
-                viewModelHistoricAlarm.addNewAlarm("PSG1_PO:04TI031AIN","rtn",3,"11/10/2022 07:05")
-                viewModelHistoricAlarm.addNewAlarm("PSG1_PO:04TI031AIN","rtn",3,"11/10/2022 15:05")
-                viewModelHistoricAlarm.addNewAlarm("PSG1_PO:04TI031AIN","rtn",3,"11/10/2022 01:05")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","130",2,"12/10/2022 07:10", "CCU", "ADIP1")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","670",5,"12/10/2022 05:40", "CCU", "ADIP1")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",4,"12/10/2022 07:13", "CCU", "ADIP1")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_SO:04TI031AIN","rtn",2,"11/10/2022 06:20", "CCU", "ADIP1")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_GE:04PA443CIN","rtn",3,"11/10/2022 07:05", "CCU", "ADIP1")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_PO:04TI031AIN","rtn",3,"11/10/2022 07:05", "CCU", "ADIP1")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_PO:04TI031AIN","rtn",3,"11/10/2022 15:05", "CCU", "ADIP1")
+                viewModelHistoricAlarm.addNewAlarm("PSG1_PO:04TI031AIN","rtn",3,"11/10/2022 01:05", "CCU", "ADIP1")
             }
         }
-
-
 
 
     }

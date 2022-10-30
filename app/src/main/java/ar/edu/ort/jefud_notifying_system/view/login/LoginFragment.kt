@@ -56,9 +56,9 @@ class LoginFragment : Fragment() {
     private fun addData() {
 
         viewModel.allUsers.observe(this.viewLifecycleOwner) { users ->
-            if(users.size == 0) {
-                viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti", "ADIP1", "NOCHE")
-                viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles", "ADIP1", "NOCHE")
+            if(users.isEmpty()) {
+                viewModel.addNewUser("44852","password","PANELIST", "CCU", "Rubén", "Bonatti", "ADIP1", "MAÑANA")
+                viewModel.addNewUser("44","contrasenia","OPERATOR", "CCU", "Xavier", "Charles", "ADIP1", "MAÑANA")
                 viewModel.addNewUser("4475","pass","MANAGER", null, "Michael", "Mikelson", "ADIP1", null)
                 viewModel.addNewUser("4480","pass","COORDINATOR", "CCU", "Jennifer", "Grant", "ADIP1", null)
             }
@@ -70,7 +70,7 @@ class LoginFragment : Fragment() {
     private fun login() {
 
         if (binding.DNI.text.isNullOrBlank() || binding.password.text.isNullOrBlank()) {
-                Toast.makeText(getContext(), "Falta rellenar campos", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Falta rellenar campos", Toast.LENGTH_SHORT)
                     .show()
         } else {
             viewModel.retrieveUser(binding.DNI.text.toString()).observe(this.viewLifecycleOwner) { selectedUser ->
@@ -83,7 +83,7 @@ class LoginFragment : Fragment() {
 
     private fun validate(user: User?) {
         if (user == null) {
-            Toast.makeText(getContext(), "Usuario no encontrado", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Usuario no encontrado", Toast.LENGTH_SHORT)
                 .show()
         } else {
             val algorithm = "AES/CBC/PKCS5Padding"

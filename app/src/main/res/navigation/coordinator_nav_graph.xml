@@ -12,12 +12,70 @@
         tools:layout="@layout/fragment_coordinator_frecuent_alarm" />
     <fragment
         android:id="@+id/coordinatorMessageSending"
-        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageSending"
+        android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorMessageSending"
         android:label="fragment_message_sending"
-        tools:layout="@layout/fragment_message_sending" />
+        tools:layout="@layout/fragment_message_sending" >
+        <action
+            android:id="@+id/action_coordinatorMessageSending_to_coordinatorMessageHistoric"
+            app:destination="@id/coordinatorMessageHistoric" />
+        <action
+            android:id="@+id/action_coordinatorMessageSending_to_coordinatorMessagesReceived"
+            app:destination="@id/coordinatorMessagesReceived" />
+    </fragment>
     <fragment
         android:id="@+id/coordinatorMessageDetails"
-        android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistMessageDetails"
+        android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorMessageDetails"
         android:label="fragment_message_details"
-        tools:layout="@layout/fragment_message_details" />
+        tools:layout="@layout/fragment_message_details" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="surname"
+            app:argType="string" />
+        <argument
+            android:name="message"
+            app:argType="string" />
+        <argument
+            android:name="role"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_coordinatorMessageDetails_to_coordinatorMessageHistoric"
+            app:destination="@id/coordinatorMessageHistoric" />
+        <action
+            android:id="@+id/action_coordinatorMessageDetails_to_coordinatorMessagesReceived"
+            app:destination="@id/coordinatorMessagesReceived" />
+    </fragment>
+    <fragment
+        android:id="@+id/coordinatorMessageHistoric"
+        android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorMessageHistoric"
+        android:label="fragment_message_historic"
+        tools:layout="@layout/fragment_message_historic" >
+        <action
+            android:id="@+id/action_coordinatorMessageHistoric_to_coordinatorMessageDetails"
+            app:destination="@id/coordinatorMessageDetails" />
+        <action
+            android:id="@+id/action_coordinatorMessageHistoric_to_coordinatorMessagesReceived"
+            app:destination="@id/coordinatorMessagesReceived" />
+        <action
+            android:id="@+id/action_coordinatorMessageHistoric_to_coordinatorMessageSending"
+            app:destination="@id/coordinatorMessageSending" />
+    </fragment>
+    <fragment
+        android:id="@+id/coordinatorMessagesReceived"
+        android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorMessagesReceived"
+        android:label="fragment_messages_received"
+        tools:layout="@layout/fragment_messages_received" >
+        <action
+            android:id="@+id/action_coordinatorMessagesReceived_to_coordinatorMessageDetails"
+            app:destination="@id/coordinatorMessageDetails" />
+        <action
+            android:id="@+id/action_coordinatorMessagesReceived_to_coordinatorMessageSending"
+            app:destination="@id/coordinatorMessageSending"
+            app:popUpTo="@id/coordinatorMessageSending"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_coordinatorMessagesReceived_to_coordinatorMessageHistoric"
+            app:destination="@id/coordinatorMessageHistoric" />
+    </fragment>
 </navigation>

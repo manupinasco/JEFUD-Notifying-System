@@ -32,10 +32,10 @@ import java.util.*
 
 class PanelistActivity : AppCompatActivity() {
 
-    val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+    private val positiveButtonClick = { dialog: DialogInterface, which: Int ->
         logout()
     }
-    val negativeButtonClick = { dialog: DialogInterface, which: Int ->
+    private val negativeButtonClick = { dialog: DialogInterface, which: Int ->
 
     }
 
@@ -130,7 +130,7 @@ class PanelistActivity : AppCompatActivity() {
             notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(ar.edu.ort.jefud_notifying_system.R.drawable.semicircle_login)
+                .setSmallIcon(R.drawable.raizen_text)
                 .setTicker("Mensajes")
                 .setContentTitle("RAIZEN")
                 .setContentIntent(onClick())

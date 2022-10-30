@@ -21,7 +21,6 @@ import androidx.room.PrimaryKey
         @NonNull @ColumnInfo(name= "max") val max: Int,
         @NonNull @ColumnInfo(name= "panelistAction") val panelistAction: String,
         @NonNull @ColumnInfo(name= "operatorAction") val operatorAction: String,
-        @Nullable @ColumnInfo(name= "infoExtra") val infoExtra: String?,
 
         )
 

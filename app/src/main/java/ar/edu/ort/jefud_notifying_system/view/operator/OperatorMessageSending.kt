@@ -102,9 +102,9 @@ class OperatorMessageSending : Fragment() {
             var dniRecipient = ""
             if(userDni != null)
                 if(role.compareTo("MANAGER") == 0 && userPlant != null) {
-                    viewModelUsers.retrieveUser(role, userPlant).observe(this.viewLifecycleOwner) {user ->
+                    viewModelUsers.retrieveUser(userPlant, role).observe(this.viewLifecycleOwner) {user ->
                         dniRecipient = user.dni
-                        viewModelMessages.addNewMessage(userDni, dniRecipient, text, false)
+                        viewModelMessages.addNewMessage(dniRecipient, userDni, text, false)
                     }
                 }
                 else {
@@ -121,7 +121,7 @@ class OperatorMessageSending : Fragment() {
                     }
                 }
 
-            Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Mensaje enviado", Toast.LENGTH_SHORT)
                 .show()
         }
     }

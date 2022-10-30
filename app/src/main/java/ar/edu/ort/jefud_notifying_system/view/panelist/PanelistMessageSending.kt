@@ -28,9 +28,9 @@ import java.util.*
 
 class PanelistMessageSending : Fragment() {
 
-    lateinit var btnGoToReceivedMessages : TextView
-    lateinit var btnGoToHistoric : TextView
-    lateinit var btnSend : TextView
+    private lateinit var btnGoToReceivedMessages : TextView
+    private lateinit var btnGoToHistoric : TextView
+    private lateinit var btnSend : TextView
     private var _binding: FragmentMessageSendingBinding? = null
     private val binding get() = _binding!!
     private val viewModelMessages: MessageViewModel by activityViewModels {
@@ -54,7 +54,7 @@ class PanelistMessageSending : Fragment() {
         _binding = FragmentMessageSendingBinding.inflate(inflater, container, false)
         btnGoToReceivedMessages = binding.buttonToReceived
         btnGoToHistoric = binding.buttonToHistoric
-        btnSend = binding.buttonToSend
+        btnSend = binding.button2
 
         return binding.root
     }
@@ -97,9 +97,9 @@ class PanelistMessageSending : Fragment() {
             var dniRecipient = ""
             if(userDni != null)
             if(role.compareTo("MANAGER") == 0 && userPlant != null) {
-                viewModelUsers.retrieveUser(role, userPlant).observe(this.viewLifecycleOwner) {user ->
+                viewModelUsers.retrieveUser(userPlant, role).observe(this.viewLifecycleOwner) {user ->
                     dniRecipient = user.dni
-                    viewModelMessages.addNewMessage(userDni, dniRecipient, text, false)
+                    viewModelMessages.addNewMessage(dniRecipient, userDni, text, false)
                 }
             }
             else {
@@ -117,7 +117,7 @@ class PanelistMessageSending : Fragment() {
                 }
             }
 
-            Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Mensaje enviado", Toast.LENGTH_SHORT)
                 .show()
 
         }

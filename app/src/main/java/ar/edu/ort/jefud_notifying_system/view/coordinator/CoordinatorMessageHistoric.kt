@@ -1,17 +1,16 @@
-package ar.edu.ort.jefud_notifying_system.view.manager
+package ar.edu.ort.jefud_notifying_system.view.coordinator
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.adapter.MessageHistoricAdapter
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentMessageHistoricBinding
@@ -21,17 +20,7 @@ import ar.edu.ort.jefud_notifying_system.model.User
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ManagerMessageHistoric.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ManagerMessageHistoric : Fragment(), onItemClickListener {
+class CoordinatorMessageHistoric: Fragment(), onItemClickListener {
     private lateinit var btnGoToSendingMessage : TextView
     private lateinit var btnGoToReceivedMessage : TextView
     private lateinit var btnGoToDetailsMessage : TextView
@@ -81,16 +70,17 @@ class ManagerMessageHistoric : Fragment(), onItemClickListener {
     override fun onStart() {
         super.onStart()
         btnGoToSendingMessage.setOnClickListener {
-            val action = ManagerMessageHistoricDirections.actionManagerMessageHistoricToManagerMessageSending()
+            val action = CoordinatorMessageHistoricDirections.actionCoordinatorMessageHistoricToCoordinatorMessageSending()
             findNavController().navigate(action)
         }
 
         btnGoToReceivedMessage.setOnClickListener {
-            val action = ManagerMessageHistoricDirections.actionManagerMessageHistoricToManagerMessagesReceived()
+            val action = CoordinatorMessageHistoricDirections.actionCoordinatorMessageHistoricToCoordinatorMessagesReceived()
             findNavController().navigate(action)
         }
 
     }
+
 
     private fun getMessages(messages: List<Message>?) {
         val userDetails = requireContext().getSharedPreferences("userdetails",
@@ -112,7 +102,6 @@ class ManagerMessageHistoric : Fragment(), onItemClickListener {
         message.read = true
         viewModelMessages.updateMessage(message)
 
-        findNavController().navigate(ManagerMessageHistoricDirections.actionManagerMessageHistoricToManagerMessageDetails(user.name, user.surname, message.message, user.role))
+        findNavController().navigate(CoordinatorMessageHistoricDirections.actionCoordinatorMessageHistoricToCoordinatorMessageDetails(user.name, user.surname, message.message, user.role))
     }
-
 }

@@ -39,8 +39,20 @@
         <item>Operator</item>
     </string-array>
 
+    <string-array name="message_roles_for_coordinator">
+        <item>Manager</item>
+        <item>Panelist</item>
+        <item>Operator</item>
+    </string-array>
+
     <string-array name="message_roles_for_operator">
         <item>Manager</item>
+        <item>Coordinator</item>
+        <item>Panelist</item>
+    </string-array>
+
+    <string-array name="message_roles_for_manager">
+        <item>Operator</item>
         <item>Coordinator</item>
         <item>Panelist</item>
     </string-array>

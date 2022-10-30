@@ -134,10 +134,7 @@ class CoordinatorFrecuentAlarm : Fragment() {
                     val ss = SpannableString(text)
                     val clickableSpan: ClickableSpan = object : ClickableSpan() {
                         override fun onClick(textView: View) {
-                            viewModelAlarm.retrieveAlarmByTag(tag)
-                                .observe(viewLifecycleOwner) { alarm ->
-                                    sendSolution(alarm)
-                                }
+                            sendSolution(tag)
                         }
 
                         override fun updateDrawState(ds: TextPaint) {
@@ -167,7 +164,7 @@ class CoordinatorFrecuentAlarm : Fragment() {
             }
     }
 
-    private fun sendSolution(alarm: Alarm) {
+    private fun sendSolution(tag: String) {
         val userDetails = requireContext().getSharedPreferences(
             "userdetails",
             Context.MODE_PRIVATE
@@ -175,74 +172,82 @@ class CoordinatorFrecuentAlarm : Fragment() {
         val userDni = userDetails.getString("dni", "")
         val panel = userDetails.getString("panel", "")
 
-        if (alarm.infoExtra != null) {
-            if (alarm.infoExtra.compareTo("IOBAD") == 0) {
-                binding.frecuentAlarmAdviseTextView.text =
-                    "Falla crítica en el equipo " + alarm.equipment + ". Enviar equipo de mantenimiento a repararlo"
-            }
-
-        } else {
-
             if (panel != null)
             viewModelHistoricAlarm.retrieveAlarmsByTagAndMonthAndPanel(
-                alarm.tagName, "10", panel
+                tag, "10", panel
             ).observe(this.viewLifecycleOwner) { alarms ->
-                var shift = ""
-                var amountAlarmsShiftMorning = 0
-                var amountAlarmsShiftAfternoon = 0
-                var amountAlarmsShiftNight = 0
+                var i = 0
+                var iobad = false
+                while(i < alarms.size && !iobad) {
+                    if(alarms[i].type.compareTo("IOBAD") == 0) {
+                        iobad = true
+                    }
+                    i++
+                }
+                if(iobad) {
+                    binding.frecuentAlarmAdviseTextView.text =
+                        "Falla crítica en el equipo. Enviar equipo de mantenimiento a repararlo"
 
-                for (alarm in alarms) {
-                    when (alarm.datetime.substring(11, 13).toInt()) {
+                }
+                else {
+                    var shift = ""
+                    var amountAlarmsShiftMorning = 0
+                    var amountAlarmsShiftAfternoon = 0
+                    var amountAlarmsShiftNight = 0
 
-                        in 6..13 -> {
-                            amountAlarmsShiftMorning++
+                    for (alarm in alarms) {
+                        when (alarm.datetime.substring(11, 13).toInt()) {
+
+                            in 6..13 -> {
+                                amountAlarmsShiftMorning++
+                            }
+                            in 14..19 -> {
+                                amountAlarmsShiftAfternoon++
+                            }
+                            else -> {
+                                amountAlarmsShiftNight++
+                            }
                         }
-                        in 14..19 -> {
-                            amountAlarmsShiftAfternoon++
-                        }
-                        else -> {
-                            amountAlarmsShiftNight++
-                        }
+
+
+                    }
+                    if ((100 * amountAlarmsShiftMorning) / alarms.size >= 50) {
+                        shift = "MAÑANA"
+                    } else if ((100 * amountAlarmsShiftAfternoon) / alarms.size >= 50) {
+                        shift = "TARDE"
+                    } else if ((100 * amountAlarmsShiftNight) / alarms.size >= 50) {
+                        shift = "NOCHE"
                     }
 
+                    if (shift != "" && panel != null) {
+                        Log.e("hola",((100 * amountAlarmsShiftMorning) / alarms.size).toString())
+                        viewModelUsers.retrieveUserByPanelAndShift("PANELIST", panel, shift)
+                            .observe(this.viewLifecycleOwner) { user ->
+                                if (userDni != null)
+                                    if(user!= null)
+                                    viewModelMessages.addNewMessage(
+                                        user.dni,
+                                        userDni,
 
+                                        ("En vistas de la gran frecuencia de alarmas de tipo " + tag + " en su turno, pido que se comunique conmigo para gestionar una reunión de revisión."),
+                                        false
+                                    )
+                            }
+
+                        Toast.makeText(context, "Mensaje enviado al panelista", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        binding.frecuentAlarmAdviseTextView.text =
+                            "Falla crítica en el equipo. Enviar equipo de mantenimiento a repararlo"
+
+                    }
                 }
-                if ((100 * amountAlarmsShiftMorning) / alarms.size >= 50) {
-                    shift = "MAÑANA"
-                } else if ((100 * amountAlarmsShiftAfternoon) / alarms.size >= 50) {
-                    shift = "TARDE"
-                } else if ((100 * amountAlarmsShiftNight) / alarms.size >= 50) {
-                    shift = "NOCHE"
-                }
 
-                if (shift != "" && panel != null) {
-                    Log.e("hola",shift)
-                    viewModelUsers.retrieveUserByPanelAndShift("PANELIST", panel, shift)
-                        .observe(this.viewLifecycleOwner) { user ->
-                            if (userDni != null)
-                                viewModelMessages.addNewMessage(
-                                    user.dni,
-                                    userDni,
-
-                                    ("En vistas de la gran frecuencia de alarmas de tipo " + alarm.tagName + " en su turno, pido que se comunique conmigo para gestionar una reunión de revisión."),
-                                    false
-                                )
-                        }
-
-                    Toast.makeText(context, "Mensaje enviado al panelista", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    binding.frecuentAlarmAdviseTextView.text =
-                        "Falla crítica en el equipo " + alarm.equipment + ". Enviar equipo de mantenimiento a repararlo"
-
-                }
 
             }
 
         }
 
     }
-}
 
 

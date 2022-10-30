@@ -25,6 +25,12 @@
         <argument
             android:name="role"
             app:argType="string" />
+        <action
+            android:id="@+id/action_managerMessageDetails_to_managerMessagesReceived"
+            app:destination="@id/managerMessagesReceived" />
+        <action
+            android:id="@+id/action_managerMessageDetails_to_managerMessageHistoric"
+            app:destination="@id/managerMessageHistoric" />
     </fragment>
     <fragment
         android:id="@+id/managerMessageSending"
@@ -34,6 +40,9 @@
         <action
             android:id="@+id/action_managerMessageSending_to_managerMessageHistoric"
             app:destination="@id/managerMessageHistoric" />
+        <action
+            android:id="@+id/action_managerMessageSending_to_managerMessagesReceived"
+            app:destination="@id/managerMessagesReceived" />
     </fragment>
     <fragment
         android:id="@+id/managerOOS"
@@ -53,18 +62,6 @@
             app:destination="@id/managerMessageSending" />
         <action
             android:id="@+id/action_managerMessagesReceived_to_managerMessageDetails"
-            app:destination="@id/managerMessageDetails" />
-        <argument
-            android:name="name"
-            app:argType="string" />
-        <argument
-            android:name="surname"
-            app:argType="string" />
-        <argument
-            android:name="role"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_managerMessagesReceived_to_managerMessageDetails2"
             app:destination="@id/managerMessageDetails" />
     </fragment>
     <fragment

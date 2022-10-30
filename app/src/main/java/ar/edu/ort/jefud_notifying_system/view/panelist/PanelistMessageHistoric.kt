@@ -34,15 +34,12 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class PanelistMessageHistoric : Fragment(), onItemClickListener {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
     private lateinit var btnGoToSendingMessage : TextView
     private lateinit var btnGoToReceivedMessage : TextView
     private lateinit var btnGoToDetailsMessage : TextView
     private var _binding: FragmentMessageHistoricBinding? = null
     private val binding get() = _binding!!
-    private lateinit var vista: View
     private lateinit var recMessage : RecyclerView
     private var messagesList : MutableList<Message> = ArrayList<Message>()
     private lateinit var linearLayoutManager: LinearLayoutManager

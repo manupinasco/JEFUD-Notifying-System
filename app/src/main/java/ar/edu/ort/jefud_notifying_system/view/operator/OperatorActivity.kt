@@ -32,10 +32,10 @@ import java.util.*
 
 class OperatorActivity : AppCompatActivity() {
 
-    val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+    private val positiveButtonClick = { dialog: DialogInterface, which: Int ->
         logout()
     }
-    val negativeButtonClick = { dialog: DialogInterface, which: Int ->
+    private val negativeButtonClick = { dialog: DialogInterface, which: Int ->
 
     }
     private val viewModelMessages: MessageViewModel by viewModels {
@@ -81,6 +81,12 @@ class OperatorActivity : AppCompatActivity() {
 
         if(newMessages) {
             createNotificationBuilder()
+            if (messages != null) {
+                for(message in messages) {
+                    message.read = true
+                    viewModelMessages.updateMessage(message)
+                }
+            }
         }
 
 
@@ -116,7 +122,7 @@ class OperatorActivity : AppCompatActivity() {
         notificationBuilder.setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_ALL)
             .setWhen(System.currentTimeMillis())
-            .setSmallIcon(ar.edu.ort.jefud_notifying_system.R.drawable.semicircle_login)
+            .setSmallIcon(R.drawable.raizen_text)
             .setTicker("Mensajes")
             .setContentTitle("RAIZEN")
             .setContentIntent(onClick())

@@ -78,4 +78,36 @@
             android:id="@+id/action_coordinatorMessagesReceived_to_coordinatorMessageHistoric"
             app:destination="@id/coordinatorMessageHistoric" />
     </fragment>
+    <fragment
+        android:id="@+id/coordinatorFailures"
+        android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorFailures"
+        android:label="fragment_failures"
+        tools:layout="@layout/fragment_failures" >
+        <action
+            android:id="@+id/action_coordinatorFailures_to_coordinatorFailureDetails"
+            app:destination="@id/coordinatorFailureDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/coordinatorFailureDetails"
+        android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorFailureDetails"
+        android:label="fragment_failure_details"
+        tools:layout="@layout/fragment_failure_details" >
+        <argument
+            android:name="Task"
+            app:argType="string" />
+        <argument
+            android:name="Plant"
+            app:argType="string" />
+        <argument
+            android:name="Value"
+            app:argType="string" />
+        <argument
+            android:name="Equipment"
+            app:argType="string" />
+        <argument
+            android:name="Panel"
+            app:argType="string" />
+    </fragment>
+
+
 </navigation>

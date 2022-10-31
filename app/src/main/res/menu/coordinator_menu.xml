@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:title="@string/failureTitle"
+        android:icon="@drawable/ic_baseline_error_outline_24"
+        android:id="@+id/failuresViewList"
+        />
+
+    <item
         android:title="@string/manager_menu_reports"
         android:icon="@drawable/ic_outline_notification_important_24"
         android:id="@+id/coordinatorFrecuentAlarm"/>
@@ -11,4 +17,6 @@
         android:icon="@drawable/ic_outline_chat_bubble_outline"
         android:id="@+id/coordinatorMessageSending"
         />
+
+
 </menu>

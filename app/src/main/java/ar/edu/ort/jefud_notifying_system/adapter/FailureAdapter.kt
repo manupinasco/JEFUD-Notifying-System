@@ -1,23 +1,20 @@
 package ar.edu.ort.jefud_notifying_system.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.dao.FailureDao
-import ar.edu.ort.jefud_notifying_system.dao.UserDao
 import ar.edu.ort.jefud_notifying_system.listener.onFailureClickListener
-import ar.edu.ort.jefud_notifying_system.listener.onItemClickListener
 import ar.edu.ort.jefud_notifying_system.model.Failure
-import ar.edu.ort.jefud_notifying_system.model.User
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
-class FailureAdapter (private val failuresList: MutableList<Failure>, private val onItemClick: onFailureClickListener, private val failureDao: FailureDao, private val userDao: UserDao): RecyclerView.Adapter<FailureViewHolder>() {
+class FailureAdapter(
+    private val failuresList: MutableList<Failure>,
+    private val onItemClick: onFailureClickListener,
+    private val failureDao: FailureDao
+): RecyclerView.Adapter<FailureViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FailureViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.failure_item, parent, false)
         return FailureViewHolder(view)

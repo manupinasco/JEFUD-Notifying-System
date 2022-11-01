@@ -4,7 +4,7 @@
     <item
         android:title="@string/failureTitle"
         android:icon="@drawable/ic_baseline_error_outline_24"
-        android:id="@+id/failuresViewList"
+        android:id="@+id/coordinatorFailures"
         />
 
     <item

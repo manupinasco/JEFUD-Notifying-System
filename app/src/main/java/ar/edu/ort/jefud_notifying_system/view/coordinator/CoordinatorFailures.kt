@@ -1,11 +1,25 @@
 package ar.edu.ort.jefud_notifying_system.view.coordinator
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ar.edu.ort.jefud_notifying_system.R
+import android.widget.TextView
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asFlow
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import ar.edu.ort.jefud_notifying_system.adapter.FailureAdapter
+import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
+import ar.edu.ort.jefud_notifying_system.databinding.FragmentFailuresBinding
+import ar.edu.ort.jefud_notifying_system.listener.onFailureClickListener
+import ar.edu.ort.jefud_notifying_system.model.Failure
+import ar.edu.ort.jefud_notifying_system.viewmodel.FailuresViewModel
+import ar.edu.ort.jefud_notifying_system.viewmodel.FailuresViewModelFactory
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,44 +31,86 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CoordinatorFailures.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CoordinatorFailures : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+class CoordinatorFailures : Fragment(), onFailureClickListener {
+    private lateinit var btnGoToDetails: TextView
+    private var _binding: FragmentFailuresBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var recFailure: RecyclerView
+    private var failuresList: MutableList<Failure> = ArrayList<Failure>()
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var failureListAdapter: FailureAdapter
+    private val viewModelFailure: FailuresViewModel by activityViewModels {
+        FailuresViewModelFactory(
+            (activity?.application as JEFUDApplication).database
+                .failureDao()
+        )
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_failures, container, false)
+        _binding = FragmentFailuresBinding.inflate(inflater, container, false)
+
+        viewModelFailure.allFailures.observe(this.viewLifecycleOwner) { failures ->
+            getFailures(failures)
+        }
+
+        recFailure = binding.failureRecyclerView
+        recFailure.setHasFixedSize(true)
+        linearLayoutManager = LinearLayoutManager(context)
+
+        recFailure.layoutManager = linearLayoutManager
+
+        failureListAdapter = FailureAdapter(
+            failuresList, this, (activity?.application as JEFUDApplication).database
+                .failureDao()
+        )
+
+        recFailure.adapter = failureListAdapter
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CoordinatorFailures.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CoordinatorFailures().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onStart() {
+        super.onStart()
+        failuresList.clear()
+        addData()
+    }
+
+    private fun addData(){
+        viewModelFailure.allFailures.observe(this.viewLifecycleOwner) { failures ->
+            if (failures.isEmpty()){
+                viewModelFailure.addNewFailure("CCU", "Medir temperatura tanque 3", "ADIP1", "Tanque 3","500°")
+                viewModelFailure.addNewFailure("CCU", "Medir temperatura tanque 1", "ADIP1", "Tanque 1","400°")
+                viewModelFailure.addNewFailure("CCA", "Medir temperatura tanque 3", "ADIP1", "Tanque 3","500°")
+                viewModelFailure.addNewFailure("CCU", "Medir temperatura tanque 3", "ADIP2", "Tanque 3","500°")
+            }
+
+        }
+    }
+
+    private fun getFailures(failures: List<Failure>) {
+        val userDetails = requireContext().getSharedPreferences("userdetails",
+            Context.MODE_PRIVATE
+        )
+        val userPanel = userDetails.getString("panel", "").toString()
+        val userPlant = userDetails.getString("plant", "").toString()
+
+        if(failures != null && userPanel != null && userPlant != null)
+            for (i in 0..(failures.size-1)) {
+                if(failures[i].plant?.compareTo(userPlant) == 0 && failures[i].panel?.compareTo(userPanel) == 0) {
+                    failuresList.add(failures[i])
                 }
             }
+
+        activity?.runOnUiThread(Runnable { failureListAdapter.notifyDataSetChanged() })
+
+    }
+
+
+    override fun onFailureItemDetail(failure: Failure) {
+        findNavController().navigate((CoordinatorFailuresDirections.actionCoordinatorFailuresToCoordinatorFailureDetails(failure.task, failure.plant, failure.value, failure.equipment, failure.panel)))
     }
 }

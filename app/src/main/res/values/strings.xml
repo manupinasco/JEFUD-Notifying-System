@@ -25,6 +25,7 @@
     <string name="saved_userrole_key">role</string>
     <string name="panelist_menu_alarm">Alarmas</string>
     <string name="panelist_menu_message">Mensajes</string>
+    <string name="panelist_menu_failure">Desvios</string>
     <string name="saved_userpanel_key">panel</string>
     <string name="channel_name">JEFUD</string>
     <string name="channel_description">JEFUD app\'s channel</string>
@@ -67,4 +68,30 @@
     <string-array name="array_panels">
         <item>CCU</item>
     </string-array>
+
+    <string-array name="array_equipment">
+        <item>P202C</item>
+        <item>P214A</item>
+        <item>I-13 SMAS IT</item>
+        <item>TP3001</item>
+        <item>CWVB TM</item>
+        <item>P202C</item>
+    </string-array>
+
+    <string-array name="array_values">
+        <item>Anormalidades</item>
+        <item>Mal</item>
+        <item>Cerrado</item>
+        <item>No hecho</item>
+    </string-array>
+
+    <string-array name="array_task">
+        <item>Control de nivel del recipiente</item>
+        <item>Control de presion del liquido de barrera presurizado</item>
+        <item>Controlar aspecto cascada interceptor</item>
+        <item>Control de la trampa de vapor</item>
+        <item>Controlar bloqueo abierto</item>
+        <item>Controlar resultado muestra de CW</item>
+    </string-array>
+
 </resources>

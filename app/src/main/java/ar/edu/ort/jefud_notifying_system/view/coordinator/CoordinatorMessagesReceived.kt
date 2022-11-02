@@ -86,7 +86,7 @@ class CoordinatorMessagesReceived: Fragment(), onItemClickListener{
         val userDni = userDetails.getString("dni", "")
 
         if(messages != null && userDni != null)
-            for (i in 0..(messages.size-1)) {
+            for (i in messages.indices) {
                 if(messages[i].dniRecipient?.compareTo(userDni) == 0) {
                     messagesList.add(messages[i])
                 }

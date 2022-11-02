@@ -14,13 +14,17 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
+import ar.edu.ort.jefud_notifying_system.model.Failure
 import ar.edu.ort.jefud_notifying_system.model.Message
 import ar.edu.ort.jefud_notifying_system.view.MainActivity
+import ar.edu.ort.jefud_notifying_system.viewmodel.FailuresViewModel
+import ar.edu.ort.jefud_notifying_system.viewmodel.FailuresViewModelFactory
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,19 +44,51 @@ class CoordinatorActivity : AppCompatActivity() {
         )
     }
 
+    private lateinit var notificationManager : NotificationManager
+
+    private val viewModelFailure: FailuresViewModel by viewModels {
+        FailuresViewModelFactory(
+            (this.application as JEFUDApplication).database
+                .failureDao()
+        )
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coordinator)
         setupBottomNavBar()
+        createNotificationChannel()
         viewModelMessages.allMessages.observe(this) {messages ->
 
-            getMessages(messages)
+            showNotificationMessages(messages)
 
 
         }
+        val userDetails = this.getSharedPreferences("userdetails",
+            Context.MODE_PRIVATE
+        )
+        val plant = userDetails.getString("plant", "")
+        val panel = userDetails.getString("panel", "")
+        if(plant != null && panel != null)
+        viewModelFailure.retrieveFailureByPlantAndPanel(plant, panel).observe(this) {
+            failures ->
+            showNotificationFailures(failures)
+        }
+
+
     }
 
-    private fun getMessages(messages: List<Message>?) {
+    private fun showNotificationFailures(failures: List<Failure>?) {
+
+        if(failures != null)
+        if(failures.isNotEmpty()) {
+            createNotificationBuilderFailures()
+        }
+
+
+
+    }
+
+    private fun showNotificationMessages(messages: List<Message>?) {
         val userDetails = this.getSharedPreferences("userdetails",
             Context.MODE_PRIVATE
         )
@@ -70,7 +106,7 @@ class CoordinatorActivity : AppCompatActivity() {
             }
 
         if(newMessages) {
-            createNotificationBuilder()
+            createNotificationBuilderMessages()
             if (messages != null) {
                 for(message in messages) {
                     message.read = true
@@ -82,11 +118,8 @@ class CoordinatorActivity : AppCompatActivity() {
 
     }
 
-    private fun createNotificationBuilder() {
-
-
-
-        val notificationManager : NotificationManager =  getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private fun createNotificationChannel() {
+        notificationManager =  getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationChannelGroup = NotificationChannelGroup(
             GROUP_ID,
@@ -106,13 +139,46 @@ class CoordinatorActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
+    }
+
+    private fun createNotificationBuilderFailures() {
+
+
+
+
 
         var notificationBuilder : NotificationCompat.Builder = NotificationCompat.Builder(this, "NOTIFICATION_URGENT _ID");
 
         notificationBuilder.setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_ALL)
             .setWhen(System.currentTimeMillis())
-            .setSmallIcon(R.drawable.raizen_text)
+            .setSmallIcon(R.drawable.ic_alert_alarm)
+            .setTicker("Desvíos")
+            .setContentTitle("RAIZEN")
+            .setContentIntent(onClickFailure())
+            .setContentText("Nuevos desvíos sin resolver")
+            .setContentInfo("");
+
+
+        var random = Random();
+        var m = random.nextInt(9999 - 1000) + 1000;
+        notificationManager.notify(/*notification id*/m, notificationBuilder.build());
+
+
+    }
+
+    private fun createNotificationBuilderMessages() {
+
+
+
+
+
+        var notificationBuilder : NotificationCompat.Builder = NotificationCompat.Builder(this, "NOTIFICATION_URGENT _ID");
+
+        notificationBuilder.setAutoCancel(true)
+            .setDefaults(Notification.DEFAULT_ALL)
+            .setWhen(System.currentTimeMillis())
+            .setSmallIcon(R.drawable.ic_outline_chat_bubble_outline)
             .setTicker("Mensajes")
             .setContentTitle("RAIZEN")
             .setContentIntent(onClick())
@@ -134,6 +200,16 @@ class CoordinatorActivity : AppCompatActivity() {
             .setComponentName(CoordinatorActivity::class.java)
             .setGraph(R.navigation.coordinator_nav_graph)
             .setDestination(R.id.coordinatorMessagesReceived)
+            .createPendingIntent()
+    }
+
+    private fun onClickFailure(): PendingIntent? {
+
+
+        return NavDeepLinkBuilder(this)
+            .setComponentName(CoordinatorActivity::class.java)
+            .setGraph(R.navigation.coordinator_nav_graph)
+            .setDestination(R.id.coordinatorFailures)
             .createPendingIntent()
     }
 

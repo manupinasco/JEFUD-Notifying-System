@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import ar.edu.ort.jefud_notifying_system.dao.FailureDao
 
 import ar.edu.ort.jefud_notifying_system.model.Failure
+import ar.edu.ort.jefud_notifying_system.model.Message
 import kotlinx.coroutines.launch
 
 class FailuresViewModel(private val failureDao: FailureDao): ViewModel() {
@@ -48,6 +49,21 @@ class FailuresViewModel(private val failureDao: FailureDao): ViewModel() {
 
     fun retrieveFailureByPlantAndPanel(plant: String, panel: String): LiveData<List<Failure>>  {
         return failureDao.getFailuresByPlantAndPanel(plant, panel).asLiveData()
+    }
+
+    fun retrieveFailureUnsolvedByEquipment(equipment: String): LiveData<Failure>  {
+        return failureDao.getFailureUnsolvedByEquipment(equipment).asLiveData()
+    }
+
+    fun updateFailure(failure: Failure) {
+        update(failure)
+
+    }
+
+    private fun update(failure: Failure) {
+        viewModelScope.launch {
+            failureDao.updateFailure(failure)
+        }
     }
 }
 

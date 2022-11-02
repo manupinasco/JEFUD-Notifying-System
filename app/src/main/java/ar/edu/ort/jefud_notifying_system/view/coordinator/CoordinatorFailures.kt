@@ -99,7 +99,7 @@ class CoordinatorFailures : Fragment(), onFailureClickListener {
         val userPlant = userDetails.getString("plant", "").toString()
 
         if(failures != null && userPanel != null && userPlant != null)
-            for (i in 0..(failures.size-1)) {
+            for (i in failures.indices) {
                 if(failures[i].plant?.compareTo(userPlant) == 0 && failures[i].panel?.compareTo(userPanel) == 0) {
                     failuresList.add(failures[i])
                 }
@@ -111,6 +111,6 @@ class CoordinatorFailures : Fragment(), onFailureClickListener {
 
 
     override fun onFailureItemDetail(failure: Failure) {
-        findNavController().navigate((CoordinatorFailuresDirections.actionCoordinatorFailuresToCoordinatorFailureDetails(failure.task, failure.plant, failure.value, failure.equipment, failure.panel)))
+        findNavController().navigate((CoordinatorFailuresDirections.actionCoordinatorFailuresToCoordinatorFailureDetails(failure.task, failure.value, failure.equipment)))
     }
 }

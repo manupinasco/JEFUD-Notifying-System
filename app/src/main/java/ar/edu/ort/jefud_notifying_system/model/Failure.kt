@@ -13,7 +13,7 @@ data class Failure (
     @NonNull @ColumnInfo(name= "value") val value: String,
     @NonNull @ColumnInfo(name= "equipment") val equipment: String,
     @NonNull @ColumnInfo(name= "task") val task: String,
-    @NonNull @ColumnInfo(name= "solved") val solved: Boolean,
+    @NonNull @ColumnInfo(name= "solved") var solved: Boolean,
     @NonNull @ColumnInfo(name= "panel") val panel: String,
 
 

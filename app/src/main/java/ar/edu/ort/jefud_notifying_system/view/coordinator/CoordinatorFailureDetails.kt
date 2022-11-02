@@ -5,7 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import ar.edu.ort.jefud_notifying_system.R
+import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
+import ar.edu.ort.jefud_notifying_system.databinding.FragmentFailureDetailsBinding
+import ar.edu.ort.jefud_notifying_system.databinding.FragmentMessageDetailsBinding
+import ar.edu.ort.jefud_notifying_system.viewmodel.FailuresViewModel
+import ar.edu.ort.jefud_notifying_system.viewmodel.FailuresViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,43 +26,67 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class CoordinatorFailureDetails : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private var _binding: FragmentFailureDetailsBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var btnReturn : Button
+    private lateinit var btnRewrite : Button
+    private lateinit var btnSolve : Button
+    private val viewModelFailure: FailuresViewModel by activityViewModels {
+        FailuresViewModelFactory(
+            (activity?.application as JEFUDApplication).database
+                .failureDao()
+        )
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_failure_details, container, false)
+        _binding = FragmentFailureDetailsBinding.inflate(inflater, container, false)
+        binding.equipment.text = CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).equipment
+        binding.task.text = CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).task
+        binding.value.text = CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).value
+        btnReturn = binding.goBack
+        btnRewrite = binding.rewrite
+        btnSolve = binding.solve
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CoordinatorFailureDetails.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CoordinatorFailureDetails().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onStart() {
+        super.onStart()
+
+        btnReturn.setOnClickListener{
+            goBack()
+
+        }
+
+        btnRewrite.setOnClickListener{
+            viewModelFailure.retrieveFailureUnsolvedByEquipment(CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).equipment).observe(this.viewLifecycleOwner) {
+                failure ->
+                failure.solved = true
+                viewModelFailure.updateFailure(failure)
             }
+            goBack()
+        }
+
+        btnSolve.setOnClickListener{
+
+            viewModelFailure.retrieveFailureUnsolvedByEquipment(CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).equipment).observe(this.viewLifecycleOwner) {
+                    failure ->
+                failure.solved = true
+                viewModelFailure.updateFailure(failure)
+            }
+            goBack()
+
+            goBack()
+        }
+
     }
+
+    private fun goBack() {
+        val action = CoordinatorFailureDetailsDirections.actionCoordinatorFailureDetailsToCoordinatorFailures()
+        findNavController().navigate(action)
+    }
+
 }

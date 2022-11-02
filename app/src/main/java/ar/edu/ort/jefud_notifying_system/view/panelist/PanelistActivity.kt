@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.provider.Contacts
 import android.provider.Contacts.GroupMembership.GROUP_ID
 import android.view.View
 import androidx.activity.viewModels
@@ -20,12 +21,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
+import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
 import ar.edu.ort.jefud_notifying_system.model.Message
 import ar.edu.ort.jefud_notifying_system.view.MainActivity
-import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
-import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
-import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModel
-import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModelFactory
+import ar.edu.ort.jefud_notifying_system.view.operator.OperatorActivity
+import ar.edu.ort.jefud_notifying_system.viewmodel.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
@@ -46,23 +46,32 @@ class PanelistActivity : AppCompatActivity() {
         )
     }
 
-    private val viewModelUsers: UsersViewModel by viewModels {
-        UsersViewModelFactory(
+    private val viewModelHistoricAlarm: HistoricAlarmsViewModel by viewModels {
+        HistoricAlarmsViewModelFactory(
             (this.application as JEFUDApplication).database
-                .userDao()
+                .historicAlarmDao()
         )
     }
+
+    private lateinit var notificationManager : NotificationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_panelista)
         setupBottomNavBar()
+        createNotificationChannel()
+
         viewModelMessages.allMessages.observe(this) {messages ->
 
-            getMessages(messages)
+            createNotificationMessages(messages)
 
 
+        }
+
+        viewModelHistoricAlarm.allAlarms.observe(this) {
+                alarms ->
+            createNotificationAlarms(alarms)
         }
 
 
@@ -70,7 +79,29 @@ class PanelistActivity : AppCompatActivity() {
 
     }
 
-    private fun getMessages(messages: List<Message>?) {
+    private fun createNotificationAlarms(alarms: List<HistoricAlarm>?) {
+        val userDetails = this.getSharedPreferences("userdetails",
+            Context.MODE_PRIVATE
+        )
+        val panel = userDetails.getString("panel", "")
+
+        var newAlarms = false
+        var i = 0
+        if(alarms != null && panel != null)
+            while(!newAlarms && i < alarms.size) {
+
+                if(alarms[i].panel.compareTo(panel) == 0 && alarms[i].value.compareTo("rtn") != 0) {
+                    newAlarms = true
+                }
+                i++
+            }
+
+        if(newAlarms) {
+            createNotificationBuilderAlarms()
+        }
+    }
+
+    private fun createNotificationMessages(messages: List<Message>?) {
         val userDetails = this.getSharedPreferences("userdetails",
             Context.MODE_PRIVATE
         )
@@ -88,7 +119,7 @@ class PanelistActivity : AppCompatActivity() {
             }
 
         if(newMessages) {
-            createNotificationBuilder()
+            createNotificationBuilderMessages()
             if (messages != null) {
                 for(message in messages) {
                     message.read = true
@@ -100,29 +131,66 @@ class PanelistActivity : AppCompatActivity() {
 
     }
 
-    private fun createNotificationBuilder() {
+    private fun createNotificationChannel() {
+        notificationManager =  getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val notificationChannelGroup = NotificationChannelGroup(
+            Contacts.GroupMembership.GROUP_ID,
+            applicationContext.getString(R.string.GROUP_NAME)
+        )
+        notificationManager.createNotificationChannelGroup(notificationChannelGroup)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            var notificationChannel  = NotificationChannel("NOTIFICATION_URGENT _ID", "My Notifications", NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.description = "Channel description"
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+
+            notificationChannel.group = Contacts.GroupMembership.GROUP_ID
+            notificationChannel.setShowBadge(true)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+    }
+
+    private fun createNotificationBuilderAlarms() {
 
 
 
-            val notificationManager : NotificationManager =  getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            val notificationChannelGroup = NotificationChannelGroup(
-                GROUP_ID,
-                applicationContext.getString(R.string.GROUP_NAME)
-            )
-            notificationManager.createNotificationChannelGroup(notificationChannelGroup)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                var notificationChannel  = NotificationChannel("NOTIFICATION_URGENT _ID", "My Notifications", NotificationManager.IMPORTANCE_HIGH);
-                notificationChannel.description = "Channel description"
-                notificationChannel.enableLights(true)
-                notificationChannel.lightColor = Color.RED
-                notificationChannel.enableVibration(true)
 
-                notificationChannel.group = GROUP_ID
-                notificationChannel.setShowBadge(true)
-                notificationManager.createNotificationChannel(notificationChannel)
-            }
+        var notificationBuilder : NotificationCompat.Builder = NotificationCompat.Builder(this, "NOTIFICATION_URGENT _ID");
+
+        notificationBuilder.setAutoCancel(true)
+            .setDefaults(Notification.DEFAULT_ALL)
+            .setWhen(System.currentTimeMillis())
+            .setSmallIcon(R.drawable.ic_alert_alarm)
+            .setTicker("Alarmas")
+            .setContentTitle("RAIZEN")
+            .setContentIntent(onClickAlarm())
+            .setContentText("Nuevas alarmas sin solucionar")
+            .setContentInfo("");
+
+
+        var random = Random();
+        var m = random.nextInt(9999 - 1000) + 1000;
+        notificationManager.notify(/*notification id*/m, notificationBuilder.build());
+
+
+    }
+
+    private fun onClickAlarm(): PendingIntent? {
+
+
+        return NavDeepLinkBuilder(this)
+            .setComponentName(PanelistActivity::class.java)
+            .setGraph(R.navigation.panelist_nav_graph)
+            .setDestination(R.id.panelistAlarm)
+            .createPendingIntent()
+    }
+
+    private fun createNotificationBuilderMessages() {
 
 
             var notificationBuilder : NotificationCompat.Builder = NotificationCompat.Builder(this, "NOTIFICATION_URGENT _ID");
@@ -130,7 +198,7 @@ class PanelistActivity : AppCompatActivity() {
             notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.raizen_text)
+                .setSmallIcon(R.drawable.ic_outline_chat_bubble_outline)
                 .setTicker("Mensajes")
                 .setContentTitle("RAIZEN")
                 .setContentIntent(onClick())

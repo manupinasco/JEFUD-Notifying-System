@@ -116,7 +116,7 @@ class ManagerActivity : AppCompatActivity() {
         notificationBuilder.setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_ALL)
             .setWhen(System.currentTimeMillis())
-            .setSmallIcon(R.drawable.raizen_text)
+            .setSmallIcon(R.drawable.ic_outline_chat_bubble_outline)
             .setTicker("Mensajes")
             .setContentTitle("RAIZEN")
             .setContentIntent(onClick())

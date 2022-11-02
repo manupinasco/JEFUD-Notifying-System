@@ -47,7 +47,6 @@ class CoordinatorFailureDetails : Fragment() {
         binding.task.text = CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).task
         binding.value.text = CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).value
         btnReturn = binding.goBack
-        btnRewrite = binding.rewrite
         btnSolve = binding.solve
 
         return binding.root
@@ -61,14 +60,14 @@ class CoordinatorFailureDetails : Fragment() {
 
         }
 
-        btnRewrite.setOnClickListener{
+        /*btnRewrite.setOnClickListener{
             viewModelFailure.retrieveFailureUnsolvedByEquipment(CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).equipment).observe(this.viewLifecycleOwner) {
                 failure ->
                 failure.solved = true
                 viewModelFailure.updateFailure(failure)
             }
             goBack()
-        }
+        }*/
 
         btnSolve.setOnClickListener{
 

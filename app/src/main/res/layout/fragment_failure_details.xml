@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.48" />
+        app:layout_constraintGuide_percent="0.38" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline42"
@@ -116,7 +116,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/primary_color"
-        android:src="@drawable/ic_person"
+        android:src="@drawable/ic_baseline_error_outline_24"
         app:layout_constraintBottom_toTopOf="@+id/guideline56"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,34 +138,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline54"
         tools:ignore="TextContrastCheck" />
-
-    <TextView
-        android:id="@+id/plant"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        android:background="@color/secondary_color"
-        android:gravity="center"
-        android:text="Plant"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline42" />
-
-    <TextView
-        android:id="@+id/panel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        android:background="@color/secondary_color"
-        android:gravity="center"
-        android:text="Panel"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plant" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

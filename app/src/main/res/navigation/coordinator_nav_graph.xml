@@ -92,20 +92,20 @@
         android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorFailureDetails"
         android:label="fragment_failure_details"
         tools:layout="@layout/fragment_failure_details" >
-        <argument
-            android:name="Task"
-            app:argType="string" />
-        <argument
-            android:name="Value"
-            app:argType="string" />
-        <argument
-            android:name="Equipment"
-            app:argType="string" />
         <action
             android:id="@+id/action_coordinatorFailureDetails_to_coordinatorFailures"
             app:destination="@id/coordinatorFailures"
             app:popUpTo="@id/coordinatorFailures"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="value"
+            app:argType="string" />
+        <argument
+            android:name="task"
+            app:argType="string" />
+        <argument
+            android:name="equipment"
+            app:argType="string" />
     </fragment>
 
 

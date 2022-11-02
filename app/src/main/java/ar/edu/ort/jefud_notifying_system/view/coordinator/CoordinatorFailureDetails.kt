@@ -75,10 +75,10 @@ class CoordinatorFailureDetails : Fragment() {
                     failure ->
                 failure.solved = true
                 viewModelFailure.updateFailure(failure)
+                goBack()
             }
-            goBack()
 
-            goBack()
+
         }
 
     }

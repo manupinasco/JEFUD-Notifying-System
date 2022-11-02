@@ -98,14 +98,14 @@ class CoordinatorFailures : Fragment(), onFailureClickListener {
         val userPanel = userDetails.getString("panel", "").toString()
         val userPlant = userDetails.getString("plant", "").toString()
 
-        if(failures != null && userPanel != null && userPlant != null)
+        viewModelFailure.retrieveFailureByPlantAndPanel(userPlant, userPanel).observe(this.viewLifecycleOwner) {
+            failures ->
             for (i in failures.indices) {
-                if(failures[i].plant?.compareTo(userPlant) == 0 && failures[i].panel?.compareTo(userPanel) == 0) {
-                    failuresList.add(failures[i])
-                }
+                failuresList.add(failures[i])
             }
+            activity?.runOnUiThread(Runnable { failureListAdapter.notifyDataSetChanged() })
+        }
 
-        activity?.runOnUiThread(Runnable { failureListAdapter.notifyDataSetChanged() })
 
     }
 

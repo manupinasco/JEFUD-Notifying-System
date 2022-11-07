@@ -9,7 +9,7 @@ import ar.edu.ort.jefud_notifying_system.dao.*
 import ar.edu.ort.jefud_notifying_system.model.*
 import java.io.File
 
-@Database(entities = [User::class, Alarm::class, HistoricAlarm::class, Message::class, Failure::class], version = 18)
+@Database(entities = [User::class, Alarm::class, HistoricAlarm::class, Message::class, Failure::class], version = 20)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun alarmDao(): AlarmDao

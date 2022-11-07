@@ -45,6 +45,15 @@ class HistoricAlarmsViewModel(private val historicAlarmDao: HistoricAlarmDao): V
         return historicAlarmDao.getAlarmsByTagAndMonthAndPlant(tag, month, plant).asLiveData()
     }
 
+    fun retrieveAlarmsByPlant(plant: String, month: String): LiveData<List<HistoricAlarm>> {
+        return historicAlarmDao.getAlarmsByPlant(month, plant).asLiveData()
+    }
+
+    fun retrieveAlarmsByPanel(panel: String, month: String): LiveData<List<HistoricAlarm>> {
+        return historicAlarmDao.getAlarmsByPanel(month, panel).asLiveData()
+    }
+
+
 
     fun delete(historicAlarm: HistoricAlarm) {
         deleteHistoricAlarm(historicAlarm)

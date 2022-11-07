@@ -14,6 +14,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -21,10 +22,12 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentCoordinatorFrecuentAlarmBinding
 import ar.edu.ort.jefud_notifying_system.model.Alarm
+import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
 import ar.edu.ort.jefud_notifying_system.viewmodel.*
 import java.util.*
 
@@ -91,6 +94,11 @@ class CoordinatorFrecuentAlarm : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        binding.buttonToOOS.setOnClickListener{
+            val action = CoordinatorFrecuentAlarmDirections.actionCoordinatorFrecuentAlarmToCoordinatorOos()
+            findNavController().navigate(action)
+        }
+
         val spinner = binding.spinner
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -110,7 +118,7 @@ class CoordinatorFrecuentAlarm : Fragment() {
 
     }
 
-    @SuppressLint("ResourceAsColor")
+
     private fun bindData(spinner: Spinner) {
 
         val tag = spinner.selectedItem.toString()
@@ -120,48 +128,68 @@ class CoordinatorFrecuentAlarm : Fragment() {
         )
         val panel = userDetails.getString("panel", "")
         if (tag != "" && panel != null)
-            viewModelHistoricAlarm.retrieveAlarmsByTagAndMonthAndPanel(
-                tag, "10", panel
-            ).observe(this.viewLifecycleOwner) { alarms ->
-                val amountAlarms = alarms.size
-                binding.frecuentAlarmProgressBar.progress = amountAlarms
-                if(amountAlarms > 2) {
-                    val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
-                    frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.alert_color))
-                    frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_alert_alarm, 0, 0, 0);
-                    val text =
-                        "Gran frecuencia de alarmas con tag name" + " " + tag + ". Solucionarlo."
-                    val ss = SpannableString(text)
-                    val clickableSpan: ClickableSpan = object : ClickableSpan() {
-                        override fun onClick(textView: View) {
-                            sendSolution(tag)
-                        }
-
-                        override fun updateDrawState(ds: TextPaint) {
-                            super.updateDrawState(ds)
-                            ds.color = ds.linkColor
-                            ds.isUnderlineText = true
-                        }
-                    }
-                    ss.setSpan(
-                        clickableSpan,
-                        text.length - 13,
-                        text.length,
-                        Spanned.SPAN_EXCLUSIVE_INCLUSIVE
-                    )
-
-                    frecuentAlarmAdviseTextView.text = ss
-                    frecuentAlarmAdviseTextView.movementMethod = LinkMovementMethod.getInstance()
-                    frecuentAlarmAdviseTextView.highlightColor = android.R.color.transparent
+            if(tag.compareTo("Todos") == 0) {
+                viewModelHistoricAlarm.retrieveAlarmsByPanel(
+                    panel, "10"
+                ).observe(this.viewLifecycleOwner) { alarms ->
+                    bindAlarmsData(alarms)
                 }
-                else {
+                binding.frecuentAlarmAdviseTextView.visibility = INVISIBLE
+            }
+            else {
+                binding.frecuentAlarmAdviseTextView.visibility = View.VISIBLE
+                viewModelHistoricAlarm.retrieveAlarmsByTagAndMonthAndPanel(
+                    tag, "10", panel
+                ).observe(this.viewLifecycleOwner) { alarms ->
+                    bindAlarmsData(alarms)
+            }
 
-                    val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
-                    frecuentAlarmAdviseTextView.text = "Correcta frecuencia de alarmas"
-                    frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green_color))
-                    frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ok_alarm, 0, 0, 0);
+            }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun bindAlarmsData(alarms: List<HistoricAlarm>) {
+        val amountAlarms = alarms.size
+        val tag = binding.spinner.selectedItem.toString()
+        binding.frecuentAlarmProgressBar.progress = amountAlarms
+        if(amountAlarms > 2) {
+            val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
+            frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.alert_color))
+            frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_alert_alarm, 0, 0, 0);
+            val text =
+                "Gran frecuencia de alarmas con tag name" + " " + tag + ". Solucionarlo."
+            val ss = SpannableString(text)
+
+            val tag = binding.spinner.selectedItem.toString()
+            val clickableSpan: ClickableSpan = object : ClickableSpan() {
+                override fun onClick(textView: View) {
+                    sendSolution(tag)
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.color = ds.linkColor
+                    ds.isUnderlineText = true
                 }
             }
+            ss.setSpan(
+                clickableSpan,
+                text.length - 13,
+                text.length,
+                Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+            )
+
+            frecuentAlarmAdviseTextView.text = ss
+            frecuentAlarmAdviseTextView.movementMethod = LinkMovementMethod.getInstance()
+            frecuentAlarmAdviseTextView.highlightColor = android.R.color.transparent
+        }
+        else {
+
+            val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
+            frecuentAlarmAdviseTextView.text = "Correcta frecuencia de alarmas"
+            frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green_color))
+            frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ok_alarm, 0, 0, 0);
+        }
     }
 
     private fun sendSolution(tag: String) {

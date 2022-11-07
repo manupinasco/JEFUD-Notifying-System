@@ -63,10 +63,12 @@
         <item>PSG1_GE:04PA443CIN</item>
         <item>PSG1_SO:04TI031AIN</item>
         <item>PSG1_PO:04TI031AIN</item>
+        <item>Todos</item>
     </string-array>
 
     <string-array name="array_panels">
         <item>CCU</item>
+        <item>Todos</item>
     </string-array>
 
     <string-array name="array_equipment">
@@ -76,6 +78,7 @@
         <item>TP3001</item>
         <item>CWVB TM</item>
         <item>P202C</item>
+        <item>Todos</item>
     </string-array>
 
     <string-array name="array_values">

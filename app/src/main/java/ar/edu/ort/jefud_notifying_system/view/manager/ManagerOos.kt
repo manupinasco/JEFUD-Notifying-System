@@ -8,6 +8,7 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,25 +17,24 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentManagerFrecuentAlarmBinding
+import ar.edu.ort.jefud_notifying_system.databinding.FragmentManagerOosBinding
+import ar.edu.ort.jefud_notifying_system.model.Failure
 import ar.edu.ort.jefud_notifying_system.model.HistoricAlarm
 import ar.edu.ort.jefud_notifying_system.viewmodel.*
-import java.util.*
 
 
-class ManagerFrecuentAlarm : Fragment() {
-
-    private var _binding: FragmentManagerFrecuentAlarmBinding? = null
+class ManagerOos : Fragment() {
+    private var _binding: FragmentManagerOosBinding? = null
     private val binding get() = _binding!!
-    private val viewModelHistoricAlarm: HistoricAlarmsViewModel by activityViewModels {
-        HistoricAlarmsViewModelFactory(
+    private val viewModelFailures: FailuresViewModel by activityViewModels {
+        FailuresViewModelFactory(
             (activity?.application as JEFUDApplication).database
-                .historicAlarmDao()
+                .failureDao()
         )
     }
     private val viewModelMessages: MessageViewModel by activityViewModels {
@@ -55,28 +55,18 @@ class ManagerFrecuentAlarm : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentManagerFrecuentAlarmBinding.inflate(inflater, container, false)
+        _binding = FragmentManagerOosBinding.inflate(inflater, container, false)
 
 
 
         val spinner = binding.spinner
         ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.array_tags,
+            R.array.array_equipment,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
-        }
-
-        val spinner2 = binding.spinner2
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.array_panels,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner2.adapter = adapter
         }
 
 
@@ -96,12 +86,12 @@ class ManagerFrecuentAlarm : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        binding.buttonToOOS.setOnClickListener{
-            val action = ManagerFrecuentAlarmDirections.actionManagerFrecuentAlarmToManagerOOS()
+        binding.buttonToFrecuentAlarm.setOnClickListener{
+            val action = ManagerOosDirections.actionManagerOOSToManagerFrecuentAlarm()
             findNavController().navigate(action)
         }
+
         val spinner = binding.spinner
-        val spinner2 = binding.spinner2
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -110,22 +100,7 @@ class ManagerFrecuentAlarm : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                bindData(spinner, spinner2)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
-
-        spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                bindData(spinner, spinner2)
+                bindData(spinner)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -135,70 +110,48 @@ class ManagerFrecuentAlarm : Fragment() {
     }
 
 
-    private fun bindData(spinner: Spinner, spinner2: Spinner) {
-        val tag = spinner.selectedItem.toString()
-        val panel = spinner2.selectedItem.toString()
+    private fun bindData(spinner: Spinner) {
+        val equipment = spinner.selectedItem.toString()
         val userDetails = requireContext().getSharedPreferences("userdetails",
             Context.MODE_PRIVATE
         )
         val plant = userDetails.getString("plant", "")
-        if(tag != "" && panel != "" && plant != null)
-            if(tag.compareTo("Todos") == 0) {
+        if(equipment != "" && plant != null)
+            if(equipment.compareTo("Todos") == 0) {
                 binding.frecuentAlarmAdviseTextView.visibility = View.INVISIBLE
-                if(panel.compareTo("Todos") == 0) {
-                    viewModelHistoricAlarm.retrieveAlarmsByPlant(
-                        plant, "10"
-                    ).observe(this.viewLifecycleOwner) { alarms ->
-                        bindAlarmsData(alarms)
+                viewModelFailures.retrieveFailureByPlant(
+                        plant
+                    ).observe(this.viewLifecycleOwner) { failures ->
+                        bindFailuresData(failures)
                     }
-                }
-                else {
-                    viewModelHistoricAlarm.retrieveAlarmsByPanel(
-                        panel, "10"
-                    ).observe(this.viewLifecycleOwner) { alarms ->
-                        bindAlarmsData(alarms)
-                    }
-                }
 
             }
             else {
-                if(panel.compareTo("Todos") == 0) {
+                binding.frecuentAlarmAdviseTextView.visibility = View.VISIBLE
+                viewModelFailures.retrieveFailuresByEquipment(
+                    equipment
+                ).observe(this.viewLifecycleOwner) { failures ->
+                    bindFailuresData(failures)
 
-                    binding.frecuentAlarmAdviseTextView.visibility = View.INVISIBLE
-                    viewModelHistoricAlarm.retrieveAlarmsByTagAndMonthAndPlant(
-                        tag, "10", plant
-                    ).observe(this.viewLifecycleOwner) { alarms ->
-                        bindAlarmsData(alarms)
-                    }
-                }
-                else {
-
-                    binding.frecuentAlarmAdviseTextView.visibility = View.VISIBLE
-                    viewModelHistoricAlarm.retrieveAlarmsByTagAndMonthAndPanel(
-                        tag, "10", panel
-                    ).observe(this.viewLifecycleOwner){
-                            alarms ->
-                        bindAlarmsData(alarms)
-                    }
                 }
 
 
 
-        }
+            }
 
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun bindAlarmsData(alarms: List<HistoricAlarm>) {
-        val amountAlarms = alarms.size
-        binding.frecuentAlarmProgressBar.progress = amountAlarms
-        if(amountAlarms > 2) {
+    private fun bindFailuresData(failures: List<Failure>) {
+        val amountFailures = failures.size
+        val equipment = binding.spinner.selectedItem.toString()
+        binding.frecuentAlarmProgressBar.progress = amountFailures
+        if(amountFailures > 2) {
             val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
             frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.alert_color))
             frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_alert_alarm, 0, 0, 0);
-            val text = "Gran frecuencia de alarmas con tag name" + " " + tag + ". Solucionarlo."
+            val text = "Gran frecuencia de oos activos en el equipo " + equipment + ". Solucionarlo."
             val ss = SpannableString(text)
-            val panel = binding.spinner2.selectedItem.toString()
             val userDetails = requireContext().getSharedPreferences("userdetails",
                 Context.MODE_PRIVATE
             )
@@ -206,13 +159,13 @@ class ManagerFrecuentAlarm : Fragment() {
             val clickableSpan: ClickableSpan = object : ClickableSpan() {
                 override fun onClick(textView: View) {
 
-                    viewModelUsers.retrieveUserByPanel(panel, "COORDINATOR")
+                    viewModelUsers.retrieveUserByPanel(failures[0].panel, "COORDINATOR")
                         .observe(viewLifecycleOwner) { user ->
                             if (userDni != null)
                                 viewModelMessages.addNewMessage(
-                                    userDni,
                                     user.dni,
-                                    ("En vistas de la gran frecuencia de alarmas de tipo " + tag + ", pido que se comunique conmigo para gestionar una reunión de revisión."),
+                                    userDni,
+                                    ("En vistas de la gran frecuencia de oos activos en el equipo " + equipment + ", pido que se comunique conmigo para gestionar una reunión de revisión."),
                                     false
                                 )
                         }
@@ -242,13 +195,9 @@ class ManagerFrecuentAlarm : Fragment() {
         else {
 
             val frecuentAlarmAdviseTextView = binding.frecuentAlarmAdviseTextView
-            frecuentAlarmAdviseTextView.text = "Correcta frecuencia de alarmas"
+            frecuentAlarmAdviseTextView.text = "Correcta frecuencia de oos"
             frecuentAlarmAdviseTextView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green_color))
             frecuentAlarmAdviseTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ok_alarm, 0, 0, 0);
         }
     }
-
-
-
-
 }

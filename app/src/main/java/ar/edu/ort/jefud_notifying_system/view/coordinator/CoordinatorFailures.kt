@@ -70,13 +70,14 @@ class CoordinatorFailures : Fragment(), onFailureClickListener {
 
         recFailure.adapter = failureListAdapter
 
+
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
         failuresList.clear()
-        addData()
+
     }
 
     private fun addData(){

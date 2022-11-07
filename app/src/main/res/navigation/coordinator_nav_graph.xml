@@ -9,7 +9,11 @@
         android:id="@+id/coordinatorFrecuentAlarm"
         android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorFrecuentAlarm"
         android:label="fragment_coordinator_frecuent_alarm"
-        tools:layout="@layout/fragment_coordinator_frecuent_alarm" />
+        tools:layout="@layout/fragment_coordinator_frecuent_alarm" >
+        <action
+            android:id="@+id/action_coordinatorFrecuentAlarm_to_coordinatorOos"
+            app:destination="@id/coordinatorOos" />
+    </fragment>
     <fragment
         android:id="@+id/coordinatorMessageSending"
         android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorMessageSending"
@@ -106,6 +110,17 @@
         <argument
             android:name="equipment"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/coordinatorOos"
+        android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorOos"
+        android:label="fragment_coordinator_oos"
+        tools:layout="@layout/fragment_coordinator_oos" >
+        <action
+            android:id="@+id/action_coordinatorOos_to_coordinatorFrecuentAlarm"
+            app:destination="@id/coordinatorFrecuentAlarm"
+            app:popUpTo="@id/coordinatorFrecuentAlarm"
+            app:popUpToInclusive="true" />
     </fragment>
 
 

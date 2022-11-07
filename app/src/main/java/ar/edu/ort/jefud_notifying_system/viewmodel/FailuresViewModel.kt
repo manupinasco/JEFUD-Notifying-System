@@ -1,5 +1,6 @@
 package ar.edu.ort.jefud_notifying_system.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 
 import ar.edu.ort.jefud_notifying_system.dao.FailureDao
@@ -43,7 +44,8 @@ class FailuresViewModel(private val failureDao: FailureDao): ViewModel() {
             equipment = equipment,
             value = value,
             task = task,
-            solved = false
+            solved = false,
+            active = null
         )
     }
 
@@ -51,8 +53,20 @@ class FailuresViewModel(private val failureDao: FailureDao): ViewModel() {
         return failureDao.getFailuresByPlantAndPanel(plant, panel).asLiveData()
     }
 
+    fun retrieveFailureByPanel(panel: String): LiveData<List<Failure>>  {
+        return failureDao.getFailuresByPanel(panel).asLiveData()
+    }
+
+    fun retrieveFailureByPlant(plant: String): LiveData<List<Failure>>  {
+        return failureDao.getFailuresByPlant(plant).asLiveData()
+    }
+
     fun retrieveFailureUnsolvedByEquipment(equipment: String): LiveData<Failure>  {
         return failureDao.getFailureUnsolvedByEquipment(equipment).asLiveData()
+    }
+
+    fun retrieveFailuresByEquipment(equipment: String): LiveData<List<Failure>>  {
+        return failureDao.getFailuresEquipment(equipment).asLiveData()
     }
 
     fun updateFailure(failure: Failure) {
@@ -61,6 +75,7 @@ class FailuresViewModel(private val failureDao: FailureDao): ViewModel() {
     }
 
     private fun update(failure: Failure) {
+
         viewModelScope.launch {
             failureDao.updateFailure(failure)
         }

@@ -6,9 +6,13 @@
     app:startDestination="@id/managerFrecuentAlarm">
     <fragment
         android:id="@+id/managerFrecuentAlarm"
-        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerAlarm"
+        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerFrecuentAlarm"
         android:label="fragment_manager_frecuent_alarm"
-        tools:layout="@layout/fragment_manager_frecuent_alarm" />
+        tools:layout="@layout/fragment_manager_frecuent_alarm" >
+        <action
+            android:id="@+id/action_managerFrecuentAlarm_to_managerOOS"
+            app:destination="@id/managerOOS" />
+    </fragment>
     <fragment
         android:id="@+id/managerMessageDetails"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessageDetails"
@@ -46,9 +50,15 @@
     </fragment>
     <fragment
         android:id="@+id/managerOOS"
-        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerOOS"
+        android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerOos"
         android:label="fragment_manager_oos"
-        tools:layout="@layout/fragment_manager_oos" />
+        tools:layout="@layout/fragment_manager_oos" >
+        <action
+            android:id="@+id/action_managerOOS_to_managerFrecuentAlarm"
+            app:destination="@id/managerFrecuentAlarm"
+            app:popUpTo="@id/managerFrecuentAlarm"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/managerMessagesReceived"
         android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerMessagesReceived"

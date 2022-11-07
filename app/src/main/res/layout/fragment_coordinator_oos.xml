@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/coordinatorOos"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.manager.ManagerFrecuentAlarm">
+    tools:context=".view.coordinator.CoordinatorOos"
 
+    >
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline52"
         android:layout_width="wrap_content"
@@ -145,7 +146,7 @@
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/transparent_nav_button"
+            android:background="@drawable/nav_button"
             android:gravity="center"
             android:onClick="onButtonClick"
             android:padding="5dp"
@@ -164,7 +165,7 @@
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/nav_button"
+            android:background="@drawable/transparent_nav_button"
             android:contextClickable="false"
             android:enabled="true"
             android:gravity="center"
@@ -209,7 +210,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autoSizeTextType="uniform"
-        android:text="Seleccione un Tag:"
+        android:text="Seleccione un equipo:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline15" />
 
@@ -220,31 +221,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.16" />
 
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textSpinner"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/textSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        android:text="Seleccione un Panel:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineSpinner" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.24" />
-
     <TextView
         android:id="@+id/textView23"
         android:layout_width="0dp"
@@ -253,7 +229,7 @@
         android:autoSizeTextType="uniform"
         android:gravity="center_horizontal|top"
         android:padding="10dp"
-        android:text="Cantidad de alarmas del tag durante el mes"
+        android:text="Cantidad de oos activos en el equipo"
         app:layout_constraintBottom_toTopOf="@+id/guideline50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

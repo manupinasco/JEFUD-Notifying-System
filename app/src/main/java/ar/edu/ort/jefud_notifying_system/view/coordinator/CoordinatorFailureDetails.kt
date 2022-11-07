@@ -1,6 +1,7 @@
 package ar.edu.ort.jefud_notifying_system.view.coordinator
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +30,6 @@ class CoordinatorFailureDetails : Fragment() {
     private var _binding: FragmentFailureDetailsBinding? = null
     private val binding get() = _binding!!
     private lateinit var btnReturn : Button
-    private lateinit var btnRewrite : Button
     private lateinit var btnSolve : Button
     private val viewModelFailure: FailuresViewModel by activityViewModels {
         FailuresViewModelFactory(
@@ -60,23 +60,17 @@ class CoordinatorFailureDetails : Fragment() {
 
         }
 
-        /*btnRewrite.setOnClickListener{
-            viewModelFailure.retrieveFailureUnsolvedByEquipment(CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).equipment).observe(this.viewLifecycleOwner) {
-                failure ->
-                failure.solved = true
-                viewModelFailure.updateFailure(failure)
-            }
-            goBack()
-        }*/
-
         btnSolve.setOnClickListener{
 
             viewModelFailure.retrieveFailureUnsolvedByEquipment(CoordinatorFailureDetailsArgs.fromBundle(requireArguments()).equipment).observe(this.viewLifecycleOwner) {
                     failure ->
+
                 failure.solved = true
+                failure.active = true
                 viewModelFailure.updateFailure(failure)
                 goBack()
             }
+
 
 
         }

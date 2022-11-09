@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="ar.edu.ort.jefud_notifying_system.database.JEFUDApplication"
+        android:name=".database.JEFUDApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,13 +18,25 @@
         android:theme="@style/Theme.JEFUDNotifyingSystem"
         tools:targetApi="31">
         <activity
-            android:name="ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorActivity"
+            android:name=".view.SplashActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.coordinator.CoordinatorActivity"
             android:exported="false" />
         <activity
-            android:name="ar.edu.ort.jefud_notifying_system.view.manager.ManagerActivity"
+            android:name=".view.manager.ManagerActivity"
             android:exported="false" />
         <activity
-            android:name="ar.edu.ort.jefud_notifying_system.view.panelist.PanelistActivity"
+            android:name=".view.panelist.PanelistActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing">
             <meta-data
@@ -32,7 +44,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="ar.edu.ort.jefud_notifying_system.view.operator.OperatorActivity"
+            android:name=".view.operator.OperatorActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing">
             <meta-data
@@ -41,12 +53,7 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
     </application>
 

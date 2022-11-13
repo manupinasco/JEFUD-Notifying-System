@@ -24,7 +24,7 @@ class MessageViewModel(private val messageDao: MessageDao): ViewModel() {
             dniRecipient = dniRecipient,
             dniSender = dniSender,
             message = message,
-            read = read
+            read = false
         )
     }
 

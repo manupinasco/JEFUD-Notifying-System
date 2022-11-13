@@ -51,6 +51,15 @@ class LoginFragment : Fragment() {
         super.onStart()
         addData()
         binding.buttonLogin.setOnClickListener { login() }
+        binding.buttonStayLoggedIn.setOnClickListener{
+            if (!binding.buttonStayLoggedIn.isChecked) {
+            binding.buttonStayLoggedIn.isChecked = true
+        }
+            else if (binding.buttonStayLoggedIn.isChecked) {
+                binding.buttonStayLoggedIn.isChecked = false
+            }
+
+        }
     }
 
     private fun addData() {

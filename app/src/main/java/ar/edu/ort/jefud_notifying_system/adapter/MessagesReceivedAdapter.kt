@@ -27,7 +27,7 @@ class MessagesReceivedAdapter(private val messagesList: MutableList<Message>, pr
         runBlocking(Dispatchers.IO) {
             user = searchUser(messagesList[position].dniSender).first()
         }
-        holder.bind(user)
+        holder.bind(user, messagesList[position].read)
 
         holder.getCardLayout().setOnClickListener{
             onItemClick.onViewItemDetail(messagesList[position], user)

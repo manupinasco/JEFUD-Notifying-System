@@ -120,12 +120,6 @@ class OperatorActivity : AppCompatActivity() {
 
         if(newMessages) {
             createNotificationBuilderMessages()
-            if (messages != null) {
-                for(message in messages) {
-                    message.read = true
-                    viewModelMessages.updateMessage(message)
-                }
-            }
         }
 
 

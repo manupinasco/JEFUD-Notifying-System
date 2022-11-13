@@ -1,6 +1,9 @@
 package ar.edu.ort.jefud_notifying_system.adapter
 
+import android.util.Log
 import android.view.View
+import android.view.View.VISIBLE
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -12,9 +15,13 @@ class MessageReceivedViewHolder(itemView: View): RecyclerView.ViewHolder(itemVie
 
    private val messageTitleTextView : TextView = itemView.findViewById(R.id.messageTitleTextView)
 
+    private val messageRedPoint : ImageView = itemView.findViewById(R.id.message_red_point)
 
-    fun bind(user: User) {
+    fun bind(user: User, read: Boolean) {
         messageTitleTextView.text = user.name + " " + user.surname
+        if(!read) {
+            messageRedPoint.visibility = VISIBLE
+        }
     }
 
     fun getCardLayout (): CardView {

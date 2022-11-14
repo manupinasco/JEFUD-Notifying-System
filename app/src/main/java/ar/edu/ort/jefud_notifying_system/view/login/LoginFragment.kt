@@ -4,22 +4,30 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import ar.edu.ort.jefud_notifying_system.R
 import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.databinding.FragmentLoginBinding
 import ar.edu.ort.jefud_notifying_system.model.User
+import ar.edu.ort.jefud_notifying_system.model.UserLogged
 import ar.edu.ort.jefud_notifying_system.view.coordinator.CoordinatorActivity
 import ar.edu.ort.jefud_notifying_system.view.manager.ManagerActivity
 import ar.edu.ort.jefud_notifying_system.view.operator.OperatorActivity
 import ar.edu.ort.jefud_notifying_system.view.panelist.PanelistActivity
+import ar.edu.ort.jefud_notifying_system.viewmodel.UserLoggedViewModel
+import ar.edu.ort.jefud_notifying_system.viewmodel.UserLoggedViewModelFactory
 import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.UsersViewModelFactory
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -36,6 +44,12 @@ class LoginFragment : Fragment() {
                 .userDao()
         )
     }
+    private val viewModelUserLogged: UserLoggedViewModel by viewModels {
+        UserLoggedViewModelFactory(
+            (activity?.application as JEFUDApplication).database
+                .userLoggedDao()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,23 +57,61 @@ class LoginFragment : Fragment() {
     ): View? {
        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         vista = inflater.inflate(R.layout.fragment_login, container, false)
+        viewModelUserLogged.retrieveUser().observe(this.viewLifecycleOwner) {
+                userLogged ->
+            if(userLogged != null) {
+                if(userLogged.stayLoggedIn) {
+                    when (userLogged.role) {
+                        "PANELIST" -> startActivity(
+                            Intent(
+                                requireContext(),
+                                PanelistActivity::class.java
+                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        )
+                        "OPERATOR" -> startActivity(
+                            Intent(
+                                requireContext(),
+                                OperatorActivity::class.java
+                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        )
+                        "MANAGER" -> startActivity(
+                            Intent(
+                                requireContext(),
+                                ManagerActivity::class.java
+                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        )
+                        "COORDINATOR" -> startActivity(
+                            Intent(
+                                requireContext(),
+                                CoordinatorActivity::class.java
+                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        )
+                    }
+                }
+            }
+
+        }
         return binding.root
+
     }
+
 
 
     override fun onStart() {
         super.onStart()
+
         addData()
         binding.buttonLogin.setOnClickListener { login() }
-        binding.buttonStayLoggedIn.setOnClickListener{
-            if (!binding.buttonStayLoggedIn.isChecked) {
-            binding.buttonStayLoggedIn.isChecked = true
-        }
-            else if (binding.buttonStayLoggedIn.isChecked) {
+
+        var isActivatedButton = binding.buttonStayLoggedIn.isChecked
+
+        binding.buttonStayLoggedIn.setOnClickListener {
+            if(isActivatedButton) {
                 binding.buttonStayLoggedIn.isChecked = false
             }
-
+            isActivatedButton = binding.buttonStayLoggedIn.isChecked
         }
+
     }
 
     private fun addData() {
@@ -107,8 +159,6 @@ class LoginFragment : Fragment() {
                 )
                 val edit: SharedPreferences.Editor = userDetails.edit()
                 edit.putString("dni", user.dni)
-                val password = encrypt(algorithm, user.password, key, iv)
-                edit.putString("password", password)
                 edit.putString("panel", user.panel)
                 edit.putString("role", user.role)
                 edit.putString("plant", user.plant)
@@ -116,6 +166,7 @@ class LoginFragment : Fragment() {
                 edit.apply()
 
 
+                viewModelUserLogged.addUserLogged(UserLogged(dni = user.dni, name = user.name, surname = user.surname, panel = user.panel, role = user.role, plant = user.plant, shift = user.shift, stayLoggedIn = binding.buttonStayLoggedIn.isChecked))
 
                 when(user.role) {
                     "PANELIST" -> startActivity(Intent(requireContext(), PanelistActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
@@ -124,7 +175,7 @@ class LoginFragment : Fragment() {
                     "COORDINATOR" -> startActivity(Intent(requireContext(), CoordinatorActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 }
             } else {
-                Toast.makeText(getContext(), "Contraseña no correcta", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Contraseña no correcta", Toast.LENGTH_SHORT)
                     .show()
             }
         }

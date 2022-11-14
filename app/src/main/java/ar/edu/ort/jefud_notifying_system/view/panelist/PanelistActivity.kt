@@ -244,10 +244,10 @@ class PanelistActivity : AppCompatActivity() {
         )
         val edit: SharedPreferences.Editor = userDetails.edit()
         edit.putString("dni", "")
-        edit.putString("password", "")
         edit.putString("panel", "")
         edit.putString("role", "")
         edit.apply()
+
         startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
     }
 

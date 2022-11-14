@@ -23,10 +23,7 @@ import ar.edu.ort.jefud_notifying_system.database.JEFUDApplication
 import ar.edu.ort.jefud_notifying_system.model.Failure
 import ar.edu.ort.jefud_notifying_system.model.Message
 import ar.edu.ort.jefud_notifying_system.view.MainActivity
-import ar.edu.ort.jefud_notifying_system.viewmodel.FailuresViewModel
-import ar.edu.ort.jefud_notifying_system.viewmodel.FailuresViewModelFactory
-import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
-import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
+import ar.edu.ort.jefud_notifying_system.viewmodel.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
@@ -43,6 +40,7 @@ class CoordinatorActivity : AppCompatActivity() {
                 .messageDao()
         )
     }
+
 
     private lateinit var notificationManager : NotificationManager
 
@@ -230,10 +228,10 @@ class CoordinatorActivity : AppCompatActivity() {
         )
         val edit: SharedPreferences.Editor = userDetails.edit()
         edit.putString("dni", "")
-        edit.putString("password", "")
         edit.putString("panel", "")
         edit.putString("role", "")
         edit.apply()
+
         startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
     }
 

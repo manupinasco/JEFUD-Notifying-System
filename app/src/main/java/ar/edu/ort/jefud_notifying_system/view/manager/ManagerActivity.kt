@@ -23,6 +23,8 @@ import ar.edu.ort.jefud_notifying_system.model.Message
 import ar.edu.ort.jefud_notifying_system.view.MainActivity
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModel
 import ar.edu.ort.jefud_notifying_system.viewmodel.MessageViewModelFactory
+import ar.edu.ort.jefud_notifying_system.viewmodel.UserLoggedViewModel
+import ar.edu.ort.jefud_notifying_system.viewmodel.UserLoggedViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
@@ -158,7 +160,7 @@ class ManagerActivity : AppCompatActivity() {
         )
         val edit: SharedPreferences.Editor = userDetails.edit()
         edit.putString("dni", "")
-        edit.putString("password", "")
+
         edit.putString("panel", "")
         edit.putString("role", "")
         edit.apply()

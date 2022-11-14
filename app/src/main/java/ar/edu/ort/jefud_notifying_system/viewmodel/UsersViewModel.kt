@@ -37,10 +37,10 @@ class UsersViewModel(private val userDao: UserDao) : ViewModel() {
 
 
     fun delete(user: User) {
-        deleteAlarm(user)
+        deleteUser(user)
     }
 
-    private fun deleteAlarm(user: User) {
+    private fun deleteUser(user: User) {
         viewModelScope.launch {
             userDao.delete(user)
         }

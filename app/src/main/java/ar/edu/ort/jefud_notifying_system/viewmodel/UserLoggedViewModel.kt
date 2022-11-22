@@ -14,11 +14,8 @@ class UserLoggedViewModel(private val userLoggedDao: UserLoggedDao) : ViewModel(
 
 
     fun addUserLogged(userLogged: UserLogged) {
-            val user = userLoggedDao.getUserLogged()
-        runBlocking(Dispatchers.IO) {
-            delete(user.first())
+
             insertUser(userLogged)
-        }
 
 
 
@@ -31,13 +28,13 @@ class UserLoggedViewModel(private val userLoggedDao: UserLoggedDao) : ViewModel(
     }
 
 
-    fun delete(user: UserLogged) {
-        deleteUserLogged(user)
+    fun delete() {
+        deleteUserLogged()
     }
 
-    private fun deleteUserLogged(user: UserLogged) {
+    private fun deleteUserLogged() {
         viewModelScope.launch {
-            userLoggedDao.delete(user)
+            userLoggedDao.delete()
         }
     }
 

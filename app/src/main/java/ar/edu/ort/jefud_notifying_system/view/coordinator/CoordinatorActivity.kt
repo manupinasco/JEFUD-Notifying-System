@@ -41,6 +41,12 @@ class CoordinatorActivity : AppCompatActivity() {
         )
     }
 
+    private val viewModelUserLogged: UserLoggedViewModel by viewModels {
+        UserLoggedViewModelFactory(
+            (this.application as JEFUDApplication).database
+                .userLoggedDao()
+        )
+    }
 
     private lateinit var notificationManager : NotificationManager
 
@@ -231,7 +237,7 @@ class CoordinatorActivity : AppCompatActivity() {
         edit.putString("panel", "")
         edit.putString("role", "")
         edit.apply()
-
+        viewModelUserLogged.delete()
         startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
     }
 

@@ -45,6 +45,12 @@ class PanelistActivity : AppCompatActivity() {
                 .messageDao()
         )
     }
+    private val viewModelUserLogged: UserLoggedViewModel by viewModels {
+        UserLoggedViewModelFactory(
+            (this.application as JEFUDApplication).database
+                .userLoggedDao()
+        )
+    }
 
     private val viewModelHistoricAlarm: HistoricAlarmsViewModel by viewModels {
         HistoricAlarmsViewModelFactory(
@@ -247,7 +253,7 @@ class PanelistActivity : AppCompatActivity() {
         edit.putString("panel", "")
         edit.putString("role", "")
         edit.apply()
-
+        viewModelUserLogged.delete()
         startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
     }
 

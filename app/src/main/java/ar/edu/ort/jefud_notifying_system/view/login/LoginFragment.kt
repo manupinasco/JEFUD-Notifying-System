@@ -57,40 +57,7 @@ class LoginFragment : Fragment() {
     ): View? {
        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         vista = inflater.inflate(R.layout.fragment_login, container, false)
-        viewModelUserLogged.retrieveUser().observe(this.viewLifecycleOwner) {
-                userLogged ->
-            if(userLogged != null) {
-                if(userLogged.stayLoggedIn) {
-                    when (userLogged.role) {
-                        "PANELIST" -> startActivity(
-                            Intent(
-                                requireContext(),
-                                PanelistActivity::class.java
-                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        )
-                        "OPERATOR" -> startActivity(
-                            Intent(
-                                requireContext(),
-                                OperatorActivity::class.java
-                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        )
-                        "MANAGER" -> startActivity(
-                            Intent(
-                                requireContext(),
-                                ManagerActivity::class.java
-                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        )
-                        "COORDINATOR" -> startActivity(
-                            Intent(
-                                requireContext(),
-                                CoordinatorActivity::class.java
-                            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        )
-                    }
-                }
-            }
 
-        }
         return binding.root
 
     }

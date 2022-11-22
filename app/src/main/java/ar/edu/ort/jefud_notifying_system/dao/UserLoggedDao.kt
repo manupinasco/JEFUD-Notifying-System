@@ -11,8 +11,8 @@ interface UserLoggedDao {
 
     @Query("SELECT * from userLogged LIMIT 1")
     fun getUserLogged(): Flow<UserLogged>
-    @Delete
-    suspend fun delete(user: UserLogged)
+    @Query("DELETE from userLogged")
+    suspend fun delete()
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: UserLogged)

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -51,6 +52,12 @@ class OperatorActivity : AppCompatActivity() {
         HistoricAlarmsViewModelFactory(
             (this.application as JEFUDApplication).database
                 .historicAlarmDao()
+        )
+    }
+    private val viewModelUserLogged: UserLoggedViewModel by viewModels {
+        UserLoggedViewModelFactory(
+            (this.application as JEFUDApplication).database
+                .userLoggedDao()
         )
     }
 
@@ -252,6 +259,8 @@ class OperatorActivity : AppCompatActivity() {
         edit.putString("role", "")
         edit.apply()
 
+
+        viewModelUserLogged.delete()
         startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
     }
 
